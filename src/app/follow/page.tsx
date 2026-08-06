@@ -4,6 +4,7 @@ import { ExternalLink, Link2, CreditCard, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { socialLinks, communityGroups, siteConfig } from "@/data/site";
 import { socialIconMap } from "@/components/icons/SocialIcons";
+import { SocialGallery } from "@/components/home/SocialGallery";
 
 export default function FollowPage() {
   const [copied, setCopied] = useState(false);
@@ -67,6 +68,9 @@ export default function FollowPage() {
             );
           })}
         </div>
+
+        {/* TikTok + Instagram highlights */}
+        <SocialGallery />
 
         {/* Community chat groups */}
         <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">مجموعات التواصل حسب مستواك</h2>

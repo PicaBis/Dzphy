@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Play, ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
+import { tiktokVideos } from "@/data/social";
 
 const YT = ({ s = 16, c = "" }: { s?: number; c?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s} className={c}><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
@@ -12,14 +13,6 @@ const YT = ({ s = 16, c = "" }: { s?: number; c?: string }) => (
 const TK = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z" /></svg>
 );
-
-const tk = [
-  { t: "نصيحة سريعة في الميكانيكا", u: "https://www.tiktok.com/@profpica" },
-  { t: "خطأ شائع في الكهرباء", u: "https://www.tiktok.com/@profpica" },
-  { t: "حل تمرين باك في دقيقة", u: "https://www.tiktok.com/@profpica" },
-  { t: "شرح مبسط للطاقة الحركية", u: "https://www.tiktok.com/@profpica" },
-  { t: "كيف تحفظ القوانين بسهولة", u: "https://www.tiktok.com/@profpica" },
-];
 
 export default function VideosSection() {
   const [data, setData] = useState<PlaylistResponse[] | null>(null);
@@ -142,10 +135,14 @@ export default function VideosSection() {
               <a href="https://www.tiktok.com/@profpica" target="_blank" rel="noopener noreferrer" className="text-gray-900 dark:text-white hover:underline">@profpica</a>
             </h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
-            {tk.map((v, i) => (
-              <motion.a key={i} href={v.u} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="group relative aspect-[9/16] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white"><TK /><p className="text-xs text-center px-2 leading-tight opacity-80 mt-2">{v.t}</p></div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {tiktokVideos.map((v, i) => (
+              <motion.a key={v.id} href={v.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="group relative aspect-[9/16] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <img src={v.thumbnail} alt={v.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20 flex flex-col justify-end p-3">
+                  <p className="text-white text-[11px] font-bold leading-tight line-clamp-2 drop-shadow">{v.title}</p>
+                </div>
+                <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 flex items-center justify-center"><TK /></div>
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><Play size={20} fill="white" className="text-white" /></div>
               </motion.a>
             ))}
