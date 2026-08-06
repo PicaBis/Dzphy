@@ -13,7 +13,7 @@ const gradeDropdown = [
   { label: "التمارين والحلول", icon: FileText, href: "/grade/{grade}/exercises" },
   { label: "الفروض والاختبارات", icon: ClipboardList, href: "/grade/{grade}/devoirs" },
   { label: "الأعمال التطبيقية", icon: FlaskConical, href: "/grade/{grade}/tp" },
-  { label: "الفيديوهات التعليمية", icon: Video, href: "/grade/{grade}/videos" },
+  { label: "الفيديوهات التعليمية", icon: Video, href: "/videos?level={videoLevel}" },
 ];
 
 const gradeLevelLabels: Record<string, string> = {
@@ -22,10 +22,17 @@ const gradeLevelLabels: Record<string, string> = {
   "3": "السنة الثالثة ثانوي",
 };
 
+const gradeVideoLevels: Record<string, string> = {
+  "1": "1as",
+  "2": "2as",
+  "3": "3as",
+};
+
 const buildHref = (template: string, grade: string) =>
   template
     .replace("{grade}", grade)
-    .replace("{level}", encodeURIComponent(gradeLevelLabels[grade] || ""));
+    .replace("{level}", encodeURIComponent(gradeLevelLabels[grade] || ""))
+    .replace("{videoLevel}", gradeVideoLevels[grade] || "");
 
 const navItems = [
   { label: "الرئيسية", href: "/" },
@@ -33,6 +40,7 @@ const navItems = [
   { label: "السنة الثانية ثانوي", href: "/grade/2", grade: "2" },
   { label: "السنة الثالثة ثانوي", href: "/grade/3", grade: "3" },
   { label: "التوزيعات السنوية", href: "/distributions" },
+  { label: "الفيديوهات", href: "/videos" },
   { label: "حقيبة الأستاذ", href: "/teacher" },
   { label: "الدورات التعليمية", href: "/courses" },
   { label: "التطبيقات والبرامج", href: "/apps" },

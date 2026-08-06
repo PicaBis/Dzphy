@@ -1,6 +1,12 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ContentPage from "@/components/ui/ContentPage";
 import { gradeContent } from "@/data/content";
+
+const gradeVideoLevels: Record<string, string> = {
+  "1": "1as",
+  "2": "2as",
+  "3": "3as",
+};
 
 const gradeLabels: Record<string, string> = {
   "1": "السنة الأولى ثانوي",
@@ -52,6 +58,11 @@ export default async function SectionPage({
   const config = sectionConfig[section];
 
   if (!gradeLabel || !config) notFound();
+
+  // Videos live on the dedicated playlists page (auto-synced from YouTube)
+  if (section === "videos") {
+    redirect(`/videos?level=${gradeVideoLevels[grade] || ""}`);
+  }
 
   const content = gradeContent[grade as keyof typeof gradeContent];
   const items = content?.[config.dataKey as keyof typeof content] || [];

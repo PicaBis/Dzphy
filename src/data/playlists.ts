@@ -1,0 +1,114 @@
+// ============================================================================
+// DzPhy — Official YouTube playlists (قوائم التشغيل)
+// Single source of truth for the video playlists shown on /videos and in the
+// homepage VideosSection. Videos are fetched live from YouTube's public RSS
+// feeds (no API key needed) so anything added to a playlist on YouTube appears
+// on the site automatically.
+// ============================================================================
+
+export type PlaylistLevelKey = "1as" | "2as" | "3as" | "4am" | "bac" | "bem";
+
+export interface PlaylistConfig {
+  id: string;
+  title: string;
+  levelKey: PlaylistLevelKey;
+  levelLabel: string;
+  stream: string;
+  description: string;
+  playlistId: string;
+  /** representative video id used for the playlist cover thumbnail */
+  videoId: string;
+  gradient: string; // tailwind gradient
+  accent: string; // tailwind text color
+  badge: string;
+}
+
+export const playlists: PlaylistConfig[] = [
+  {
+    id: "bac-skills",
+    title: "المكتسبات القبلية BAC",
+    levelKey: "bac",
+    levelLabel: "البكالوريا",
+    stream: "العلوم الفيزيائية",
+    description: "دورة المكتسبات القبلية لطلاب البكالوريا — مراجعة أساسيات كل وحدة قبل انطلاق العام الدراسي.",
+    playlistId: "PLBnz3ydY2LlQ",
+    videoId: "-5EN-AXJJZU",
+    gradient: "from-amber-400 to-orange-600",
+    accent: "text-amber-500",
+    badge: "BAC",
+  },
+  {
+    id: "bem-skills",
+    title: "المكتسبات القبلية BEM",
+    levelKey: "bem",
+    levelLabel: "الرابعة متوسط",
+    stream: "العلوم الفيزيائية والتكنولوجيا",
+    description: "دورة المكتسبات القبلية لتحضير شهادة التعليم المتوسط — الوحدات، التحويلات والقياس.",
+    playlistId: "PLSWzUlE4bftk",
+    videoId: "oPagkCEZsPo",
+    gradient: "from-green-400 to-emerald-600",
+    accent: "text-green-500",
+    badge: "BEM",
+  },
+  {
+    id: "3as-lessons",
+    title: "دروس السنة الثالثة ثانوي BAC",
+    levelKey: "3as",
+    levelLabel: "السنة الثالثة ثانوي",
+    stream: "العلوم الفيزيائية",
+    description: "جميع دروس السنة الثالثة ثانوي مشروحة بالتفصيل استعدادًا لشهادة البكالوريا.",
+    playlistId: "PLGRsyA_VAyBUh27KazoXi7UkRxdFIuJJW",
+    videoId: "-L5lScjATK0",
+    gradient: "from-purple-500 to-purple-700",
+    accent: "text-purple-500",
+    badge: "3AS",
+  },
+  {
+    id: "2as-lessons",
+    title: "دروس السنة الثانية ثانوي 2AS",
+    levelKey: "2as",
+    levelLabel: "السنة الثانية ثانوي",
+    stream: "العلوم الفيزيائية",
+    description: "دروس السنة الثانية ثانوي مشروحة بطريقة مبسطة مع تمارين تطبيقية.",
+    playlistId: "PLGRsyA_VAyBV_BigPtMb4dCTPf_ntJIrc",
+    videoId: "bmjBZhGd9M8",
+    gradient: "from-blue-500 to-indigo-700",
+    accent: "text-blue-500",
+    badge: "2AS",
+  },
+  {
+    id: "1as-lessons",
+    title: "دروس السنة الأولى ثانوي 1AS",
+    levelKey: "1as",
+    levelLabel: "السنة الأولى ثانوي",
+    stream: "العلوم الفيزيائية",
+    description: "دروس السنة الأولى ثانوي بأسلوب بسيط يرافق الطالب منذ البداية.",
+    playlistId: "PLGRsyA_VAyBUELSMjFUjySZWj_VW78VXT",
+    videoId: "hSZ6W5oE5xo",
+    gradient: "from-cyan-500 to-blue-600",
+    accent: "text-cyan-500",
+    badge: "1AS",
+  },
+  {
+    id: "4am-lessons",
+    title: "دروس السنة الرابعة متوسط BEM",
+    levelKey: "4am",
+    levelLabel: "الرابعة متوسط",
+    stream: "العلوم الفيزيائية والتكنولوجيا",
+    description: "دروس الرابعة متوسط للتحضير الجيد لشهادة التعليم المتوسط.",
+    playlistId: "PLEZiwx-tv7C8",
+    videoId: "SMFMsBl3e8Y",
+    gradient: "from-emerald-400 to-green-600",
+    accent: "text-emerald-500",
+    badge: "4AM",
+  },
+];
+
+export const levelLabels: Record<PlaylistLevelKey, string> = {
+  "1as": "السنة الأولى ثانوي",
+  "2as": "السنة الثانية ثانوي",
+  "3as": "السنة الثالثة ثانوي",
+  "4am": "الرابعة متوسط",
+  bac: "البكالوريا",
+  bem: "شهادة التعليم المتوسط",
+};
