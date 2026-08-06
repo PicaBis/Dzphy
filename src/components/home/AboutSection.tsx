@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const socialLinks = [
-  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61587746175552", color: "hover:bg-blue-600" },
-  { label: "YouTube", href: "https://www.youtube.com/@Dr.abdelhadi", color: "hover:bg-red-600" },
+  { label: "Facebook", href: "https://www.facebook.com/share/191btmBHho/", color: "hover:bg-blue-600" },
+  { label: "YouTube", href: "https://www.youtube.com/@ProfPica", color: "hover:bg-red-600" },
+  { label: "Instagram", href: "https://www.instagram.com/prof_pica/", color: "hover:bg-pink-600" },
   { label: "TikTok", href: "https://www.tiktok.com/@profpica", color: "hover:bg-gray-900" },
 ];
 

@@ -1,7 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, PlayCircle } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, PlayCircle, Play } from "lucide-react";
+import { siteConfig, socialLinks } from "@/data/site";
+
+const youtubeUrl = socialLinks.find((s) => s.platform === "youtube")?.url || "https://www.youtube.com/@ProfPica";
+const isValidVideoId = (id: string) => /^[A-Za-z0-9_-]{11}$/.test(id);
 
 export default function HeroSection() {
   return (
@@ -83,14 +88,42 @@ export default function HeroSection() {
             className="relative"
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-video bg-gray-900">
-              <iframe
-                className="w-full h-full absolute inset-0"
-                src="https://www.youtube.com/embed/videoseries?list=PLybg94GvOJ9E9BcCU-3YO7nKqwJmEQCNM&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0"
-                title="Physics Education Video"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent pointer-events-none" />
+              {isValidVideoId(siteConfig.heroVideoId) ? (
+                <iframe
+                  className="w-full h-full absolute inset-0"
+                  src={`https://www.youtube-nocookie.com/embed/${siteConfig.heroVideoId}?rel=0&modestbranding=1`}
+                  title="فيديو تعريفي - DzPhy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                /* Safe poster: opens the YouTube channel — no "video unavailable" error */
+                <a
+                  href={youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="شاهد الدروس على قناة يوتيوب"
+                  className="group absolute inset-0 block"
+                >
+                  <Image
+                    src="/about/teacher.jpg"
+                    alt="الأستاذ بيكا - دروس الفيزياء"
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/85 via-gray-900/30 to-transparent" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                    <span className="w-20 h-20 rounded-full bg-red-600 group-hover:bg-red-500 flex items-center justify-center shadow-2xl shadow-red-900/40 transition-all group-hover:scale-110">
+                      <Play size={32} className="text-white ms-1" fill="currentColor" />
+                    </span>
+                  </div>
+                  <div className="absolute bottom-0 inset-x-0 p-5 text-center">
+                    <p className="text-white font-black text-lg">شاهد أحدث الدروس على يوتيوب</p>
+                    <p className="text-white/70 text-sm">@ProfPica — شروحات كاملة وحلول تمارين</p>
+                  </div>
+                </a>
+              )}
             </div>
           </motion.div>
         </div>

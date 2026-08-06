@@ -11,12 +11,12 @@ const TK = () => (
 );
 
 const yt = [
-  { t: "شرح الميكانيكا للباكالوريا", u: "https://www.youtube.com/@Dr.abdelhadi" },
-  { t: "الكهرباء من الصفر للإحتراف", u: "https://www.youtube.com/@Dr.abdelhadi" },
-  { t: "قوانين نيوتن بطريقة مبسطة", u: "https://www.youtube.com/@Dr.abdelhadi" },
-  { t: "الموجات الميكانيكية", u: "https://www.youtube.com/@Dr.abdelhadi" },
-  { t: "الكيمياء الكهربائية للباك", u: "https://www.youtube.com/@Dr.abdelhadi" },
-  { t: "تمارين الباكالوريا مع الحل", u: "https://www.youtube.com/@Dr.abdelhadi" },
+  { t: "شرح الميكانيكا للباكالوريا", u: "https://www.youtube.com/@ProfPica" },
+  { t: "الكهرباء من الصفر للإحتراف", u: "https://www.youtube.com/@ProfPica" },
+  { t: "قوانين نيوتن بطريقة مبسطة", u: "https://www.youtube.com/@ProfPica" },
+  { t: "الموجات الميكانيكية", u: "https://www.youtube.com/@ProfPica" },
+  { t: "الكيمياء الكهربائية للباك", u: "https://www.youtube.com/@ProfPica" },
+  { t: "تمارين الباكالوريا مع الحل", u: "https://www.youtube.com/@ProfPica" },
 ];
 
 const tk = [
@@ -41,7 +41,7 @@ export default function VideosSection() {
             <div className="w-8 h-8 rounded-xl bg-red-500 flex items-center justify-center"><YT s={16} c="text-white" /></div>
             <h3 className="font-bold text-gray-900 dark:text-white text-lg">
               آخر فيديوهات YouTube -{" "}
-              <a href="https://www.youtube.com/@Dr.abdelhadi" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:underline">@Dr.abdelhadi</a>
+              <a href="https://www.youtube.com/@ProfPica" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:underline">@ProfPica</a>
             </h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -58,7 +58,7 @@ export default function VideosSection() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <a href="https://www.youtube.com/@Dr.abdelhadi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg shadow-red-200 hover:shadow-red-300">
+            <a href="https://www.youtube.com/@ProfPica" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg shadow-red-200 hover:shadow-red-300">
               <YT s={18} />
               مشاهدة المزيد على YouTube
               <ArrowLeft size={16} />

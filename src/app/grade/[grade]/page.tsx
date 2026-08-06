@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BookOpen, FileText, ClipboardList, FlaskConical, Video, ArrowLeft, Beaker, Calculator, Sigma, BookType } from "lucide-react";
+import { BookOpen, FileText, ClipboardList, FlaskConical, Video, ArrowLeft, Beaker, Calculator, Sigma, BookType, CalendarRange, Download } from "lucide-react";
 import { useParams, notFound } from "next/navigation";
 
 const gradeInfo: Record<string, { label: string; gradient: string; lightGrad: string; description: string }> = {
@@ -56,6 +56,23 @@ export default function GradePage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Annual distribution banner */}
+        <Link
+          href={`/distributions?level=${encodeURIComponent(info.label)}`}
+          className="group flex items-center gap-4 mb-10 rounded-2xl p-5 bg-gradient-to-l from-orange-500 to-orange-600 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+        >
+          <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+            <CalendarRange size={24} />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-black text-lg">التوزيع السنوي — {info.label}</h3>
+            <p className="text-white/80 text-sm">حمّل التوزيع السنوي الرسمي لمادة العلوم الفيزيائية بصيغة PDF مباشرة.</p>
+          </div>
+          <span className="hidden sm:flex items-center gap-1.5 bg-white/20 group-hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-bold transition-colors flex-shrink-0">
+            <Download size={15} /> تحميل
+          </span>
+        </Link>
+
         {!showSections ? (
           <>
             <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-3">اختر الشعبة</h2>

@@ -1,58 +1,127 @@
 "use client";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
-
-const TK = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z" /></svg>
-);
-const FB = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
-);
-const YT = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
-);
-
-const platforms = [
-  { name: "Facebook", Icon: FB, url: "https://www.facebook.com/profile.php?id=61587746175552", color: "from-blue-600 to-blue-700", followers: "الأستاذ بيكا", description: "منشورات يومية ونصائح ومستجدات تعليمية" },
-  { name: "YouTube", Icon: YT, url: "https://www.youtube.com/@Dr.abdelhadi", color: "from-red-500 to-red-700", followers: "@Dr.abdelhadi", description: "شروحات مفصلة وحلول تمارين بالفيديو" },
-  { name: "TikTok", Icon: TK, url: "https://www.tiktok.com/@profpica", color: "from-gray-800 to-gray-900", followers: "@profpica", description: "نصائح سريعة وشرح مبسط في ثواني" },
-];
+import { ExternalLink, Link2, CreditCard, Copy, Check } from "lucide-react";
+import { useState } from "react";
+import { socialLinks, communityGroups, siteConfig } from "@/data/site";
+import { socialIconMap } from "@/components/icons/SocialIcons";
 
 export default function FollowPage() {
+  const [copied, setCopied] = useState(false);
+
+  const copyPayment = async () => {
+    try {
+      await navigator.clipboard.writeText(siteConfig.payment);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore */
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
+      {/* Hero */}
       <div className="bg-gradient-to-br from-orange-500 to-orange-700 py-16 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-black mb-3">تابعونا</h1>
-          <p className="text-orange-100 text-lg max-w-xl mx-auto">ابق على اطلاع بأحدث المحتويات التعليمية عبر منصاتنا</p>
+          <p className="text-orange-100 text-lg max-w-xl mx-auto mb-6">
+            كل منصات الأستاذ بيكا في مكان واحد — ابق على اطلاع بأحدث الدروس والملفات والتحديثات اليومية.
+          </p>
+          <a
+            href={siteConfig.linktree}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-orange-600 hover:bg-orange-50 px-6 py-3 rounded-2xl font-bold transition-all hover:scale-105 shadow-lg"
+          >
+            <Link2 size={18} /> الرابط الشامل — linktr.ee/profpica
+          </a>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {platforms.map((p, i) => {
-            const Icon = p.Icon;
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Main platforms */}
+        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">المنصات الرسمية</h2>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">قنوات المتابعة اليومية للأستاذ بيكا</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+          {socialLinks.map((p, i) => {
+            const Icon = socialIconMap[p.platform];
             return (
               <motion.a
-                key={p.name}
+                key={p.platform}
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className={`group bg-gradient-to-br ${p.color} rounded-2xl p-6 text-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
+                transition={{ delay: i * 0.08 }}
+                className={`group bg-gradient-to-br ${p.gradient} rounded-2xl p-6 text-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center"><Icon /></div>
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center"><Icon className="w-8 h-8" /></div>
                   <ExternalLink size={18} className="opacity-60 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <h3 className="font-black text-2xl mb-1">{p.name}</h3>
+                <h3 className="font-black text-2xl mb-1">{p.label}</h3>
                 <p className="text-white/80 text-sm mb-3">{p.description}</p>
-                <div className="text-xl font-black">{p.followers}</div>
+                <div className="text-lg font-black" dir="ltr">{p.handle}</div>
               </motion.a>
             );
           })}
+        </div>
+
+        {/* Community chat groups */}
+        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">مجموعات التواصل حسب مستواك</h2>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">دردشات مباشرة على إنستغرام وماسنجر حسب القسم الدراسي</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
+          {communityGroups.map((group, gi) => (
+            <motion.div
+              key={group.level}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: gi * 0.08 }}
+              className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm"
+            >
+              <div className={`h-2 bg-gradient-to-r ${group.accent}`} />
+              <div className="p-5">
+                <h3 className="font-black text-gray-900 dark:text-white mb-4">{group.level}</h3>
+                <div className="space-y-2.5">
+                  {group.channels.map((ch) => {
+                    const Icon = socialIconMap[ch.platform];
+                    return (
+                      <a
+                        key={ch.url}
+                        href={ch.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 hover:bg-orange-50 dark:hover:bg-orange-500/10 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 text-sm font-semibold transition-all"
+                      >
+                        <Icon className="w-5 h-5 flex-shrink-0" /> {ch.label}
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Support / payment */}
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 sm:p-8 text-white">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center"><CreditCard size={24} className="text-orange-400" /></div>
+            <div>
+              <h3 className="font-black text-xl">دعم المحتوى والدفع السريع ⚡</h3>
+              <p className="text-gray-400 text-sm">ساهم في استمرار المحتوى التعليمي المجاني</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 mt-4 bg-black/30 rounded-xl p-3">
+            <code dir="ltr" className="flex-1 text-orange-300 font-mono text-sm sm:text-base tracking-wider">{siteConfig.payment}</code>
+            <button
+              onClick={copyPayment}
+              className="flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-bold transition-all"
+            >
+              {copied ? <><Check size={15} /> تم النسخ</> : <><Copy size={15} /> نسخ</>}
+            </button>
+          </div>
         </div>
       </div>
     </div>

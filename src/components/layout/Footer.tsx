@@ -2,36 +2,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Mail, Send, MapPin, Phone } from "lucide-react";
-
-const FB = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
-);
-const YT = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
-);
-const IG = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>
-);
-const TK = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z" /></svg>
-);
-
-const socialLinks = [
-  { icon: FB, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61587746175552", color: "hover:text-blue-500" },
-  { icon: YT, label: "YouTube", href: "https://www.youtube.com/@Dr.abdelhadi", color: "hover:text-red-500" },
-  { icon: IG, label: "Instagram", href: "https://www.instagram.com/", color: "hover:text-pink-500" },
-  { icon: TK, label: "TikTok", href: "https://www.tiktok.com/@profpica", color: "hover:text-white" },
-];
+import { Mail, Send, MapPin, Phone, CreditCard } from "lucide-react";
+import { socialLinks, siteConfig } from "@/data/site";
+import { socialIconMap, LinktreeIcon } from "@/components/icons/SocialIcons";
 
 const quickLinks = [
   { label: "الرئيسية", href: "/" },
+  { label: "التوزيعات السنوية", href: "/distributions" },
   { label: "السنة الأولى ثانوي", href: "/grade/1" },
   { label: "السنة الثانية ثانوي", href: "/grade/2" },
   { label: "السنة الثالثة ثانوي", href: "/grade/3" },
   { label: "الدورات التعليمية", href: "/courses" },
-  { label: "التطبيقات والبرامج", href: "/apps" },
-  { label: "من نحن؟", href: "/about" },
+  { label: "تابعونا", href: "/follow" },
 ];
 
 export default function Footer() {
@@ -64,16 +46,20 @@ export default function Footer() {
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               منصة الفيزياء الجزائرية الأولى التي تجمع كل ما يحتاجه الطالب في مكان واحد.
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               {socialLinks.map((social) => {
-                const Icon = social.icon;
+                const Icon = socialIconMap[social.platform];
                 return (
-                  <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}
-                    className={`w-9 h-9 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 ${social.color} hover:bg-gray-700 transition-all duration-200 hover:scale-110`}
-                  ><Icon /></a>
+                  <a key={social.platform} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}
+                    className={`w-9 h-9 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 ${social.hover} hover:bg-gray-700 transition-all duration-200 hover:scale-110`}
+                  ><Icon className="w-5 h-5" /></a>
                 );
               })}
             </div>
+            <a href={siteConfig.linktree} target="_blank" rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-orange-400 hover:text-orange-300 transition-colors">
+              <LinktreeIcon className="w-4 h-4" /> الرابط الشامل — كل المنصات
+            </a>
           </div>
 
           <div>
@@ -101,7 +87,7 @@ export default function Footer() {
             <ul className="space-y-3 mb-6">
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Mail size={15} className="text-orange-500 flex-shrink-0" />
-                <span>contact@dzphy.dz</span>
+                <span>{siteConfig.contact.email}</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Phone size={15} className="text-orange-500 flex-shrink-0" />
@@ -109,7 +95,11 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <MapPin size={15} className="text-orange-500 flex-shrink-0 mt-0.5" />
-                <span>الجزائر</span>
+                <span>{siteConfig.contact.location}</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-gray-400">
+                <CreditCard size={15} className="text-orange-500 flex-shrink-0 mt-0.5" />
+                <span>دعم المحتوى ⚡ <span dir="ltr" className="text-gray-300 font-mono">{siteConfig.payment}</span></span>
               </li>
             </ul>
           </div>

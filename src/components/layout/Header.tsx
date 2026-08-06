@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Search, BookOpen, FileText, ClipboardList, FlaskConical, Video, Sun, Moon, Globe } from "lucide-react";
+import { Menu, X, ChevronDown, Search, BookOpen, FileText, ClipboardList, FlaskConical, Video, Sun, Moon, Globe, CalendarRange } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, Lang } from "@/context/LanguageContext";
 
 const gradeDropdown = [
+  { label: "التوزيعات السنوية", icon: CalendarRange, href: "/distributions?level={level}" },
   { label: "الملخصات", icon: BookOpen, href: "/grade/{grade}/resumes" },
   { label: "التمارين والحلول", icon: FileText, href: "/grade/{grade}/exercises" },
   { label: "الفروض والاختبارات", icon: ClipboardList, href: "/grade/{grade}/devoirs" },
@@ -15,11 +16,23 @@ const gradeDropdown = [
   { label: "الفيديوهات التعليمية", icon: Video, href: "/grade/{grade}/videos" },
 ];
 
+const gradeLevelLabels: Record<string, string> = {
+  "1": "السنة الأولى ثانوي",
+  "2": "السنة الثانية ثانوي",
+  "3": "السنة الثالثة ثانوي",
+};
+
+const buildHref = (template: string, grade: string) =>
+  template
+    .replace("{grade}", grade)
+    .replace("{level}", encodeURIComponent(gradeLevelLabels[grade] || ""));
+
 const navItems = [
   { label: "الرئيسية", href: "/" },
   { label: "السنة الأولى ثانوي", href: "/grade/1", grade: "1" },
   { label: "السنة الثانية ثانوي", href: "/grade/2", grade: "2" },
   { label: "السنة الثالثة ثانوي", href: "/grade/3", grade: "3" },
+  { label: "التوزيعات السنوية", href: "/distributions" },
   { label: "حقيبة الأستاذ", href: "/teacher" },
   { label: "الدورات التعليمية", href: "/courses" },
   { label: "التطبيقات والبرامج", href: "/apps" },
@@ -91,7 +104,7 @@ export default function Header() {
                           <div className="p-2">
                             {gradeDropdown.map((sub) => {
                               const Icon = sub.icon;
-                              const href = sub.href.replace("{grade}", item.grade!);
+                              const href = buildHref(sub.href, item.grade!);
                               return (
                                 <Link
                                   key={sub.label}
@@ -230,7 +243,7 @@ export default function Header() {
                   {item.grade && (
                     <div className="mr-4 mt-1 space-y-1">
                       {gradeDropdown.map((sub) => {
-                        const href = sub.href.replace("{grade}", item.grade!);
+                        const href = buildHref(sub.href, item.grade!);
                         return (
                           <Link
                             key={sub.label}
