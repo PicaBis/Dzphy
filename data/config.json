@@ -1,0 +1,48 @@
+{
+  "site": {
+    "name": "DzPhy",
+    "brand": "الأستاذ بيكا",
+    "tagline": "منصة العلوم الفيزيائية للطلبة الجزائريين",
+    "description": "دروس، ملخصات، توزيعات سنوية، فروض واختبارات في مادة العلوم الفيزيائية لجميع مستويات الطور الثانوي والمتوسط.",
+    "linktree": "https://linktr.ee/profpica",
+    "payment": "00799999002885975343",
+    "heroVideoId": ""
+  },
+  "social": [
+    { "key": "youtube",   "name": "يوتيوب",    "handle": "@ProfPica",  "url": "https://www.youtube.com/@ProfPica",                  "note": "دروس مفصلة وشروحات كاملة" },
+    { "key": "facebook",  "name": "فيسبوك",     "handle": "الصفحة الرسمية", "url": "https://www.facebook.com/share/191btmBHho/",       "note": "الصفحة الرسمية" },
+    { "key": "telegram",  "name": "تلغرام",     "handle": "مجلد القنوات", "url": "https://t.me/addlist/zyYD4lHlYudlNzQ8",             "note": "المحفظة الشاملة للملفات و PDF" },
+    { "key": "whatsapp",  "name": "واتساب",     "handle": "المجتمع",     "url": "https://chat.whatsapp.com/L8AYMeLoZlIBLDYYmIxzJM",   "note": "الملفات والتحديثات المباشرة" },
+    { "key": "tiktok",    "name": "تيك توك",    "handle": "@profpica",  "url": "https://www.tiktok.com/@profpica",                  "note": "أفكار سريعة وفيديوهات قصيرة" },
+    { "key": "instagram", "name": "إنستغرام",   "handle": "@prof_pica", "url": "https://www.instagram.com/prof_pica/",              "note": "ملخصات يومية ونظام الكاروزول" }
+  ],
+  "extraLinks": [
+    { "key": "facebook",  "name": "فيسبوك (حساب شخصي)", "url": "https://www.facebook.com/share/19Kq65FKqg/", "note": "الحساب الشخصي" }
+  ],
+  "communities": [
+    {
+      "level": "قسم البكالوريا (BAC)",
+      "color": "#f59e0b",
+      "channels": [
+        { "name": "دردشة إنستغرام", "key": "instagram", "url": "https://ig.me/j/Abad0_EOdV-2zoOc/" },
+        { "name": "دردشة ماسنجر",  "key": "messenger",  "url": "https://m.me/j/Abbbvax5UUMXM--L/?send_source=gc%3Acopy_invite_link_c" }
+      ]
+    },
+    {
+      "level": "قسم الثانوي (1AS + 2AS)",
+      "color": "#3b82f6",
+      "channels": [
+        { "name": "دردشة إنستغرام المشتركة", "key": "instagram", "url": "https://ig.me/j/AbYfyjrDHrHA7C3K/" },
+        { "name": "دردشة ماسنجر المشتركة",  "key": "messenger",  "url": "https://m.me/j/AbZE0uZCGtPb0Y3a/?send_source=gc%3Acopy_invite_link_c" }
+      ]
+    },
+    {
+      "level": "قسم شهادة التعليم المتوسط (BEM)",
+      "color": "#22c55e",
+      "channels": [
+        { "name": "دردشة إنستغرام", "key": "instagram", "url": "https://ig.me/j/AbbSOE39BOzOxcTk/" },
+        { "name": "دردشة ماسنجر",  "key": "messenger",  "url": "https://m.me/j/AbapUiWxOZPSWhdg/?send_source=gc%3Acopy_invite_link_c" }
+      ]
+    }
+  ]
+}
