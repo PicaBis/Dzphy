@@ -1,71 +1,36 @@
-# DzPhy — منصة العلوم الفيزيائية (الأستاذ بيكا / ProfPica)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-منصة تعليمية ثابتة (Static Site) بالعربية (RTL) لعرض وتحميل الموارد التعليمية في مادة
-العلوم الفيزيائية للطلبة الجزائريين: **التوزيعات السنوية، الملخصات، الفروض والاختبارات، التمارين**
-لجميع مستويات الطور الثانوي وشهادة التعليم المتوسط (BEM).
+## Getting Started
 
-## 🗂️ هيكل المشروع
+First, run the development server:
 
-```
-.
-├── index.html              # الصفحة الرئيسية (Hero + فيديو + المستويات + المميز + تابعونا)
-├── resources.html          # المكتبة الكاملة مع الفلترة والبحث
-├── data/
-│   ├── config.json         # إعدادات الموقع + كل روابط التواصل (مصدر واحد)
-│   └── resources.json       # قاعدة بيانات الموارد (JSON)
-├── assets/
-│   ├── css/styles.css       # التصميم (RTL، وضع داكن)
-│   └── js/site.js           # التحميل، الفلترة، الهيدر/الفوتر، الفيديو
-└── public/files/
-    ├── secondary/tawziaat-thanawi-adab-oloum.pdf   # توزيعات الثانوي (آداب + علوم)
-    └── bem/tawziaat-4am-bem.pdf                     # توزيعات الرابعة متوسط BEM
-```
-
-## 🧩 بنية بيانات المورد (`data/resources.json`)
-
-كل عنصر في `resources` يحتوي الحقول التالية:
-
-| الحقل | المثال | الوصف |
-|------|--------|-------|
-| `id` | `dist-3as-2026` | معرّف فريد |
-| `title` | `التوزيع السنوي — السنة الثالثة ثانوي` | العنوان المعروض |
-| `level` | `السنة الثالثة ثانوي` | المستوى (الأولى/الثانية/الثالثة ثانوي، الرابعة متوسط) |
-| `stream` | `علوم تجريبية` | الشعبة (علوم تجريبية، تقني رياضي، رياضيات، آداب... ، عام) |
-| `category` | `التوزيعات السنوية` | التصنيف (التوزيعات السنوية، ملخصات، فروض واختبارات، تمارين) |
-| `fileUrl` | `public/files/secondary/....pdf` | رابط التحميل المباشر (PDF) — أو `null` لِـ «قريبًا» |
-| `date` | `2026-08-06` | تاريخ الإضافة |
-| `description`, `featured`, `sizeMB` | — | حقول اختيارية للعرض |
-
-### ➕ إضافة ملف جديد
-1. ضع ملف الـ PDF داخل `public/files/<المستوى>/`.
-2. أضف عنصرًا جديدًا في `data/resources.json` مع الحقول أعلاه واجعل `fileUrl` يشير للملف.
-3. القيم المسموحة في `meta.levels / streams / categories` تُولّد أزرار الفلترة تلقائيًا.
-
-> **روابط GitHub raw**: بعد رفع الملفات على GitHub يمكن استبدال `fileUrl` بالرابط الخام:
-> `https://raw.githubusercontent.com/PicaBis/Dzphy/main/public/files/secondary/tawziaat-thanawi-adab-oloum.pdf`
-> المسارات النسبية الحالية تعمل تلقائيًا على GitHub Pages / Netlify / Vercel دون تعديل.
-
-## 🔗 روابط التواصل
-كل روابط اليوتيوب/فيسبوك/تلغرام/واتساب/تيك توك/إنستغرام + دردشات BAC/BEM/الثانوي
-معرّفة في **مكان واحد**: `data/config.json` → `social` و `communities`.
-تظهر تلقائيًا في الهيدر، الفوتر، وقسم «تابعونا». جميع الروابط تفتح في تبويب جديد
-بأمان (`target="_blank" rel="noopener noreferrer"`).
-
-## 🎬 فيديو الصفحة الرئيسية
-- إذا كان `site.heroVideoId` في `config.json` معرّف يوتيوب صالحًا (11 حرفًا) → يُدمج الفيديو عبر `youtube-nocookie`.
-- إذا كان فارغًا (الوضع الحالي) → تُعرض واجهة تشغيل آمنة تفتح قناة يوتيوب مباشرة،
-  مما **يمنع رسالة "This video is unavailable"** نهائيًا.
-- لتفعيل فيديو معيّن: ضع معرّفه، مثلًا `"heroVideoId": "dQw4w9WgXcQ"`.
-
-## ▶️ التشغيل محليًا
-يجب تشغيله عبر خادم HTTP (لأن المتصفح يمنع `fetch` من `file://`):
 ```bash
-python3 -m http.server 8080
-# ثم افتح: http://localhost:8080
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## ☁️ خيار Supabase (اختياري)
-البنية الحالية تعتمد JSON + ملفات في المستودع (لا تبعية خارجية). لو رغبت لاحقًا في Supabase:
-- أنشئ جدول `resources` بنفس الحقول أعلاه.
-- ارفع الـ PDF إلى Storage bucket عام واستخدم رابط الـ public URL في `fileUrl`.
-- استبدل `loadJSON("data/resources.json")` في `site.js` بنداء Supabase REST/JS client.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
