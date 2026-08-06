@@ -29,6 +29,7 @@ const levelFilters: { key: PlaylistLevelKey | "all"; label: string }[] = [
   { key: "1as", label: "السنة الأولى ثانوي" },
   { key: "4am", label: "الرابعة متوسط" },
   { key: "bem", label: "شهادة التعليم المتوسط" },
+  { key: "general", label: "أفكار ودورات" },
 ];
 
 function formatDate(iso: string) {

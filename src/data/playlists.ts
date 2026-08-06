@@ -6,7 +6,14 @@
 // on the site automatically.
 // ============================================================================
 
-export type PlaylistLevelKey = "1as" | "2as" | "3as" | "4am" | "bac" | "bem";
+export type PlaylistLevelKey =
+  | "1as"
+  | "2as"
+  | "3as"
+  | "4am"
+  | "bac"
+  | "bem"
+  | "general";
 
 export interface PlaylistConfig {
   id: string;
@@ -102,6 +109,32 @@ export const playlists: PlaylistConfig[] = [
     accent: "text-emerald-500",
     badge: "4AM",
   },
+  {
+    id: "courses-live",
+    title: "الدورات والبثوث",
+    levelKey: "general",
+    levelLabel: "عام",
+    stream: "كل المستويات",
+    description: "تسجيلات الدورات التأسيسية والبثوث المباشرة — من الصفر إلى الاحتراف.",
+    playlistId: "PLENnjsac87c8",
+    videoId: "0toWJ_u6ttc",
+    gradient: "from-rose-400 to-red-600",
+    accent: "text-rose-500",
+    badge: "دورات",
+  },
+  {
+    id: "ideas-tricks",
+    title: "أفكار وثغرات في الفيزياء",
+    levelKey: "general",
+    levelLabel: "عام",
+    stream: "كل المستويات",
+    description: "أفكارٌ وثغراتٌ لن تجدها في الكتب — الأخطاء الشائعة وكيف تتجنبها للحصول على العلامة الكاملة.",
+    playlistId: "PLH8jy6bdMILQ",
+    videoId: "B3lJciBRoBw",
+    gradient: "from-amber-400 to-yellow-600",
+    accent: "text-yellow-500",
+    badge: "أفكار",
+  },
 ];
 
 export const levelLabels: Record<PlaylistLevelKey, string> = {
@@ -111,4 +144,5 @@ export const levelLabels: Record<PlaylistLevelKey, string> = {
   "4am": "الرابعة متوسط",
   bac: "البكالوريا",
   bem: "شهادة التعليم المتوسط",
+  general: "عام",
 };

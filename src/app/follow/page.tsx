@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Link2, CreditCard, Copy, Check } from "lucide-react";
 import { useState } from "react";
-import { socialLinks, communityGroups, siteConfig } from "@/data/site";
+import { socialLinks, communityGroups, organizedCommunities, siteConfig } from "@/data/site";
 import { socialIconMap } from "@/components/icons/SocialIcons";
 import { SocialGallery } from "@/components/home/SocialGallery";
 
@@ -49,6 +49,35 @@ export default function FollowPage() {
             return (
               <motion.a
                 key={p.platform}
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className={`group bg-gradient-to-br ${p.gradient} rounded-2xl p-6 text-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center"><Icon className="w-8 h-8" /></div>
+                  <ExternalLink size={18} className="opacity-60 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <h3 className="font-black text-2xl mb-1">{p.label}</h3>
+                <p className="text-white/80 text-sm mb-3">{p.description}</p>
+                <div className="text-lg font-black" dir="ltr">{p.handle}</div>
+              </motion.a>
+            );
+          })}
+        </div>
+
+        {/* Organized communities (Telegram folder + Messenger/WhatsApp communities) */}
+        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">المجتمعات المنظمة</h2>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">مجلدات القنوات ومجتمعات النقاش — ملفات وروح فريق واحد</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
+          {organizedCommunities.map((p, i) => {
+            const Icon = socialIconMap[p.platform];
+            return (
+              <motion.a
+                key={p.url}
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"

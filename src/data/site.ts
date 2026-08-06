@@ -90,14 +90,15 @@ export const socialLinks: SocialLink[] = [
   },
 ];
 
-// Level-specific chat groups (Instagram + Messenger)
+// Level-specific chat groups (Instagram + Messenger + TikTok)
 export const communityGroups: CommunityGroup[] = [
   {
     level: "قسم البكالوريا (BAC)",
     accent: "from-amber-400 to-amber-600",
     channels: [
       { platform: "instagram", label: "دردشة إنستغرام", url: "https://ig.me/j/Abad0_EOdV-2zoOc/" },
-      { platform: "messenger", label: "دردشة ماسنجر", url: "https://m.me/j/Abbbvax5UUMXM--L/?send_source=gc%3Acopy_invite_link_c" },
+      { platform: "messenger", label: "دردشة ماسنجر", url: "https://www.facebook.com/share/p/1TGJknG72P/" },
+      { platform: "tiktok", label: "دردشة تيك توك", url: "https://tiktok.me/group/ZS48kfMv3" },
     ],
   },
   {
@@ -113,8 +114,39 @@ export const communityGroups: CommunityGroup[] = [
     accent: "from-green-500 to-green-700",
     channels: [
       { platform: "instagram", label: "دردشة إنستغرام", url: "https://ig.me/j/AbbSOE39BOzOxcTk/" },
-      { platform: "messenger", label: "دردشة ماسنجر", url: "https://m.me/j/AbapUiWxOZPSWhdg/?send_source=gc%3Acopy_invite_link_c" },
+      { platform: "messenger", label: "دردشة ماسنجر", url: "https://www.facebook.com/share/p/17hXCjNRWU/" },
     ],
+  },
+];
+
+// Organized communities (files + discussions) from the Linktree tree
+export const organizedCommunities: SocialLink[] = [
+  {
+    platform: "telegram",
+    label: "منتدى الأستاذ بيكا",
+    handle: "مجلد القنوات",
+    url: "https://t.me/addlist/zyYD4lHlYudlNzQ8",
+    description: "المنتدى المنظم — ملفات و نقاشات لكل المستويات",
+    gradient: "from-sky-500 to-sky-600",
+    hover: "hover:text-sky-500",
+  },
+  {
+    platform: "messenger",
+    label: "مجتمع الفيزياء",
+    handle: "ماسنجر",
+    url: "https://m.me/cm/Abb2d24PID2C63CA",
+    description: "مجتمع الأستاذ بيكا للفيزياء على ماسنجر",
+    gradient: "from-violet-500 to-purple-700",
+    hover: "hover:text-violet-500",
+  },
+  {
+    platform: "whatsapp",
+    label: "مجتمع الفيزياء",
+    handle: "واتساب",
+    url: "https://chat.whatsapp.com/L8AYMeLoZlIBLDYYmIxzJM",
+    description: "مجتمع الأستاذ بيكا للفيزياء على واتساب",
+    gradient: "from-green-500 to-green-700",
+    hover: "hover:text-green-500",
   },
 ];
 
@@ -124,7 +156,8 @@ export const siteConfig = {
   facebookPersonal: "https://www.facebook.com/share/19Kq65FKqg/",
   payment: "00799999002885975343",
   contact: {
-    email: "contact@dzphy.dz",
+    email: "medjahed10abdelhadi@gmail.com",
+    whatsapp: "213557972459",
     location: "الجزائر",
   },
   /**

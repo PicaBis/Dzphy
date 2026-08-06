@@ -91,7 +91,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Phone size={15} className="text-orange-500 flex-shrink-0" />
-                <span dir="ltr">+213 541 912 597</span>
+                <span dir="ltr">+213 {siteConfig.contact.whatsapp.slice(3)}</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <MapPin size={15} className="text-orange-500 flex-shrink-0 mt-0.5" />
