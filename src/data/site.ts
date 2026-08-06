@@ -132,5 +132,5 @@ export const siteConfig = {
    * Leave empty ("") to show a safe click-to-watch poster that opens the
    * YouTube channel — this prevents the "This video is unavailable" error.
    */
-  heroVideoId: "",
+  heroVideoId: "-5EN-AXJJZU",
 };
