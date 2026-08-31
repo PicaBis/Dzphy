@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DzPhy — منصة الفيزياء الجزائرية
+
+منصة تعليمية جزائرية للفيزياء للطلاب الثانوي، طوّرتها وأشرف عليها **Medjahed Abdelhadi** (الأستاذ بيكا).
 
 ## Getting Started
 
