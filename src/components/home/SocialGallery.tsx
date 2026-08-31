@@ -1,14 +1,54 @@
 "use client";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Play, ExternalLink } from "lucide-react";
-import { tiktokVideos, instagramPosts } from "@/data/social";
+import { tiktokVideos, instagramPosts, type SocialVideo } from "@/data/social";
+import type { TikTokEnriched } from "@/lib/tiktok";
 import { socialIconMap } from "@/components/icons/SocialIcons";
 
 const TikTokIcon = socialIconMap.tiktok;
 const InstagramIcon = socialIconMap.instagram;
 
+type Card = SocialVideo & { localThumb?: string };
+
 export function SocialGallery() {
-  const renderCard = (v: (typeof tiktokVideos)[number], i: number) => {
+  // Start with the curated list; enrich TikTok cards live from oEmbed so covers
+  // are real and every link is verified to open the exact original video.
+  const [tiktok, setTiktok] = useState<Card[]>(tiktokVideos);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/tiktok")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((rows: TikTokEnriched[]) => {
+        if (!alive || !Array.isArray(rows) || rows.length === 0) return;
+        const base = new Map(tiktokVideos.map((v) => [v.id, v]));
+        // Show only videos oEmbed could verify → every card opens a real video.
+        const next = rows
+          .filter((r) => r.verified)
+          .map((r) => {
+            const b = base.get(r.id);
+            return {
+              ...(b ?? ({} as Card)),
+              id: r.id,
+              platform: "tiktok" as const,
+              url: r.url,
+              title: r.title,
+              thumbnail: r.thumbnail || b?.thumbnail || "",
+              localThumb: r.localThumb || b?.thumbnail,
+            } as Card;
+          });
+        if (next.length > 0) setTiktok(next);
+      })
+      .catch(() => {
+        /* keep curated fallback */
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const renderCard = (v: Card, i: number) => {
     const Icon = v.platform === "tiktok" ? TikTokIcon : InstagramIcon;
     return (
       <motion.a
@@ -27,6 +67,10 @@ export function SocialGallery() {
             alt={v.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
+            onError={(e) => {
+              const fb = v.localThumb;
+              if (fb && e.currentTarget.src !== fb) e.currentTarget.src = fb;
+            }}
           />
           <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
@@ -66,7 +110,7 @@ export function SocialGallery() {
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {tiktokVideos.map((v, i) => renderCard(v, i))}
+          {tiktok.map((v, i) => renderCard(v, i))}
         </div>
       </section>
 

@@ -27,8 +27,7 @@ const levelFilters: { key: PlaylistLevelKey | "all"; label: string }[] = [
   { key: "3as", label: "السنة الثالثة ثانوي" },
   { key: "2as", label: "السنة الثانية ثانوي" },
   { key: "1as", label: "السنة الأولى ثانوي" },
-  { key: "4am", label: "الرابعة متوسط" },
-  { key: "bem", label: "شهادة التعليم المتوسط" },
+  { key: "bem", label: "شهادة التعليم المتوسط (BEM)" },
   { key: "general", label: "أفكار ودورات" },
 ];
 

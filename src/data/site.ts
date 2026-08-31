@@ -153,6 +153,11 @@ export const organizedCommunities: SocialLink[] = [
 export const siteConfig = {
   brand: "الأستاذ بيكا",
   linktree: "https://linktr.ee/profpica",
+  /** Official YouTube channel of @ProfPica — used as the primary video source */
+  youtubeChannelId: "UCjS-HtyRKuNQoHWCJyLKbAQ",
+  youtubeChannelUrl: "https://www.youtube.com/@ProfPica",
+  /** Official TikTok handle — new videos are added by URL only (see src/data/social.ts) */
+  tiktokHandle: "profpica",
   facebookPersonal: "https://www.facebook.com/share/19Kq65FKqg/",
   payment: "00799999002885975343",
   contact: {

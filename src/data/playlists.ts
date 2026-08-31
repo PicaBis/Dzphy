@@ -6,11 +6,12 @@
 // on the site automatically.
 // ============================================================================
 
+// NOTE: "الرابعة متوسط" and "BEM" are the SAME level. They are unified under a
+// single key `bem` so the site never shows two separate sections for it.
 export type PlaylistLevelKey =
   | "1as"
   | "2as"
   | "3as"
-  | "4am"
   | "bac"
   | "bem"
   | "general";
@@ -48,7 +49,7 @@ export const playlists: PlaylistConfig[] = [
     id: "bem-skills",
     title: "المكتسبات القبلية BEM",
     levelKey: "bem",
-    levelLabel: "الرابعة متوسط",
+    levelLabel: "شهادة التعليم المتوسط (BEM)",
     stream: "العلوم الفيزيائية والتكنولوجيا",
     description: "دورة المكتسبات القبلية لتحضير شهادة التعليم المتوسط — الوحدات، التحويلات والقياس.",
     playlistId: "PLSWzUlE4bftk",
@@ -98,16 +99,16 @@ export const playlists: PlaylistConfig[] = [
   },
   {
     id: "4am-lessons",
-    title: "دروس السنة الرابعة متوسط BEM",
-    levelKey: "4am",
-    levelLabel: "الرابعة متوسط",
+    title: "دروس السنة الرابعة متوسط (BEM)",
+    levelKey: "bem",
+    levelLabel: "شهادة التعليم المتوسط (BEM)",
     stream: "العلوم الفيزيائية والتكنولوجيا",
     description: "دروس الرابعة متوسط للتحضير الجيد لشهادة التعليم المتوسط.",
     playlistId: "PLEZiwx-tv7C8",
     videoId: "SMFMsBl3e8Y",
     gradient: "from-emerald-400 to-green-600",
     accent: "text-emerald-500",
-    badge: "4AM",
+    badge: "BEM",
   },
   {
     id: "courses-live",
@@ -141,8 +142,7 @@ export const levelLabels: Record<PlaylistLevelKey, string> = {
   "1as": "السنة الأولى ثانوي",
   "2as": "السنة الثانية ثانوي",
   "3as": "السنة الثالثة ثانوي",
-  "4am": "الرابعة متوسط",
   bac: "البكالوريا",
-  bem: "شهادة التعليم المتوسط",
+  bem: "شهادة التعليم المتوسط (BEM)",
   general: "عام",
 };

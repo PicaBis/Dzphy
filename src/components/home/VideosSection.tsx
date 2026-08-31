@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Play, ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
-import { tiktokVideos } from "@/data/social";
+import { tiktokVideos, type SocialVideo } from "@/data/social";
+import type { TikTokEnriched } from "@/lib/tiktok";
 
 const YT = ({ s = 16, c = "" }: { s?: number; c?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s} className={c}><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
@@ -18,6 +19,7 @@ export default function VideosSection() {
   const [data, setData] = useState<PlaylistResponse[] | null>(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [tiktok, setTiktok] = useState<(SocialVideo & { localThumb?: string })[]>(tiktokVideos);
 
   useEffect(() => {
     fetch("/api/playlists")
@@ -28,6 +30,38 @@ export default function VideosSection() {
       .then((json: PlaylistResponse[]) => setData(json))
       .catch(() => setError(true))
       .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/tiktok")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((rows: TikTokEnriched[]) => {
+        if (!alive || !Array.isArray(rows) || rows.length === 0) return;
+        const base = new Map(tiktokVideos.map((v) => [v.id, v]));
+        // Show only videos oEmbed could verify → every card opens a real video.
+        const next = rows
+          .filter((r) => r.verified)
+          .map((r) => {
+            const b = base.get(r.id);
+            return {
+              ...(b ?? ({} as SocialVideo)),
+              id: r.id,
+              platform: "tiktok" as const,
+              url: r.url,
+              title: r.title,
+              thumbnail: r.thumbnail || b?.thumbnail || "",
+              localThumb: r.localThumb || b?.thumbnail,
+            } as SocialVideo & { localThumb?: string };
+          });
+        if (next.length > 0) setTiktok(next);
+      })
+      .catch(() => {
+        /* keep curated fallback */
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   return (
@@ -136,9 +170,9 @@ export default function VideosSection() {
             </h3>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {tiktokVideos.map((v, i) => (
+            {tiktok.map((v, i) => (
               <motion.a key={v.id} href={v.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="group relative aspect-[9/16] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <img src={v.thumbnail} alt={v.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" />
+                <img src={v.thumbnail} alt={v.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" onError={(e) => { const fb = v.localThumb; if (fb && e.currentTarget.src !== fb) e.currentTarget.src = fb; }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20 flex flex-col justify-end p-3">
                   <p className="text-white text-[11px] font-bold leading-tight line-clamp-2 drop-shadow">{v.title}</p>
                 </div>

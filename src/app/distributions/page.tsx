@@ -15,7 +15,7 @@ const levelColor: Record<string, string> = {
   "السنة الأولى ثانوي": "from-blue-500 to-blue-700",
   "السنة الثانية ثانوي": "from-orange-500 to-orange-700",
   "السنة الثالثة ثانوي": "from-purple-500 to-purple-700",
-  "الرابعة متوسط": "from-green-500 to-green-700",
+  "شهادة التعليم المتوسط (BEM)": "from-green-500 to-green-700",
 };
 
 function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {

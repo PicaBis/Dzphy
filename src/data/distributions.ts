@@ -10,7 +10,7 @@ export type DistributionLevel =
   | "السنة الأولى ثانوي"
   | "السنة الثانية ثانوي"
   | "السنة الثالثة ثانوي"
-  | "الرابعة متوسط";
+  | "شهادة التعليم المتوسط (BEM)";
 
 export type DistributionCategory =
   | "التوزيعات السنوية"
@@ -35,7 +35,7 @@ export const levels: DistributionLevel[] = [
   "السنة الأولى ثانوي",
   "السنة الثانية ثانوي",
   "السنة الثالثة ثانوي",
-  "الرابعة متوسط",
+  "شهادة التعليم المتوسط (BEM)",
 ];
 
 export const streams: string[] = [
@@ -100,7 +100,7 @@ export const distributions: DistributionResource[] = [
   {
     id: "dist-4am-bem-2026",
     title: "التوزيع السنوي — الرابعة متوسط (BEM)",
-    level: "الرابعة متوسط",
+    level: "شهادة التعليم المتوسط (BEM)",
     stream: "عام",
     category: "التوزيعات السنوية",
     fileUrl: BEM_PDF,
