@@ -21,12 +21,27 @@ interface ContentPageProps {
   gradeLabel: string;
   description: string;
   color: string;
+  /** per-level accent tokens (fall back to orange) */
+  accentSolid?: string;
+  accentSoft?: string;
+  accentText?: string;
 }
 
 const subjects = ["الكل", "الميكانيكا", "الكهرباء", "الكيمياء", "البصريات", "النووي"];
 const ITEMS_PER_PAGE = 6;
 
-export default function ContentPage({ grade, section, sectionLabel, items, gradeLabel, description, color }: ContentPageProps) {
+export default function ContentPage({
+  grade,
+  section,
+  sectionLabel,
+  items,
+  gradeLabel,
+  description,
+  color,
+  accentSolid = "bg-orange-500 hover:bg-orange-600",
+  accentSoft = "bg-orange-50 dark:bg-orange-500/10",
+  accentText = "text-orange-500",
+}: ContentPageProps) {
   const [search, setSearch] = useState("");
   const [activeSubject, setActiveSubject] = useState("الكل");
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -79,7 +94,7 @@ export default function ContentPage({ grade, section, sectionLabel, items, grade
             {subjects.map((sub) => (
               <button key={sub} onClick={() => { setActiveSubject(sub); setPage(1); }}
                 className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-all ${
-                  activeSubject === sub ? "bg-orange-500 text-white shadow-sm" : "bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 hover:text-orange-600 dark:hover:text-orange-400 border border-gray-100 dark:border-gray-600"
+                  activeSubject === sub ? `${accentSolid} text-white shadow-sm` : "bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-100 dark:border-gray-600"
                 }`}
               >{sub}</button>
             ))}
@@ -103,8 +118,8 @@ export default function ContentPage({ grade, section, sectionLabel, items, grade
                 className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] group"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 transition-colors">
-                    <BookOpen size={18} className="text-orange-500" />
+                  <div className={`w-10 h-10 rounded-xl ${accentSoft} flex items-center justify-center transition-colors`}>
+                    <BookOpen size={18} className={accentText} />
                   </div>
                   <button onClick={() => toggleFav(item.id)}
                     className={`p-1.5 rounded-lg transition-all ${favorites.has(item.id) ? "text-red-500" : "text-gray-300 dark:text-gray-600 hover:text-red-400"}`}>
@@ -120,7 +135,7 @@ export default function ContentPage({ grade, section, sectionLabel, items, grade
                   <a href={item.viewUrl} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-gray-50 dark:bg-gray-700 hover:bg-orange-50 dark:hover:bg-orange-500/10 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 rounded-xl text-xs font-semibold transition-all">
                     <Eye size={13} /> مشاهدة
                   </a>
-                  <a href={item.downloadUrl} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-semibold transition-all">
+                  <a href={item.downloadUrl} className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 ${accentSolid} text-white rounded-xl text-xs font-semibold transition-all`}>
                     <Download size={13} /> تحميل PDF
                   </a>
                 </div>
@@ -137,7 +152,7 @@ export default function ContentPage({ grade, section, sectionLabel, items, grade
             </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
               <button key={p} onClick={() => setPage(p)}
-                className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${page === p ? "bg-orange-500 text-white shadow-md shadow-orange-200 dark:shadow-orange-500/20" : "border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-orange-400 dark:hover:border-orange-500/50 hover:text-orange-600 dark:hover:text-orange-400"}`}>
+                className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${page === p ? `${accentSolid} text-white shadow-md` : "border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500"}`}>
                 {p}
               </button>
             ))}

@@ -15,6 +15,13 @@ const translations: Record<Lang, Record<string, string>> = {
     grade1: "السنة الأولى ثانوي",
     grade2: "السنة الثانية ثانوي",
     grade3: "السنة الثالثة ثانوي",
+    grade4: "الرابعة متوسط",
+    g1: "1 ثانوي",
+    g2: "2 ثانوي",
+    g3: "3 ثانوي",
+    g4: "4 متوسط",
+    distributions: "التوزيعات",
+    videosNav: "الفيديوهات",
     teacherBag: "حقيبة الأستاذ",
     courses: "الدورات التعليمية",
     apps: "التطبيقات والبرامج",
@@ -53,6 +60,13 @@ const translations: Record<Lang, Record<string, string>> = {
     grade1: "1ère Année Secondaire",
     grade2: "2ème Année Secondaire",
     grade3: "3ème Année Secondaire",
+    grade4: "4ème Année Moyenne",
+    g1: "1AS",
+    g2: "2AS",
+    g3: "3AS",
+    g4: "4AM",
+    distributions: "Répartitions",
+    videosNav: "Vidéos",
     teacherBag: "Sac de l'Enseignant",
     courses: "Cours",
     apps: "Applications",
@@ -91,6 +105,13 @@ const translations: Record<Lang, Record<string, string>> = {
     grade1: "1st Year Secondary",
     grade2: "2nd Year Secondary",
     grade3: "3rd Year Secondary",
+    grade4: "4th Year Middle",
+    g1: "1AS",
+    g2: "2AS",
+    g3: "3AS",
+    g4: "4AM",
+    distributions: "Distributions",
+    videosNav: "Videos",
     teacherBag: "Teacher's Bag",
     courses: "Courses",
     apps: "Apps & Tools",
@@ -147,8 +168,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const changeLang = (l: Lang) => {
     setLang(l);
     localStorage.setItem("dzphy-lang", l);
+    // Only the interface language changes. The educational content stays Arabic,
+    // so the document keeps its RTL layout to avoid breaking Arabic reading.
     document.documentElement.lang = l === "ar" ? "ar" : l;
-    document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = "rtl";
   };
 
   const t = (key: string) => translations[lang]?.[key] || translations.ar[key] || key;

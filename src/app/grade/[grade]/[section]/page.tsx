@@ -1,18 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import ContentPage from "@/components/ui/ContentPage";
 import { gradeContent } from "@/data/content";
-
-const gradeVideoLevels: Record<string, string> = {
-  "1": "1as",
-  "2": "2as",
-  "3": "3as",
-};
-
-const gradeLabels: Record<string, string> = {
-  "1": "السنة الأولى ثانوي",
-  "2": "السنة الثانية ثانوي",
-  "3": "السنة الثالثة ثانوي",
-};
+import { getLevelByGradeParam } from "@/lib/levels";
 
 const sectionConfig: Record<string, { label: string; dataKey: string; description: string }> = {
   resumes: {
@@ -42,29 +31,27 @@ const sectionConfig: Record<string, { label: string; dataKey: string; descriptio
   },
 };
 
-const gradeColors: Record<string, string> = {
-  "1": "bg-gradient-to-br from-blue-500 to-blue-700",
-  "2": "bg-gradient-to-br from-orange-500 to-orange-700",
-  "3": "bg-gradient-to-br from-purple-500 to-purple-700",
-};
-
 export default async function SectionPage({
   params,
 }: {
   params: Promise<{ grade: string; section: string }>;
 }) {
   const { grade, section } = await params;
-  const gradeLabel = gradeLabels[grade];
+  const level = getLevelByGradeParam(grade);
   const config = sectionConfig[section];
 
-  if (!gradeLabel || !config) notFound();
+  if (!level || !config) notFound();
 
   // Videos live on the dedicated playlists page (auto-synced from YouTube)
   if (section === "videos") {
-    redirect(`/videos?level=${gradeVideoLevels[grade] || ""}`);
+    redirect(`/videos?level=${level.videoLevel}`);
   }
 
+  // BEM has no PDF sections yet → send to its hub instead of an empty page
   const content = gradeContent[grade as keyof typeof gradeContent];
+  if (!content) {
+    redirect(level.href);
+  }
   const items = content?.[config.dataKey as keyof typeof content] ?? [];
 
   return (
@@ -73,9 +60,12 @@ export default async function SectionPage({
       section={section}
       sectionLabel={config.label}
       items={items}
-      gradeLabel={gradeLabel}
+      gradeLabel={level.title}
       description={config.description}
-      color={gradeColors[grade]}
+      color={`bg-gradient-to-br ${level.gradient}`}
+      accentSolid={level.solid}
+      accentSoft={level.soft}
+      accentText={level.text}
     />
   );
 }

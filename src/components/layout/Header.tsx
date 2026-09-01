@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, Search, BookOpen, FileText, ClipboardList, FlaskConical, Video, Sun, Moon, Globe, CalendarRange } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -20,12 +21,14 @@ const gradeLevelLabels: Record<string, string> = {
   "1": "السنة الأولى ثانوي",
   "2": "السنة الثانية ثانوي",
   "3": "السنة الثالثة ثانوي",
+  "4": "شهادة التعليم المتوسط (BEM)",
 };
 
 const gradeVideoLevels: Record<string, string> = {
   "1": "1as",
   "2": "2as",
   "3": "3as",
+  "4": "bem",
 };
 
 const buildHref = (template: string, grade: string) =>
@@ -34,19 +37,21 @@ const buildHref = (template: string, grade: string) =>
     .replace("{level}", encodeURIComponent(gradeLevelLabels[grade] || ""))
     .replace("{videoLevel}", gradeVideoLevels[grade] || "");
 
-  const navItems = [
-    { label: "الرئيسية", href: "/" },
-    { label: "السنة الأولى", href: "/grade/1", grade: "1" },
-    { label: "السنة الثانية", href: "/grade/2", grade: "2" },
-    { label: "السنة الثالثة", href: "/grade/3", grade: "3" },
-    { label: "التوزيعات", href: "/distributions" },
-    { label: "الفيديوهات", href: "/videos" },
-    { label: "حقيبة الأستاذ", href: "/teacher" },
-    { label: "الدورات", href: "/courses" },
-    { label: "التطبيقات", href: "/apps" },
-    { label: "من نحن؟", href: "/about" },
-    { label: "تابعونا", href: "/follow" },
-  ];
+// key → translation key in LanguageContext (UI chrome only; content stays Arabic)
+const navItems: { key: string; href: string; grade?: string }[] = [
+  { key: "home", href: "/" },
+  { key: "g1", href: "/grade/1", grade: "1" },
+  { key: "g2", href: "/grade/2", grade: "2" },
+  { key: "g3", href: "/grade/3", grade: "3" },
+  { key: "g4", href: "/grade/4", grade: "4" },
+  { key: "distributions", href: "/distributions" },
+  { key: "videosNav", href: "/videos" },
+  { key: "teacherBag", href: "/teacher" },
+  { key: "courses", href: "/courses" },
+  { key: "apps", href: "/apps" },
+  { key: "about", href: "/about" },
+  { key: "follow", href: "/follow" },
+];
 
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
 
@@ -58,7 +63,17 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [langOpen, setLangOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { lang, setLang } = useLanguage();
+  const { lang, setLang, t } = useLanguage();
+  const router = useRouter();
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    setSearchOpen(false);
+    setMobileOpen(false);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -89,7 +104,7 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <div
-                key={item.label}
+                key={item.key}
                 className="relative"
                 onMouseEnter={() => item.grade && setActiveDropdown(item.grade)}
                 onMouseLeave={() => setActiveDropdown(null)}
@@ -97,7 +112,7 @@ export default function Header() {
                   {item.grade ? (
                     <>
                       <button className="flex items-center gap-1 px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap">
-                        {item.label}
+                        {t(item.key)}
                         <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.grade ? "rotate-180" : ""}`} />
                       </button>
                       <AnimatePresence>
@@ -136,7 +151,7 @@ export default function Header() {
                     href={item.href}
                     className="px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap"
                   >
-                    {item.label}
+                    {t(item.key)}
                   </Link>
                 )}
               </div>
@@ -195,7 +210,7 @@ export default function Header() {
               href="/admin"
               className="hidden sm:flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-orange-200 dark:hover:shadow-orange-500/20 hover:shadow-md"
             >
-              لوحة التحكم
+              {t("admin")}
             </Link>
 
             <button
@@ -215,16 +230,16 @@ export default function Header() {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden pb-3"
             >
-              <div className="relative">
+              <form onSubmit={submitSearch} className="relative">
                 <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                 <input
+                <input
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ابحث عن ملخصات، تمارين، دروس..."
                   className="w-full pr-10 sm:pr-12 pl-3 sm:pl-4 py-2.5 sm:py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all dark:text-white dark:placeholder-gray-500"
                 />
-              </div>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>
@@ -240,13 +255,13 @@ export default function Header() {
           >
             <div className="px-4 py-3 space-y-1 max-h-[70vh] overflow-y-auto">
               {navItems.map((item) => (
-                <div key={item.label}>
+                <div key={item.key}>
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className="block px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl font-medium transition-all"
                   >
-                    {item.label}
+                    {t(item.key)}
                   </Link>
                   {item.grade && (
                     <div className="mr-3 sm:mr-4 mt-1 space-y-1">

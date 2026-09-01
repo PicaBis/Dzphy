@@ -67,8 +67,8 @@ export const playlists: PlaylistConfig[] = [
     description: "جميع دروس السنة الثالثة ثانوي مشروحة بالتفصيل استعدادًا لشهادة البكالوريا.",
     playlistId: "PLGRsyA_VAyBUh27KazoXi7UkRxdFIuJJW",
     videoId: "-L5lScjATK0",
-    gradient: "from-purple-500 to-purple-700",
-    accent: "text-purple-500",
+    gradient: "from-amber-400 to-yellow-600",
+    accent: "text-amber-500",
     badge: "3AS",
   },
   {
@@ -93,8 +93,8 @@ export const playlists: PlaylistConfig[] = [
     description: "دروس السنة الأولى ثانوي بأسلوب بسيط يرافق الطالب منذ البداية.",
     playlistId: "PLGRsyA_VAyBUELSMjFUjySZWj_VW78VXT",
     videoId: "hSZ6W5oE5xo",
-    gradient: "from-cyan-500 to-blue-600",
-    accent: "text-cyan-500",
+    gradient: "from-blue-500 to-blue-700",
+    accent: "text-blue-500",
     badge: "1AS",
   },
   {

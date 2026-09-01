@@ -1,126 +1,169 @@
 "use client";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, BookOpen, FileText, ClipboardList, BookMarked, Download, Eye } from "lucide-react";
-import { latestContent, courses } from "@/data/content";
+import {
+  Search,
+  BookOpen,
+  FileText,
+  ClipboardList,
+  FlaskConical,
+  Video,
+  GraduationCap,
+  CalendarRange,
+  AppWindow,
+  LayoutGrid,
+  ArrowLeft,
+} from "lucide-react";
+import { search as runSearch, type SearchKind } from "@/lib/search";
 
-const typeLabel: Record<string, string> = {
-  resume: "ملخص",
-  exercise: "تمارين",
-  devoir: "فرض",
-  tp: "عمل تطبيقي",
-};
-
-const typeIcon: Record<string, typeof BookOpen> = {
+const kindIcon: Record<SearchKind, typeof BookOpen> = {
+  level: GraduationCap,
   resume: BookOpen,
   exercise: FileText,
   devoir: ClipboardList,
+  tp: FlaskConical,
+  video: Video,
+  course: GraduationCap,
+  distribution: CalendarRange,
+  app: AppWindow,
+  page: LayoutGrid,
 };
 
-export default function SearchPage() {
-  const [query, setQuery] = useState("");
-  const results = useMemo(() => {
-    const q = query.trim();
-    if (!q) return [];
-    const lower = q.toLowerCase();
-    const contentResults = latestContent
-      .filter((i) => i.title.toLowerCase().includes(lower) || (i.subject || "").toLowerCase().includes(lower))
-      .map((i) => ({ type: i.type as string, id: i.id, title: i.title, description: i.description, category: (i.subject ?? "") as string }));
+const kindColor: Record<SearchKind, string> = {
+  level: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
+  resume: "bg-orange-100 text-orange-600 dark:bg-orange-500/15 dark:text-orange-300",
+  exercise: "bg-orange-100 text-orange-600 dark:bg-orange-500/15 dark:text-orange-300",
+  devoir: "bg-purple-100 text-purple-600 dark:bg-purple-500/15 dark:text-purple-300",
+  tp: "bg-teal-100 text-teal-600 dark:bg-teal-500/15 dark:text-teal-300",
+  video: "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300",
+  course: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
+  distribution: "bg-green-100 text-green-600 dark:bg-green-500/15 dark:text-green-300",
+  app: "bg-fuchsia-100 text-fuchsia-600 dark:bg-fuchsia-500/15 dark:text-fuchsia-300",
+  page: "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300",
+};
 
-    const courseResults = courses
-      .filter((c) => c.title.toLowerCase().includes(lower) || c.description.toLowerCase().includes(lower))
-      .map((c) => ({ type: "course" as string, id: c.id, title: c.title, description: c.description, category: (c.category ?? "") as string }));
+const suggestions = ["نيوتن", "الكهرباء", "القذائف", "BAC", "BEM", "الموجات", "التوزيعات"];
 
-    return [...contentResults, ...courseResults];
-  }, [query]);
+function SearchInner() {
+  const params = useSearchParams();
+  const router = useRouter();
+  const initialQ = params.get("q") ?? "";
+  const [query, setQuery] = useState(initialQ);
+
+  // keep the URL in sync (shareable search links) without a full navigation
+  useEffect(() => {
+    const id = setTimeout(() => {
+      const usp = new URLSearchParams();
+      if (query.trim()) usp.set("q", query.trim());
+      const qs = usp.toString();
+      router.replace(qs ? `/search?${qs}` : "/search", { scroll: false });
+    }, 250);
+    return () => clearTimeout(id);
+  }, [query, router]);
+
+  const results = useMemo(() => runSearch(query), [query]);
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
-      <div className="bg-gradient-to-br from-orange-500 to-orange-700 py-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
+      <div className="bg-gradient-to-br from-orange-500 to-orange-700 py-14 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-black text-white mb-4">البحث في DzPhy</h1>
-          <p className="text-orange-100 mb-8">ابحث في الملخصات، التمارين، الفروض والدورات</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">ابحث في DzPhy</h1>
+          <p className="text-orange-100 mb-7 text-sm sm:text-base">
+            دروس، ملخصات، تمارين، فروض، فيديوهات، دورات وتوزيعات — كل المحتوى في مكان واحد
+          </p>
           <div className="relative">
             <Search size={22} className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="ابحث عن أي شيء..."
-              className="w-full pr-14 pl-5 py-4 bg-white rounded-2xl text-base shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-300 transition-all"
+              placeholder="اكتب: نيوتن، الكهرباء، القذائف، BAC..."
+              className="w-full pr-14 pl-5 py-4 bg-white dark:bg-gray-800 dark:text-white rounded-2xl text-base shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-300 dark:focus:ring-orange-500/40 transition-all"
             />
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+            {suggestions.map((s) => (
+              <button
+                key={s}
+                onClick={() => setQuery(s)}
+                className="px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-semibold transition-colors"
+              >
+                {s}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <AnimatePresence>
-          {query && results.length === 0 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
-              <Search size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500 text-lg font-semibold">لا توجد نتائج لـ &quot;{query}&quot;</p>
+        <AnimatePresence mode="wait">
+          {!query.trim() ? (
+            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-16">
+              <div className="w-20 h-20 rounded-3xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center mx-auto mb-4">
+                <Search size={36} className="text-orange-400" />
+              </div>
+              <p className="text-gray-500 dark:text-gray-400 text-lg">ابدأ بكتابة ما تبحث عنه</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">ملخصات، تمارين، فروض، فيديوهات، دورات...</p>
             </motion.div>
-          )}
-
-          {results.length > 0 && (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
-              <p className="text-gray-500 text-sm mb-4">
-                <span className="font-bold text-gray-900">{results.length}</span> نتيجة لـ &quot;{query}&quot;
+          ) : results.length === 0 ? (
+            <motion.div key="none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-16">
+              <Search size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+              <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">لا توجد نتائج لـ &quot;{query}&quot;</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">جرّب كلمة أخرى مثل: نيوتن، الكهرباء، BEM</p>
+            </motion.div>
+          ) : (
+            <motion.div key="list" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-3">
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+                <span className="font-bold text-gray-900 dark:text-white">{results.length}</span> نتيجة لـ &quot;{query}&quot;
               </p>
               {results.map((item, i) => {
-                const Icon = typeIcon[item.type] || BookMarked;
+                const Icon = kindIcon[item.kind];
                 return (
                   <motion.div
-                    key={`${item.type}-${item.id}`}
+                    key={item.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="bg-white border border-gray-100 rounded-2xl p-5 hover:border-orange-200 hover:shadow-md transition-all group"
+                    transition={{ delay: Math.min(i * 0.03, 0.3) }}
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
-                        <Icon size={18} className="text-orange-500" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-bold bg-orange-100 text-orange-600 px-2.5 py-0.5 rounded-full">
-                            {item.type === "course" ? "دورة" : typeLabel[item.type] || item.type}
-                          </span>
-                          {item.category && (
-                            <span className="text-xs text-gray-400">{item.category}</span>
-                          )}
+                    <Link
+                      href={item.url}
+                      className="block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-md transition-all group"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${kindColor[item.kind]}`}>
+                          <Icon size={19} />
                         </div>
-                        <h3 className="font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-gray-500 text-sm mt-1 line-clamp-1">{item.description}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${kindColor[item.kind]}`}>
+                              {item.kindLabel}
+                            </span>
+                            {item.meta && <span className="text-xs text-gray-400 dark:text-gray-500 truncate">{item.meta}</span>}
+                          </div>
+                          <h3 className="font-bold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-1">
+                            {item.title}
+                          </h3>
+                        </div>
+                        <ArrowLeft size={18} className="text-gray-300 dark:text-gray-600 group-hover:text-orange-500 transition-colors flex-shrink-0" />
                       </div>
-                      <div className="flex gap-2 flex-shrink-0">
-                        {item.type !== "course" && (
-                          <>
-                            <button className="p-1.5 text-gray-400 hover:text-orange-500 transition-colors"><Eye size={15} /></button>
-                            <button className="p-1.5 text-gray-400 hover:text-orange-500 transition-colors"><Download size={15} /></button>
-                          </>
-                        )}
-                      </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 );
               })}
             </motion.div>
           )}
-
-          {!query && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
-              <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center mx-auto mb-4">
-                <Search size={36} className="text-orange-400" />
-              </div>
-              <p className="text-gray-500 text-lg">ابدأ بكتابة ما تبحث عنه</p>
-              <p className="text-gray-400 text-sm mt-2">ملخصات، تمارين، فروض، دورات...</p>
-            </motion.div>
-          )}
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-950" />}>
+      <SearchInner />
+    </Suspense>
   );
 }
