@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, BookOpen, FileText, ClipboardList, BookMarked, Download, Eye } from "lucide-react";
 import { latestContent, courses } from "@/data/content";
@@ -19,21 +19,19 @@ const typeIcon: Record<string, typeof BookOpen> = {
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Array<{ type: string; id: string; title: string; description: string; category?: string }>>([]);
-
-  useEffect(() => {
-    if (!query.trim()) { setResults([]); return; }
-    const q = query.toLowerCase();
-
+  const results = useMemo(() => {
+    const q = query.trim();
+    if (!q) return [];
+    const lower = q.toLowerCase();
     const contentResults = latestContent
-      .filter((i) => i.title.toLowerCase().includes(q) || (i.subject || "").toLowerCase().includes(q))
-      .map((i) => ({ type: i.type, id: i.id, title: i.title, description: i.description }));
+      .filter((i) => i.title.toLowerCase().includes(lower) || (i.subject || "").toLowerCase().includes(lower))
+      .map((i) => ({ type: i.type as string, id: i.id, title: i.title, description: i.description, category: (i.subject ?? "") as string }));
 
     const courseResults = courses
-      .filter((c) => c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q))
-      .map((c) => ({ type: "course", id: c.id, title: c.title, description: c.description, category: c.category }));
+      .filter((c) => c.title.toLowerCase().includes(lower) || c.description.toLowerCase().includes(lower))
+      .map((c) => ({ type: "course" as string, id: c.id, title: c.title, description: c.description, category: (c.category ?? "") as string }));
 
-    setResults([...contentResults, ...courseResults]);
+    return [...contentResults, ...courseResults];
   }, [query]);
 
   return (
@@ -60,14 +58,14 @@ export default function SearchPage() {
           {query && results.length === 0 && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
               <Search size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500 text-lg font-semibold">لا توجد نتائج لـ "{query}"</p>
+              <p className="text-gray-500 text-lg font-semibold">لا توجد نتائج لـ &quot;{query}&quot;</p>
             </motion.div>
           )}
 
           {results.length > 0 && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
               <p className="text-gray-500 text-sm mb-4">
-                <span className="font-bold text-gray-900">{results.length}</span> نتيجة لـ "{query}"
+                <span className="font-bold text-gray-900">{results.length}</span> نتيجة لـ &quot;{query}&quot;
               </p>
               {results.map((item, i) => {
                 const Icon = typeIcon[item.type] || BookMarked;

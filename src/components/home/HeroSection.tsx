@@ -10,7 +10,7 @@ const isValidVideoId = (id: string) => /^[A-Za-z0-9_-]{11}$/.test(id);
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-white dark:bg-gray-950 pt-16">
+    <section className="relative min-h-[100svh] flex items-center overflow-hidden bg-white dark:bg-gray-950 pt-14 sm:pt-16">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-100 dark:bg-orange-500/10 rounded-full opacity-50 blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-50 dark:bg-orange-500/5 rounded-full opacity-70 blur-3xl" />
@@ -37,7 +37,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white leading-tight mb-6"
+              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 dark:text-white leading-tight mb-5 sm:mb-6"
             >
               منصة الفيزياء الجزائرية{" "}
               <span className="text-orange-500 relative">
@@ -62,18 +62,18 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="flex flex-wrap items-center gap-4"
+              className="flex flex-wrap items-center gap-3 sm:gap-4"
             >
               <Link
                 href="/grade/3"
-                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-7 py-3.5 rounded-2xl text-base font-bold transition-all duration-200 shadow-lg shadow-orange-200 dark:shadow-orange-500/20 hover:shadow-orange-300 dark:hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 shadow-lg shadow-orange-200 dark:shadow-orange-500/20 hover:shadow-orange-300 dark:hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
               >
                 ابدأ التعلم
-                <ArrowLeft size={18} />
+                <ArrowLeft size={16} />
               </Link>
               <Link
                 href="/courses"
-                className="inline-flex items-center gap-2 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-400 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-gray-900 px-7 py-3.5 rounded-2xl text-base font-bold transition-all duration-200 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                className="inline-flex items-center gap-2 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-400 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-gray-900 px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 hover:bg-orange-50 dark:hover:bg-orange-500/10"
               >
                 <PlayCircle size={18} className="text-orange-500" />
                 استكشف الدورات
@@ -87,7 +87,7 @@ export default function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             className="relative"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-video bg-gray-900">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-video bg-gray-900">
               {isValidVideoId(siteConfig.heroVideoId) ? (
                 <iframe
                   className="w-full h-full absolute inset-0"
@@ -108,7 +108,9 @@ export default function HeroSection() {
                   <Image
                     src="/about/teacher.jpg"
                     alt="الأستاذ بيكا - دروس الفيزياء"
-                    fill
+                    width={640}
+                    height={360}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 50vw"
                     priority
                     className="object-cover"
                   />

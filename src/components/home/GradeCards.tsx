@@ -15,18 +15,18 @@ const subItems = [
 
 export default function GradeCards() {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} className="text-center mb-10 sm:mb-14">
           <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">المراحل الدراسية</span>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-4">اختر <span className="text-orange-500">مستواك الدراسي</span></h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">محتوى مخصص لكل سنة دراسية يغطي جميع وحدات المنهاج الجزائري</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-3 sm:mb-4">اختر <span className="text-orange-500">مستواك الدراسي</span></h2>
+          <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base max-w-xl mx-auto">محتوى مخصص لكل سنة دراسية يغطي جميع وحدات المنهاج الجزائري</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {grades.map((grade, i) => (
-            <motion.div key={grade.level} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-              className={`relative group bg-white dark:bg-gray-800 rounded-3xl border-2 ${grade.borderColor} overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 ${grade.featured ? "ring-2 ring-orange-400 ring-offset-2 dark:ring-offset-gray-900" : ""}`}
+            <motion.div key={grade.level} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: i * 0.15, ease: "easeOut" }}
+              className={`relative group bg-white dark:bg-gray-800 rounded-3xl border-2 ${grade.borderColor} overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 active:scale-[0.98] ${grade.featured ? "ring-2 ring-orange-400 ring-offset-2 dark:ring-offset-gray-900" : ""}`}
             >
               {grade.featured && <div className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">الأكثر طلبا</div>}
               <div className={`bg-gradient-to-br ${grade.color} p-6 text-white`}>

@@ -34,19 +34,19 @@ const buildHref = (template: string, grade: string) =>
     .replace("{level}", encodeURIComponent(gradeLevelLabels[grade] || ""))
     .replace("{videoLevel}", gradeVideoLevels[grade] || "");
 
-const navItems = [
-  { label: "الرئيسية", href: "/" },
-  { label: "السنة الأولى ثانوي", href: "/grade/1", grade: "1" },
-  { label: "السنة الثانية ثانوي", href: "/grade/2", grade: "2" },
-  { label: "السنة الثالثة ثانوي", href: "/grade/3", grade: "3" },
-  { label: "التوزيعات السنوية", href: "/distributions" },
-  { label: "الفيديوهات", href: "/videos" },
-  { label: "حقيبة الأستاذ", href: "/teacher" },
-  { label: "الدورات التعليمية", href: "/courses" },
-  { label: "التطبيقات والبرامج", href: "/apps" },
-  { label: "من نحن؟", href: "/about" },
-  { label: "تابعونا", href: "/follow" },
-];
+  const navItems = [
+    { label: "الرئيسية", href: "/" },
+    { label: "السنة الأولى", href: "/grade/1", grade: "1" },
+    { label: "السنة الثانية", href: "/grade/2", grade: "2" },
+    { label: "السنة الثالثة", href: "/grade/3", grade: "3" },
+    { label: "التوزيعات", href: "/distributions" },
+    { label: "الفيديوهات", href: "/videos" },
+    { label: "حقيبة الأستاذ", href: "/teacher" },
+    { label: "الدورات", href: "/courses" },
+    { label: "التطبيقات", href: "/apps" },
+    { label: "من نحن؟", href: "/about" },
+    { label: "تابعونا", href: "/follow" },
+  ];
 
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
 
@@ -78,7 +78,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <div className="relative w-10 h-10">
-              <Image src="/logo.png" alt="DzPhy Logo" fill className="object-contain" />
+              <Image src="/logo.png" alt="DzPhy Logo" width={40} height={40} sizes="40px" className="object-contain" />
             </div>
             <span className="text-xl font-black">
               <span style={{ color: "#FF7A00" }}>Dz</span>
@@ -86,7 +86,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <div
                 key={item.label}
@@ -94,21 +94,21 @@ export default function Header() {
                 onMouseEnter={() => item.grade && setActiveDropdown(item.grade)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.grade ? (
-                  <>
-                    <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap">
-                      {item.label}
-                      <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.grade ? "rotate-180" : ""}`} />
-                    </button>
-                    <AnimatePresence>
-                      {activeDropdown === item.grade && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute top-full right-0 mt-1 w-52 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50"
-                        >
+                  {item.grade ? (
+                    <>
+                      <button className="flex items-center gap-1 px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap">
+                        {item.label}
+                        <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.grade ? "rotate-180" : ""}`} />
+                      </button>
+                      <AnimatePresence>
+                        {activeDropdown === item.grade && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute top-full right-0 mt-1 w-52 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50"
+                          >
                           <div className="p-2">
                             {gradeDropdown.map((sub) => {
                               const Icon = sub.icon;
@@ -131,10 +131,10 @@ export default function Header() {
                       )}
                     </AnimatePresence>
                   </>
-                ) : (
+                 ) : (
                   <Link
                     href={item.href}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap"
+                    className="px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap"
                   >
                     {item.label}
                   </Link>
@@ -217,12 +217,12 @@ export default function Header() {
             >
               <div className="relative">
                 <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
+                 <input
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ابحث عن ملخصات، تمارين، دروس..."
-                  className="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all dark:text-white dark:placeholder-gray-500"
+                  className="w-full pr-10 sm:pr-12 pl-3 sm:pl-4 py-2.5 sm:py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all dark:text-white dark:placeholder-gray-500"
                 />
               </div>
             </motion.div>
@@ -236,20 +236,20 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="xl:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
+            className="lg:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
           >
-            <div className="px-4 py-4 space-y-1 max-h-[70vh] overflow-y-auto">
+            <div className="px-4 py-3 space-y-1 max-h-[70vh] overflow-y-auto">
               {navItems.map((item) => (
                 <div key={item.label}>
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl font-medium transition-all"
+                    className="block px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl font-medium transition-all"
                   >
                     {item.label}
                   </Link>
                   {item.grade && (
-                    <div className="mr-4 mt-1 space-y-1">
+                    <div className="mr-3 sm:mr-4 mt-1 space-y-1">
                       {gradeDropdown.map((sub) => {
                         const href = buildHref(sub.href, item.grade!);
                         return (
@@ -257,7 +257,7 @@ export default function Header() {
                             key={sub.label}
                             href={href}
                             onClick={() => setMobileOpen(false)}
-                            className="block px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
+                            className="block px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
                           >
                             - {sub.label}
                           </Link>

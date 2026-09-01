@@ -42,20 +42,20 @@ export default function GradePage() {
   const isScientific = !selectedStream || selectedStream !== "literary";
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
-      <div className={`bg-gradient-to-br ${info.gradient} text-white py-16`}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-14 sm:pt-16">
+      <div className={`bg-gradient-to-br ${info.gradient} text-white py-12 sm:py-16`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-sm text-white/70 mb-4">
-            <Link href="/" className="hover:text-white">الرئيسية</Link>
+          <nav className="text-xs sm:text-sm text-white/70 mb-3 sm:mb-4">
+            <Link href="/" className="hover:text-white transition-colors">الرئيسية</Link>
             {" / "}
             <span className="text-white font-semibold">{info.label}</span>
           </nav>
-          <h1 className="text-4xl font-black mb-3">{info.label}</h1>
-          <p className="text-white/80 text-lg max-w-2xl">{info.description}</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2 sm:mb-3">{info.label}</h1>
+          <p className="text-white/80 text-sm sm:text-lg max-w-2xl">{info.description}</p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Annual distribution banner */}
         <Link
           href={`/distributions?level=${encodeURIComponent(info.label)}`}
@@ -73,25 +73,25 @@ export default function GradePage() {
           </span>
         </Link>
 
-        {!showSections ? (
-          <>
-            <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-3">اختر الشعبة</h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-8">اختر شعبتك للوصول إلى المحتوى المخصص</p>
+         {!showSections ? (
+           <>
+             <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2 sm:mb-3">اختر الشعبة</h2>
+             <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 sm:mb-8">اختر شعبتك للوصول إلى المحتوى المخصص</p>
 
             {/* Grade 1: Scientific + Literary only */}
-            {grade === "1" ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+             {grade === "1" ? (
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 {[
                   { id: "scientific", label: "الشعب العلمية", icon: Beaker, color: "from-blue-500 to-blue-600", desc: "محتوى مخصص للشعب العلمية - فيزياء وكيمياء" },
                   { id: "literary", label: "الشعب الأدبية", icon: BookType, color: "from-gray-500 to-gray-700", desc: "محتوى مخصص للشعب الأدبية" },
                 ].map((stream) => (
-                  <motion.button
-                    key={stream.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    onClick={() => handleStreamClick(stream.id)}
-                    className={`group relative overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-3xl p-8 text-right hover:shadow-2xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1`}
-                  >
+                   <motion.button
+                     key={stream.id}
+                     initial={{ opacity: 0, y: 20 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     onClick={() => handleStreamClick(stream.id)}
+                     className={`group relative overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-right hover:shadow-2xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]`}
+                   >
                     <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br opacity-10 rounded-full -translate-x-1/2 -translate-y-1/2" />
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${stream.color} flex items-center justify-center mb-5 text-white`}>
                       <stream.icon size={28} />
@@ -104,12 +104,12 @@ export default function GradePage() {
               </div>
             ) : (
               /* Grade 2 & 3: Scientific sub-streams + Literary */
-              <>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                  <Beaker size={20} className="text-orange-500" />
-                  الشعب العلمية
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+                 <>
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+                    <Beaker size={18} className="text-orange-500" />
+                    الشعب العلمية
+                  </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8 sm:mb-10">
                   {scientificStreams.map((stream) => {
                     const Icon = stream.icon;
                     return (
@@ -118,7 +118,7 @@ export default function GradePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         onClick={() => handleStreamClick(stream.id)}
-                        className={`group bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-right hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1`}
+                        className={`group bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-6 text-right hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]`}
                       >
                         <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stream.color} flex items-center justify-center mb-4 text-white`}>
                           <Icon size={24} />
@@ -137,12 +137,12 @@ export default function GradePage() {
                       <BookType size={20} className="text-gray-500 dark:text-gray-400" />
                       الشعب الأدبية
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                       <motion.button
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         onClick={() => handleStreamClick("literary")}
-                        className="group bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-right hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:-translate-y-1"
+                        className="group bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-6 text-right hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                       >
                         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-500 to-gray-700 flex items-center justify-center mb-4 text-white">
                           <BookType size={24} />
@@ -157,24 +157,24 @@ export default function GradePage() {
               </>
             )}
           </>
-        ) : (
-          <>
-            <div className="flex items-center gap-3 mb-8">
-              <button
-                onClick={() => { setShowSections(false); setSelectedStream(null); }}
-                className="flex items-center gap-1 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
-              >
-                <ArrowLeft size={16} className="rotate-180" />
-                الرجوع للشعب
-              </button>
-            </div>
+         ) : (
+           <>
+             <div className="flex items-center gap-3 mb-6 sm:mb-8">
+               <button
+                 onClick={() => { setShowSections(false); setSelectedStream(null); }}
+                 className="flex items-center gap-1 text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+               >
+                 <ArrowLeft size={16} className="rotate-180" />
+                 الرجوع للشعب
+               </button>
+             </div>
 
-            <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-3">
-              {selectedStream === "literary" ? "المحتوى الدراسي - شعبة أدبية" : "المحتوى الدراسي - شعبة علمية"}
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-8">اختر القسم الذي تريد تصفحه</p>
+             <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2 sm:mb-3">
+               {selectedStream === "literary" ? "المحتوى الدراسي - شعبة أدبية" : "المحتوى الدراسي - شعبة علمية"}
+             </h2>
+             <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 sm:mb-8">اختر القسم الذي تريد تصفحه</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8 sm:mb-10">
               {sections
                 .filter((s) => isScientific || !s.onlyScientific)
                 .map((section) => {
@@ -183,7 +183,7 @@ export default function GradePage() {
                     <Link
                       key={section.id}
                       href={`/grade/${grade}/${section.id}`}
-                      className="group bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4"
+                      className="group bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-6 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col gap-3 sm:gap-4"
                     >
                       <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 transition-colors">
                         <Icon size={22} className="text-orange-500" />

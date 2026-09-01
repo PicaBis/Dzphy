@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Download, Calendar, Layers, GraduationCap, Tag, Search, CalendarRange, FileText, ChevronLeft } from "lucide-react";
@@ -10,6 +10,19 @@ import {
   categories,
   type DistributionResource,
 } from "@/data/distributions";
+
+function getInitialUrlState() {
+  if (typeof window === "undefined") {
+    return { level: "الكل", category: "الكل" };
+  }
+  const params = new URLSearchParams(window.location.search);
+  const l = params.get("level");
+  const c = params.get("category");
+  return {
+    level: l && levels.includes(l as any) ? l : "الكل",
+    category: c && categories.includes(c as any) ? c : "الكل",
+  };
+}
 
 const levelColor: Record<string, string> = {
   "السنة الأولى ثانوي": "from-blue-500 to-blue-700",
@@ -82,19 +95,11 @@ function DistributionCard({ item, index }: { item: DistributionResource; index: 
 }
 
 export default function DistributionsPage() {
-  const [level, setLevel] = useState<string>("الكل");
+  const initial = getInitialUrlState();
+  const [level, setLevel] = useState<string>(initial.level);
   const [stream, setStream] = useState<string>("الكل");
-  const [category, setCategory] = useState<string>("الكل");
+  const [category, setCategory] = useState<string>(initial.category);
   const [query, setQuery] = useState("");
-
-  // Pre-apply ?level= / ?category= from the URL (e.g. coming from a grade page)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const l = params.get("level");
-    const c = params.get("category");
-    if (l && (levels as string[]).includes(l)) setLevel(l);
-    if (c && (categories as string[]).includes(c)) setCategory(c);
-  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { BookOpen, FileText, ClipboardList, Download, Eye, ArrowLeft, Calendar } from "lucide-react";
 import { latestContent } from "@/data/content";
 
-const typeConfig: Record<string, { label: string; color: string; icon: any }> = {
+const typeConfig: Record<string, { label: string; color: string; icon: React.ComponentType<{ size?: number; className?: string }> }> = {
   resume: { label: "ملخص", color: "bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400", icon: BookOpen },
   exercise: { label: "تمارين", color: "bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400", icon: FileText },
   devoir: { label: "فرض", color: "bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400", icon: ClipboardList },
@@ -26,13 +26,13 @@ export default function LatestContent() {
           <Link href="/grade/3/resumes" className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border border-orange-200 dark:border-orange-500/30 hover:border-orange-400 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10">عرض الكل <ArrowLeft size={16} /></Link>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {latestContent.map((item, i) => {
             const config = typeConfig[item.type];
             const Icon = config.icon;
             return (
-              <motion.div key={item.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="group bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              <motion.div key={item.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
+                className="group bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-11 h-11 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 transition-colors">

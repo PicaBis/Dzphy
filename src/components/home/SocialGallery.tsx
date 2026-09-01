@@ -52,14 +52,13 @@ export function SocialGallery() {
     const Icon = v.platform === "tiktok" ? TikTokIcon : InstagramIcon;
     return (
       <motion.a
-        key={v.id}
         href={v.url}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: i * 0.05 }}
-        className="group block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+        transition={{ delay: i * 0.05, ease: "easeOut" }}
+        className="group block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
       >
         <div className="relative aspect-[9/16] sm:aspect-[3/4] bg-gray-900 overflow-hidden">
           <img
@@ -99,33 +98,33 @@ export function SocialGallery() {
   return (
     <>
       {/* TikTok */}
-      <section className="mb-14">
-        <div className="flex items-center gap-3 mb-6">
+      <section className="mb-10 sm:mb-14">
+        <div className="flex items-center gap-3 mb-4 sm:mb-6">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-white">
             <TikTokIcon className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-2xl font-black text-gray-900 dark:text-white">أهم فيديوهات التيك توك</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">أفكار سريعة ومقاطع مختارة من @profpica</p>
+            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">أهم فيديوهات التيك توك</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">أفكار سريعة ومقاطع مختارة من @profpica</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {tiktok.map((v, i) => renderCard(v, i))}
         </div>
       </section>
 
       {/* Instagram */}
-      <section className="mb-14">
-        <div className="flex items-center gap-3 mb-6">
+      <section className="mb-10 sm:mb-14">
+        <div className="flex items-center gap-3 mb-4 sm:mb-6">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-fuchsia-500 via-pink-500 to-orange-400 flex items-center justify-center text-white">
             <InstagramIcon className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-2xl font-black text-gray-900 dark:text-white">أحدث منشورات إنستغرام</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">آخر ريلز ومنشورات من @prof_pica</p>
+            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">أحدث منشورات إنستغرام</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">آخر ريلز ومنشورات من @prof_pica</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {instagramPosts.map((v, i) => renderCard(v, i))}
         </div>
       </section>

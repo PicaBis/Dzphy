@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Search, Download, Eye, Heart, Filter, ChevronLeft, ChevronRight, BookOpen, Calendar, Tag } from "lucide-react";
+import { Search, Download, Eye, Heart, ChevronLeft, ChevronRight, BookOpen, Calendar, Tag } from "lucide-react";
 
 interface ContentItem {
   id: string;
@@ -96,11 +96,11 @@ export default function ContentPage({ grade, section, sectionLabel, items, grade
             <p className="text-gray-500 dark:text-gray-400 text-lg font-semibold">لا توجد نتائج</p>
             <p className="text-gray-400 dark:text-gray-500 text-sm">جرب كلمات بحث مختلفة</p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+         ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-6 sm:mb-8">
             {paginated.map((item, i) => (
-              <motion.div key={item.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group"
+              <motion.div key={item.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06, ease: "easeOut" }}
+                className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 transition-colors">

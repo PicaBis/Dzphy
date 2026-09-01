@@ -80,9 +80,9 @@ export default function AdminPage() {
       <aside className="w-64 bg-gray-950 text-white flex-shrink-0 flex flex-col">
         <div className="p-5 border-b border-gray-800">
           <div className="flex items-center gap-2">
-            <div className="relative w-8 h-8">
-              <Image src="/logo.png" alt="logo" fill className="object-contain" />
-            </div>
+              <div className="relative w-8 h-8">
+                <Image src="/logo.png" alt="logo" width={32} height={32} sizes="32px" className="object-contain" />
+              </div>
             <span className="font-black text-lg">
               <span className="text-orange-500">Dz</span>Phy
             </span>

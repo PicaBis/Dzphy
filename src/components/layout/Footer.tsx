@@ -13,6 +13,7 @@ const quickLinks = [
   { label: "السنة الثانية ثانوي", href: "/grade/2" },
   { label: "السنة الثالثة ثانوي", href: "/grade/3" },
   { label: "الدورات التعليمية", href: "/courses" },
+  { label: "حقيبة الأستاذ", href: "/teacher" },
   { label: "تابعونا", href: "/follow" },
 ];
 
@@ -21,7 +22,7 @@ export default function Footer() {
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSent(true);
     setTimeout(() => setSent(false), 3000);
@@ -31,12 +32,12 @@ export default function Footer() {
 
   return (
     <footer className="bg-gray-950 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="relative w-10 h-10">
-                <Image src="/logo.png" alt="DzPhy Logo" fill className="object-contain" />
+                <Image src="/logo.png" alt="DzPhy Logo" width={40} height={40} sizes="40px" className="object-contain" />
               </div>
               <span className="text-xl font-black">
                 <span className="text-orange-500">Dz</span>
@@ -63,8 +64,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-bold text-lg mb-5 flex items-center gap-2">
-              <span className="w-1 h-5 bg-orange-500 rounded-full inline-block" />
+            <h3 className="text-white font-bold text-base sm:text-lg mb-3 sm:mb-5 flex items-center gap-2">
+              <span className="w-1 h-4 sm:h-5 bg-orange-500 rounded-full inline-block" />
               روابط سريعة
             </h3>
             <ul className="space-y-2.5">
@@ -80,8 +81,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-bold text-lg mb-5 flex items-center gap-2">
-              <span className="w-1 h-5 bg-orange-500 rounded-full inline-block" />
+            <h3 className="text-white font-bold text-base sm:text-lg mb-3 sm:mb-5 flex items-center gap-2">
+              <span className="w-1 h-4 sm:h-5 bg-orange-500 rounded-full inline-block" />
               تواصل معنا
             </h3>
             <ul className="space-y-3 mb-6">
@@ -105,17 +106,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-bold text-lg mb-5 flex items-center gap-2">
-              <span className="w-1 h-5 bg-orange-500 rounded-full inline-block" />
+            <h3 className="text-white font-bold text-base sm:text-lg mb-3 sm:mb-5 flex items-center gap-2">
+              <span className="w-1 h-4 sm:h-5 bg-orange-500 rounded-full inline-block" />
               أرسل رسالة
             </h3>
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3">
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="بريدك الإلكتروني" required
-                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all" />
+                className="w-full px-3 sm:px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-xs sm:text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all" />
               <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="رسالتك..." required rows={3}
-                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none" />
+                className="w-full px-3 sm:px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-xs sm:text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none" />
               <button type="submit"
-                className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${sent ? "bg-green-500 text-white" : "bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg hover:shadow-orange-900/30"}`}
+                className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${sent ? "bg-green-500 text-white" : "bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg hover:shadow-orange-900/30"}`}
               >
                 {sent ? "✓ تم الإرسال بنجاح!" : <><Send size={14} />إرسال</>}
               </button>
@@ -125,8 +126,8 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-500 text-sm">© 2026 <span className="text-orange-500 font-semibold">DzPhy</span> - جميع الحقوق محفوظة</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
+          <p className="text-gray-500 text-xs sm:text-sm">© 2026 <span className="text-orange-500 font-semibold">DzPhy</span> - جميع الحقوق محفوظة</p>
           <p className="text-gray-600 text-xs">صُمِّم ب ❤️ للطالب الجزائري</p>
         </div>
       </div>

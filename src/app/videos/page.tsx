@@ -12,8 +12,9 @@ import {
   RefreshCw,
   AlertCircle,
 } from "lucide-react";
-import { playlists, type PlaylistLevelKey } from "@/data/playlists";
+import { type PlaylistLevelKey } from "@/data/playlists";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
+import { PlaylistCardSkeleton } from "@/components/ui/Skeletons";
 
 const YT = ({ s = 18 }: { s?: number }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}>
@@ -62,7 +63,7 @@ export default function VideosPage() {
   };
 
   useEffect(() => {
-    load(level);
+    void load(level);
   }, [level]);
 
   return (
@@ -86,14 +87,14 @@ export default function VideosPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* Level filter */}
-        <div className="flex flex-wrap items-center gap-2 mb-8">
+        <div className="flex flex-wrap items-center gap-2 mb-6 sm:mb-8">
           {levelFilters.map((f) => (
             <button
               key={f.key}
               onClick={() => setLevel(f.key)}
-              className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-all border ${
+              className={`px-3 sm:px-4 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${
                 level === f.key
                   ? "bg-red-500 text-white border-red-500 shadow-sm"
                   : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-100 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
@@ -105,9 +106,9 @@ export default function VideosPage() {
         </div>
 
         {loading && (
-          <div className="flex flex-col items-center justify-center py-24 gap-3">
-            <RefreshCw size={36} className="text-red-400 animate-spin" />
-            <p className="text-gray-500 dark:text-gray-400 font-semibold">جارٍ جلب أحدث الفيديوهات من يوتيوب...</p>
+          <div className="flex flex-col items-center justify-center py-16 sm:py-24 gap-3">
+            <RefreshCw size={32} className="text-red-400 animate-spin" />
+            <p className="text-gray-500 dark:text-gray-400 font-semibold text-sm sm:text-base">جارٍ جلب أحدث الفيديوهات من يوتيوب...</p>
           </div>
         )}
 
@@ -126,9 +127,9 @@ export default function VideosPage() {
         )}
 
         {!loading && !error && data && data.length === 0 && (
-          <div className="text-center py-20">
-            <ListVideo size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-            <p className="text-gray-500 dark:text-gray-400 text-lg font-semibold">لا توجد قوائم في هذا المستوى بعد</p>
+          <div className="text-center py-16 sm:py-20">
+            <ListVideo size={40} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+            <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg font-semibold">لا توجد قوائم في هذا المستوى بعد</p>
           </div>
         )}
 
@@ -173,8 +174,8 @@ export default function VideosPage() {
                   </div>
                 </div>
 
-                {/* Videos grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                 {/* Videos grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                   {pl.videos.map((v, i) => (
                     <motion.a
                       key={v.id}
@@ -214,10 +215,6 @@ export default function VideosPage() {
                 </div>
               </section>
             ))}
-
-            <p className="text-center text-xs text-gray-400 dark:text-gray-500 pb-6">
-              المحتوى يُجلب مباشرة من قناتك على يوتيوب ويتحدّث تلقائيًا عند إضافة أي فيديو جديد.
-            </p>
           </div>
         )}
       </div>

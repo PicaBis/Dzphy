@@ -39,11 +39,11 @@ export default function FollowPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Main platforms */}
-        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">المنصات الرسمية</h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">قنوات المتابعة اليومية للأستاذ بيكا</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+        <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2">المنصات الرسمية</h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 sm:mb-6">قنوات المتابعة اليومية للأستاذ بيكا</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-14">
           {socialLinks.map((p, i) => {
             const Icon = socialIconMap[p.platform];
             return (
@@ -70,9 +70,9 @@ export default function FollowPage() {
         </div>
 
         {/* Organized communities (Telegram folder + Messenger/WhatsApp communities) */}
-        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">المجتمعات المنظمة</h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">مجلدات القنوات ومجتمعات النقاش — ملفات وروح فريق واحد</p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
+        <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2">المجتمعات المنظمة</h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 sm:mb-6">مجلدات القنوات ومجتمعات النقاش — ملفات وروح فريق واحد</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-14">
           {organizedCommunities.map((p, i) => {
             const Icon = socialIconMap[p.platform];
             return (
@@ -102,9 +102,9 @@ export default function FollowPage() {
         <SocialGallery />
 
         {/* Community chat groups */}
-        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">مجموعات التواصل حسب مستواك</h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">دردشات مباشرة على إنستغرام وماسنجر حسب القسم الدراسي</p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
+        <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2">مجموعات التواصل حسب مستواك</h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 sm:mb-6">دردشات مباشرة على إنستغرام وماسنجر حسب القسم الدراسي</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-14">
           {communityGroups.map((group, gi) => (
             <motion.div
               key={group.level}

@@ -133,13 +133,15 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("ar");
+  const [lang, setLang] = useState<Lang>(() => {
+    if (typeof window === "undefined") return "ar";
+    const stored = localStorage.getItem("dzphy-lang") as Lang | null;
+    return stored || "ar";
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("dzphy-lang") as Lang | null;
-    if (stored) setLang(stored);
   }, []);
 
   const changeLang = (l: Lang) => {

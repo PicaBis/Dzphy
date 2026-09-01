@@ -2,10 +2,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Play, ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
+import { Play, ArrowLeft, AlertCircle } from "lucide-react";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
 import { tiktokVideos, type SocialVideo } from "@/data/social";
 import type { TikTokEnriched } from "@/lib/tiktok";
+import { PlaylistCardSkeleton } from "@/components/ui/Skeletons";
 
 const YT = ({ s = 16, c = "" }: { s?: number; c?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s} className={c}><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
@@ -65,9 +66,9 @@ export default function VideosSection() {
   }, []);
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-950">
+    <section className="py-12 sm:py-20 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} className="mb-10 sm:mb-14 flex flex-col sm:items-end sm:justify-between gap-4">
           <div>
             <span className="inline-block bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 px-4 py-1.5 rounded-full text-sm font-bold mb-3">الفيديوهات التعليمية</span>
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">تعلم بالفيديو <span className="text-orange-500">مجانا</span></h2>
@@ -93,8 +94,10 @@ export default function VideosSection() {
           </div>
 
           {loading && (
-            <div className="flex items-center justify-center gap-2 py-16 text-gray-400 dark:text-gray-500">
-              <RefreshCw size={20} className="animate-spin" /> جارٍ جلب الفيديوهات...
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <PlaylistCardSkeleton key={i} />
+              ))}
             </div>
           )}
 
@@ -109,16 +112,16 @@ export default function VideosSection() {
           )}
 
           {!loading && !error && data && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {data.slice(0, 6).map((pl, i) => (
                 <motion.a
                   key={pl.id}
                   href={`/videos?level=${pl.levelKey}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="group block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl hover:border-red-200 dark:hover:border-red-500/30 transition-all duration-300 hover:-translate-y-1"
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ delay: i * 0.08, ease: "easeOut" }}
+                  className="group block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl hover:border-red-200 dark:hover:border-red-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                 >
                   <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${pl.gradient}`}>
                     <img
@@ -169,9 +172,9 @@ export default function VideosSection() {
               <a href="https://www.tiktok.com/@profpica" target="_blank" rel="noopener noreferrer" className="text-gray-900 dark:text-white hover:underline">@profpica</a>
             </h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {tiktok.map((v, i) => (
-              <motion.a key={v.id} href={v.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="group relative aspect-[9/16] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <motion.a key={v.id} href={v.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-20px" }} transition={{ delay: i * 0.06, ease: "easeOut" }} className="group relative aspect-[9/16] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-[0.97]">
                 <img src={v.thumbnail} alt={v.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" onError={(e) => { const fb = v.localThumb; if (fb && e.currentTarget.src !== fb) e.currentTarget.src = fb; }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20 flex flex-col justify-end p-3">
                   <p className="text-white text-[11px] font-bold leading-tight line-clamp-2 drop-shadow">{v.title}</p>

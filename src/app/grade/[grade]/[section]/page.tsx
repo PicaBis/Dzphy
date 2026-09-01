@@ -65,14 +65,14 @@ export default async function SectionPage({
   }
 
   const content = gradeContent[grade as keyof typeof gradeContent];
-  const items = content?.[config.dataKey as keyof typeof content] || [];
+  const items = content?.[config.dataKey as keyof typeof content] ?? [];
 
   return (
     <ContentPage
       grade={grade}
       section={section}
       sectionLabel={config.label}
-      items={items as any}
+      items={items}
       gradeLabel={gradeLabel}
       description={config.description}
       color={gradeColors[grade]}

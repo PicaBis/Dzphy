@@ -1,8 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import { Award, BookOpen, Zap } from "lucide-react";
+import { Award, Zap } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/share/191btmBHho/", color: "hover:bg-blue-600" },
@@ -13,18 +12,18 @@ const socialLinks = [
 
 export default function AboutSection() {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="text-center mb-10 sm:mb-14"
         >
           <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
             من نحن؟
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-4">
             التيم وراء <span className="text-orange-500">DzPhy</span>
           </h2>
         </motion.div>
@@ -44,6 +43,7 @@ export default function AboutSection() {
                     alt="Medjahed Abdelhadi"
                     width={128}
                     height={128}
+                    sizes="(max-width: 640px) 128px, (max-width: 768px) 128px, 128px"
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -85,7 +85,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white mt-6 text-center"
+            className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-5 sm:p-6 text-white mt-4 sm:mt-6 text-center"
           >
             <Zap size={24} className="mx-auto mb-3" />
             <h4 className="font-black text-lg mb-2">رسالتنا</h4>

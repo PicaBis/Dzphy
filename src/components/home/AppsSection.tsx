@@ -26,12 +26,12 @@ export default function AppsSection() {
           <p className="text-gray-400 max-w-xl mx-auto">تطبيقات ذكية مصممة خصيصا لمساعدة الطالب الجزائري على فهم الفيزياء بطريقة تفاعلية</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {apps.map((app, i) => {
             const Icon = appIcons[i];
             return (
-              <motion.div key={app.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="group relative bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-900/20"
+              <motion.div key={app.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
+                className="group relative bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] hover:shadow-2xl hover:shadow-orange-900/20"
               >
                 {app.badge && <div className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full z-10">{app.badge}</div>}
                 <div className={`h-32 bg-gradient-to-br ${appColors[i]} flex items-center justify-center relative overflow-hidden`}>
