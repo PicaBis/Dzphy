@@ -66,7 +66,7 @@ export default function SplashScreen() {
     setShowSplash(false);
     setTimeout(() => {
       window.location.href = href;
-    }, 300);
+    }, 600);
   }, [router]);
 
   const handleRoleSelect = (selected: Role) => {
