@@ -45,7 +45,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              منصة الفيزياء الجزائرية الأولى التي تجمع كل ما يحتاجه الطالب في مكان واحد.
+              منصة الأستاذ بيكا للفيزياء - منصة تعليمية جزائرية تجمع كل ما يحتاجه الطالب في مكان واحد.
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               {socialLinks.map((social) => {
@@ -127,7 +127,7 @@ export default function Footer() {
 
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
-          <p className="text-gray-500 text-xs sm:text-sm">© 2026 <span className="text-orange-500 font-semibold">DzPhy</span> - جميع الحقوق محفوظة</p>
+          <p className="text-gray-500 text-xs sm:text-sm">© 2026 <span className="text-orange-500 font-semibold">منصة الأستاذ بيكا للفيزياء</span> - جميع الحقوق محفوظة</p>
           <p className="text-gray-600 text-xs">صُمِّم ب ❤️ للطالب الجزائري</p>
         </div>
       </div>

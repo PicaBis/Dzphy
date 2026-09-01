@@ -84,7 +84,7 @@ export default function AdminPage() {
                 <Image src="/logo.png" alt="logo" width={32} height={32} sizes="32px" className="object-contain" />
               </div>
             <span className="font-black text-lg">
-              <span className="text-orange-500">Dz</span>Phy
+              <span className="text-orange-500">بيكا</span>
             </span>
           </div>
           <p className="text-gray-500 text-xs mt-1">لوحة التحكم</p>
@@ -130,7 +130,7 @@ export default function AdminPage() {
               <h1 className="text-2xl font-black text-gray-900">
                 {sidebarItems.find((s) => s.id === activeSection)?.label}
               </h1>
-              <p className="text-gray-500 text-sm">إدارة محتوى موقع DzPhy</p>
+              <p className="text-gray-500 text-sm">إدارة محتوى موقع منصة الأستاذ بيكا للفيزياء</p>
             </div>
             {activeSection !== "dashboard" && (
               <button

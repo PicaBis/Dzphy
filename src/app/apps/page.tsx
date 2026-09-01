@@ -17,7 +17,7 @@ export default function AppsPage() {
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-black mb-3">التطبيقات والبرامج</h1>
-          <p className="text-gray-400 text-lg max-w-2xl">أدوات DzPhy الذكية — محاكيات تفاعلية وحاسبات فيزيائية</p>
+          <p className="text-gray-400 text-lg max-w-2xl">أدوات منصة الأستاذ بيكا الذكية — محاكيات تفاعلية وحاسبات فيزيائية</p>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

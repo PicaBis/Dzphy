@@ -3,8 +3,8 @@ export default function jsonLd(): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "DzPhy",
-    alternateName: "منصة DzPhy للفيزياء",
+    name: "منصة الأستاذ بيكا للفيزياء",
+    alternateName: "منصة الأستاذ بيكا للفيزياء",
     description: "منصة تعليمية جزائرية للفيزياء للطلاب الثانوي",
     url: "https://dzphy.vercel.app",
     inLanguage: "ar-DZ",

@@ -4,16 +4,17 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SplashScreen from "@/components/splash/SplashScreen";
 import jsonLd from "./json-ld";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dzphy.vercel.app"),
   title: {
-    default: "DzPhy - منصة الفيزياء الجزائرية",
-    template: "%s | DzPhy",
+    default: "منصة الأستاذ بيكا للفيزياء",
+    template: "%s | منصة الأستاذ بيكا للفيزياء",
   },
-  description: "منصة DzPhy التعليمية الجزائرية للفييزياء - ملخصات، تمارين محلولة، فروض واختبارات، دورات تعليمية، وتطبيقات ذكية لطلاب الثانوي",
-  keywords: ["فيزياء", "جزائر", "ثانوي", "ملخصات", "تمارين", "دروس", "DzPhy", "الأستاذ بيكا", "Medjahed Abdelhadi"],
+  description: "منصة الأستاذ بيكا للفيزياء التعليمية الجزائرية — ملخصات، تمارين محلولة، فروض واختبارات، دورات تعليمية، وتطبيقات ذكية لطلاب الثانوي",
+  keywords: ["فيزياء", "جزائر", "ثانوي", "ملخصات", "تمارين", "دروس", "الأستاذ بيكا", "Medjahed Abdelhadi", "بيكا"],
   authors: [{ name: "Medjahed Abdelhadi", url: "https://github.com/PicaBis" }],
   creator: "Medjahed Abdelhadi",
   publisher: "Medjahed Abdelhadi",
@@ -29,25 +30,25 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "DzPhy - منصة الفيزياء الجزائرية",
-    description: "تعلم الفيزياء بذكاء مع DzPhy - ملخصات وتمارين وفروض لكل المستويات",
+    title: "منصة الأستاذ بيكا للفيزياء",
+    description: "تعلم الفيزياء بذكاء مع الأستاذ بيكا - ملخصات وتمارين وفروض لكل المستويات",
     type: "website",
     locale: "ar_DZ",
     url: "https://dzphy.vercel.app",
-    siteName: "DzPhy",
+    siteName: "منصة الأستاذ بيكا للفيزياء",
     images: [
       {
         url: "/logo.png",
         width: 512,
         height: 512,
-        alt: "DzPhy Logo",
+        alt: "منصة الأستاذ بيكا للفيزياء",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "DzPhy - منصة الفيزياء الجزائرية",
-    description: "تعلم الفيزياء بذكاء مع DzPhy",
+    title: "منصة الأستاذ بيكا للفيزياء",
+    description: "تعلم الفيزياء بذكاء مع الأستاذ بيكا",
     images: ["/logo.png"],
   },
   icons: {
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <ThemeProvider>
           <LanguageProvider>
+            <SplashScreen />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />

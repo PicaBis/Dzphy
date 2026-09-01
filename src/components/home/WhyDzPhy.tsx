@@ -16,8 +16,8 @@ export default function WhyDzPhy() {
     <section className="py-20 bg-white dark:bg-gray-950 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">لماذا DzPhy؟</span>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-4">ما يجعل <span className="text-orange-500">DzPhy</span> مختلفة</h2>
+          <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">لماذا منصة الأستاذ بيكا للفيزياء؟</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-4">ما يجعل <span className="text-orange-500">منصة الأستاذ بيكا</span> مختلفة</h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">لسنا مجرد موقع تعليمي - نحن منظومة متكاملة لتعلم الفيزياء بالطريقة الصحيحة</p>
         </motion.div>
 

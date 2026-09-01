@@ -2,13 +2,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BookOpen, BarChart2, Tag, Filter } from "lucide-react";
+import { BookOpen, BarChart2, Tag, Filter, Lock } from "lucide-react";
 import { courses } from "@/data/content";
 
 const filters = ["الكل", "مجاني", "مدفوع", "ميكانيكا", "كهرباء", "بصريات"];
 
 export default function CoursesPage() {
   const [active, setActive] = useState("الكل");
+  const [lockedCourse, setLockedCourse] = useState<string | null>(null);
 
   const filtered = courses.filter((c) => {
     if (active === "الكل") return true;
@@ -60,17 +61,26 @@ export default function CoursesPage() {
               transition={{ delay: i * 0.08 }}
               className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-orange-200 transition-all duration-300 hover:-translate-y-1 flex flex-col"
             >
-              <div className="relative h-40 bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-                <BookOpen size={36} className="text-white/60" />
+              <div className="relative h-40 bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center overflow-hidden">
+                {course.image && !course.image.startsWith("/courses/") ? (
+                  <img src={course.image} alt={course.title} className="absolute inset-0 w-full h-full object-cover" />
+                ) : (
+                  <BookOpen size={36} className="text-white/60" />
+                )}
                 <div className="absolute top-3 right-3">
                   {course.type === "free" ? (
                     <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">مجاني</span>
                   ) : (
                     <span className="bg-orange-800 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                      <Tag size={10} />{course.price} دج
+                      <Lock size={10} />{course.price} دج
                     </span>
                   )}
                 </div>
+                {course.type === "paid" && (
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <Lock size={40} className="text-white" />
+                  </div>
+                )}
               </div>
               <div className="p-5 flex flex-col flex-1">
                 <span className="text-xs font-bold bg-orange-50 text-orange-600 px-2.5 py-1 rounded-full inline-block mb-2">{course.category}</span>
@@ -80,14 +90,67 @@ export default function CoursesPage() {
                   <span className="flex items-center gap-1"><BookOpen size={12} className="text-orange-400"/>{course.lessons} درس</span>
                   <span className="flex items-center gap-1"><BarChart2 size={12} className="text-orange-400"/>{course.level}</span>
                 </div>
-                <Link href={`/courses/${course.id}`} className="flex items-center justify-center py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all">
-                  {course.type === "free" ? "ابدأ مجانًا" : "التسجيل"}
-                </Link>
+                {course.type === "free" ? (
+                  <a
+                    href={course.image.startsWith("https://i.ytimg.com") ? `https://www.youtube.com/@ProfPica` : "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all"
+                  >
+                    ابدأ مجانًا
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => setLockedCourse(course.id)}
+                    className="flex items-center justify-center gap-2 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-xl text-sm font-bold transition-all hover:bg-gray-200 dark:hover:bg-gray-600"
+                  >
+                    <Lock size={14} />
+                    مقفول
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {lockedCourse && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-gray-100 dark:border-gray-700"
+          >
+            <div className="text-center">
+              <div className="w-16 h-16 rounded-full bg-orange-100 dark:bg-orange-500/20 flex items-center justify-center mx-auto mb-4">
+                <Lock size={28} className="text-orange-500" />
+              </div>
+              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-3">
+                تواصل مع الأستاذ
+              </h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
+                لمزيد من المعلومات وإعطائك رابط الدخول إلى الدورة المدفوعة، يرجى التواصل مع الأستاذ بيكا مباشرة.
+              </p>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="https://www.tiktok.com/@profpica"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold transition-all"
+                >
+                  تواصل مع الأستاذ
+                </a>
+                <button
+                  onClick={() => setLockedCourse(null)}
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-sm font-semibold transition-all py-2"
+                >
+                  إغلاق
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

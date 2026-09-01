@@ -6,7 +6,7 @@ export default function AboutPage() {
       <div className="bg-gradient-to-br from-orange-500 to-orange-700 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl sm:text-4xl font-black mb-2 sm:mb-3">من نحن؟</h1>
-          <p className="text-orange-100 text-base sm:text-lg">تعرف على الفريق وراء منصة DzPhy</p>
+          <p className="text-orange-100 text-base sm:text-lg">تعرف على الأستاذ بيكا ومنصة الأستاذ بيكا للفيزياء</p>
         </div>
       </div>
       <AboutSection />

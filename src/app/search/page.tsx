@@ -69,7 +69,7 @@ function SearchInner() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
       <div className="bg-gradient-to-br from-orange-500 to-orange-700 py-14 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">ابحث في DzPhy</h1>
+          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">ابحث في منصة الأستاذ بيكا للفيزياء</h1>
           <p className="text-orange-100 mb-7 text-sm sm:text-base">
             دروس، ملخصات، تمارين، فروض، فيديوهات، دورات وتوزيعات — كل المحتوى في مكان واحد
           </p>

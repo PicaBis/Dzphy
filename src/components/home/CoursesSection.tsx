@@ -1,10 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BookOpen, BarChart2, ArrowLeft, Tag } from "lucide-react";
+import { BookOpen, BarChart2, ArrowLeft, Tag, Play, Lock } from "lucide-react";
 import { courses } from "@/data/content";
+import { playlists } from "@/data/playlists";
 
 export default function CoursesSection() {
+  const freeCourses = courses.filter((c) => c.type === "free");
+  const paidCourses = courses.filter((c) => c.type === "paid");
+
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,41 +20,89 @@ export default function CoursesSection() {
           <Link href="/courses" className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border border-orange-200 dark:border-orange-500/30 hover:border-orange-400 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10">كل الدورات <ArrowLeft size={16} /></Link>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {courses.map((course, i) => (
-            <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-              className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
-            >
-              <div className="relative h-40 bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center overflow-hidden">
-                <BookOpen size={40} className="text-white/70" />
-                <div className="absolute top-3 right-3">
-                  {course.type === "free" ? (
-                    <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">مجاني</span>
+        <div className="mb-16">
+          <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">دورات مجانية</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {freeCourses.map((course, i) => (
+              <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
+                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
+              >
+                <div className="relative h-40 overflow-hidden bg-gray-900">
+                  {course.image && course.image.startsWith("https://i.ytimg.com") ? (
+                    <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                   ) : (
-                    <span className="bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1"><Tag size={10} />{course.price} دج</span>
+                    <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                      <BookOpen size={40} className="text-white/70" />
+                    </div>
                   )}
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">مجاني</span>
+                  </div>
                 </div>
-              </div>
-              <div className="p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-bold bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2.5 py-1 rounded-full">{course.category}</span>
+                <div className="p-5 flex flex-col flex-1">
+                  <span className="text-xs font-bold bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2.5 py-1 rounded-full mb-2">{course.category}</span>
+                  <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2 flex-1">{course.title}</h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">{course.description}</p>
+                  <a
+                    href="https://www.youtube.com/@ProfPica"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all"
+                  >
+                    <Play size={14} />
+                    مشاهدة الدورة
+                  </a>
                 </div>
-                <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2 flex-1">{course.title}</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">{course.description}</p>
-                <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500 mb-4">
-                  <span className="flex items-center gap-1"><BookOpen size={12} className="text-orange-400" />{course.lessons} درس</span>
-                  <span className="flex items-center gap-1"><BarChart2 size={12} className="text-orange-400" />{course.level}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">دورات مدفوعة</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {paidCourses.map((course, i) => (
+              <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
+                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
+              >
+                <div className="relative h-40 overflow-hidden bg-gray-900">
+                  {course.image && !course.image.startsWith("https://i.ytimg.com") ? (
+                    <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                      <BookOpen size={40} className="text-white/70" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                      <Tag size={28} className="text-white" />
+                    </div>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-orange-800 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                      <Lock size={10} />{course.price} دج
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-50 dark:border-gray-700">
-                  <div className="w-7 h-7 rounded-full bg-orange-100 dark:bg-orange-500/20 flex items-center justify-center text-xs font-bold text-orange-600 dark:text-orange-400">أ</div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{course.instructor}</span>
+                <div className="p-5 flex flex-col flex-1">
+                  <span className="text-xs font-bold bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2.5 py-1 rounded-full mb-2">{course.category}</span>
+                  <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2 flex-1">{course.title}</h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">{course.description}</p>
+                  <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500 mb-4">
+                    <span className="flex items-center gap-1"><BookOpen size={12} className="text-orange-400" />{course.lessons} درس</span>
+                    <span className="flex items-center gap-1"><BarChart2 size={12} className="text-orange-400" />{course.level}</span>
+                  </div>
+                  <button
+                    onClick={() => alert("تواصل مع الأستاذ لمزيد من المعلومات وإعطائك رابط الدخول.")}
+                    className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-xl text-sm font-bold transition-all hover:bg-gray-200 dark:hover:bg-gray-600"
+                  >
+                    <Lock size={14} />
+                    مقفول
+                  </button>
                 </div>
-                <Link href={`/courses/${course.id}`} className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all">
-                  {course.type === "free" ? "ابدأ مجانا" : "التسجيل في الدورة"}
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

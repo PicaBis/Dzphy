@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { BookOpen, FileText, ClipboardList, ArrowLeft } from "lucide-react";
 
 const teacherResources = [
@@ -17,7 +18,7 @@ export default function TeacherPage() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
           {teacherResources.map((r, i) => {
             const Icon = r.icon;
             return (
@@ -33,6 +34,43 @@ export default function TeacherPage() {
               </Link>
             );
           })}
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-6 text-center">
+            📱 تواصل مع الأستاذ عبر تلغرام
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-8 max-w-2xl mx-auto">
+            انضم إلى قناة التلغرام للحصول على آخر التحديثات والملفات والتمارين
+          </p>
+          <div className="flex flex-col items-center gap-6">
+            <a
+              href="https://t.me/addlist/zyYD4lHlYudlNzQ8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block"
+            >
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-500/20 shadow-2xl hover:shadow-orange-200 dark:hover:shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1">
+                <Image
+                  src="/about/telegram.png"
+                  alt="قناة التلغرام - الأستاذ بيكا"
+                  width={320}
+                  height={320}
+                  sizes="(max-width: 640px) 256px, 320px"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            </a>
+            <a
+              href="https://t.me/addlist/zyYD4lHlYudlNzQ8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              انضم إلى القناة
+              <ArrowLeft size={16} />
+            </a>
+          </div>
         </div>
       </div>
     </div>

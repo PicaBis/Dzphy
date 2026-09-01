@@ -30,7 +30,7 @@ export default function HeroSection() {
               className="inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 text-orange-700 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-semibold mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-              منصة الفيزياء الجزائرية #1
+                منصة الأستاذ بيكا للفيزياء
             </motion.div>
 
             <motion.h1
@@ -39,9 +39,9 @@ export default function HeroSection() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 dark:text-white leading-tight mb-5 sm:mb-6"
             >
-              منصة الفيزياء الجزائرية{" "}
+              منصة الأستاذ بيكا للفيزياء{" "}
               <span className="text-orange-500 relative">
-                التي تجمع
+                لتعليم الفيزياء
                 <svg className="absolute -bottom-2 right-0 w-full" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 8C50 3 150 3 298 8" stroke="#FF7A00" strokeWidth="3" strokeLinecap="round" />
                 </svg>
@@ -65,10 +65,10 @@ export default function HeroSection() {
               className="flex flex-wrap items-center gap-3 sm:gap-4"
             >
               <Link
-                href="/grade/3"
+                href="/about"
                 className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 shadow-lg shadow-orange-200 dark:shadow-orange-500/20 hover:shadow-orange-300 dark:hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
               >
-                ابدأ التعلم
+                من نحن؟
                 <ArrowLeft size={16} />
               </Link>
               <Link

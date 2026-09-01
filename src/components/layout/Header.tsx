@@ -93,15 +93,14 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <div className="relative w-10 h-10">
-              <Image src="/logo.png" alt="DzPhy Logo" width={40} height={40} sizes="40px" className="object-contain" />
+              <Image src="/logo.png" alt="منصة الأستاذ بيكا للفيزياء" width={40} height={40} sizes="40px" className="object-contain" />
             </div>
             <span className="text-xl font-black">
-              <span style={{ color: "#FF7A00" }}>Dz</span>
-              <span className="text-gray-900 dark:text-white">Phy</span>
+              <span style={{ color: "#FF7A00" }}>بيكا</span>
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center px-4">
             {navItems.map((item) => (
               <div
                 key={item.key}
