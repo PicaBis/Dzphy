@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SplashScreen from "@/components/splash/SplashScreen";
+import MotionProvider from "@/components/providers/MotionProvider";
 import jsonLd from "./json-ld";
 
 export const metadata: Metadata = {
@@ -81,10 +82,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <ThemeProvider>
           <LanguageProvider>
-            <SplashScreen />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <MotionProvider>
+              <SplashScreen />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </MotionProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

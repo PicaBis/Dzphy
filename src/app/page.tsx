@@ -1,5 +1,6 @@
 import HeroSection from "@/components/home/HeroSection";
 import GradeCards from "@/components/home/GradeCards";
+import PlatformGuide from "@/components/home/PlatformGuide";
 import LatestContent from "@/components/home/LatestContent";
 import AppsSection from "@/components/home/AppsSection";
 import VideosSection from "@/components/home/VideosSection";
@@ -12,10 +13,11 @@ export default function HomePage() {
     <>
       <HeroSection />
       <GradeCards />
+      <PlatformGuide />
+      <VideosSection />
       <LatestContent />
       <CoursesSection />
       <AppsSection />
-      <VideosSection />
       <WhyDzPhy />
       <AboutSection />
     </>

@@ -57,3 +57,29 @@ body {
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 .dark ::-webkit-scrollbar-track { background: #1f2937; }
 ::-webkit-scrollbar-thumb { background: #FF7A00; border-radius: 3px; }
+
+/* Prevent horizontal overflow on small screens (RTL sliders/cards). */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Accessibility: respect the user's reduced-motion preference.
+   Framer Motion reads this too (via useReducedMotion), but we also neutralise
+   CSS keyframe/transition animations so nothing moves for users who opt out.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float {
+    animation: none !important;
+  }
+}

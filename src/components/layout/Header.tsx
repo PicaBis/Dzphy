@@ -100,7 +100,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center px-4">
+          <nav className="hidden xl:flex items-center gap-0.5 flex-1 justify-center px-2 min-w-0">
             {navItems.map((item) => (
               <div
                 key={item.key}
@@ -110,7 +110,7 @@ export default function Header() {
               >
                   {item.grade ? (
                     <>
-                      <button onClick={() => router.push(buildHref(item.href, item.grade!))} className="flex items-center gap-1 px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap">
+                      <button onClick={() => router.push(buildHref(item.href, item.grade!))} className="flex items-center gap-1 px-2 py-2 text-[13px] font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap">
                         {t(item.key)}
                         <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.grade ? "rotate-180" : ""}`} />
                       </button>
@@ -148,7 +148,7 @@ export default function Header() {
                  ) : (
                   <Link
                     href={item.href}
-                    className="px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap"
+                    className="px-2 py-2 text-[13px] font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap"
                   >
                     {t(item.key)}
                   </Link>
@@ -250,7 +250,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
+            className="xl:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1 max-h-[70vh] overflow-y-auto">
               {navItems.map((item) => (

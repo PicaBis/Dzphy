@@ -36,6 +36,12 @@ export async function GET(request: NextRequest) {
     fetchChannelFeed(siteConfig.youtubeChannelId).catch(() => null),
   ]);
 
+  // IMPORTANT: every curated playlist is ALWAYS returned, even when its RSS
+  // feed momentarily fails (YouTube playlist feeds are rate-limited and flaky).
+  // Dropping playlists with 0 fetched videos was the root cause of "only one or
+  // two playlists show up / they change on refresh". A curated playlist always
+  // has a cover + a real "open on YouTube" link, so it stays useful with 0
+  // live videos. Playlists that DID load videos are surfaced first.
   const data: PlaylistResponse[] = playlists
     .filter((p: PlaylistConfig) => !level || p.levelKey === level)
     .map((p) => ({
@@ -53,7 +59,8 @@ export async function GET(request: NextRequest) {
       playlistUrl: `https://www.youtube.com/playlist?list=${p.playlistId}`,
       videos: feeds[p.playlistId]?.videos ?? [],
     }))
-    .filter((p) => p.videos.length > 0);
+    // Stable order: playlists with live videos first, otherwise keep curated order.
+    .sort((a, b) => Number(b.videos.length > 0) - Number(a.videos.length > 0));
 
   // Channel uploads appear as a "latest videos" section (all levels view only),
   // so anything newly uploaded to the channel shows up automatically — even

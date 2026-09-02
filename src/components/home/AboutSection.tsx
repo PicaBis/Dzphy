@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { Award, Sparkles } from "lucide-react";
+import ZoomableImage from "@/components/ui/ZoomableImage";
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/share/191btmBHho/", color: "hover:bg-blue-600" },
@@ -38,17 +38,19 @@ export default function AboutSection() {
           >
             <div className="flex flex-col items-center text-center gap-6">
               <div className="relative">
-                <div className="w-48 h-64 sm:w-56 sm:h-72 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-500/20 shadow-2xl">
-                  <Image
-                    src="/about/cv.png"
-                    alt="السيرة الذاتية - الأستاذ بيكا"
-                    width={280}
-                    height={360}
-                    sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, 280px"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
+                <ZoomableImage
+                  src="/about/cv.png"
+                  alt="السيرة الذاتية - الأستاذ بيكا"
+                  width={440}
+                  height={620}
+                  sizes="(max-width: 640px) 288px, (max-width: 768px) 340px, 380px"
+                  className="w-72 h-[26rem] sm:w-[21rem] sm:h-[30rem] rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-500/20 shadow-2xl"
+                  imgClassName="object-cover w-full h-full transition-transform duration-300 group-hover:scale-[1.03]"
+                />
+                <p className="mt-3 text-center text-xs font-semibold text-gray-400 dark:text-gray-500">
+                  اضغط على الصورة لتكبيرها وقراءة السيرة بوضوح
+                </p>
+                <div className="absolute top-2 -right-3 w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
                   <Award size={20} className="text-white" />
                 </div>
               </div>

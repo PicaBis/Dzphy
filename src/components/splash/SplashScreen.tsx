@@ -10,8 +10,8 @@ type Role = "student" | "teacher" | null;
 const years = [
   { id: "1", label: "السنة الأولى ثانوي", href: "/grade/1", color: "from-blue-500 to-blue-700" },
   { id: "2", label: "السنة الثانية ثانوي", href: "/grade/2", color: "from-sky-500 to-blue-700" },
-  { id: "3", label: "السنة الثالثة ثانوي (BAC)", href: "/grade/3", color: "from-amber-400 to-yellow-600" },
-  { id: "4", label: "شهادة التعليم المتوسط (BEM)", href: "/grade/4", color: "from-green-500 to-emerald-700" },
+  { id: "3", label: "السنة الثالثة ثانوي", href: "/grade/3", color: "from-amber-400 to-yellow-600" },
+  { id: "4", label: "السنة الرابعة متوسط", href: "/grade/4", color: "from-green-500 to-emerald-700" },
 ];
 
 const playClickSound = () => {

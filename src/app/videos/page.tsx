@@ -28,7 +28,7 @@ const levelFilters: { key: PlaylistLevelKey | "all"; label: string }[] = [
   { key: "3as", label: "السنة الثالثة ثانوي" },
   { key: "2as", label: "السنة الثانية ثانوي" },
   { key: "1as", label: "السنة الأولى ثانوي" },
-  { key: "bem", label: "شهادة التعليم المتوسط (BEM)" },
+  { key: "bem", label: "السنة الرابعة متوسط" },
   { key: "general", label: "أفكار ودورات" },
 ];
 
@@ -154,7 +154,7 @@ export default function VideosPage() {
                         </span>
                       </div>
                       <span className="absolute bottom-1.5 right-1.5 text-[10px] font-black bg-black/70 text-white px-2 py-0.5 rounded-lg">
-                        {pl.videos.length} فيديو
+                        {pl.videos.length > 0 ? `${pl.videos.length} فيديو` : "قائمة تشغيل"}
                       </span>
                     </div>
                     <div className="min-w-0">
@@ -174,7 +174,17 @@ export default function VideosPage() {
                   </div>
                 </div>
 
-                 {/* Videos grid */}
+                 {/* Videos grid — or a friendly note when the live feed is momentarily empty */}
+                {pl.videos.length === 0 && (
+                  <a
+                    href={pl.playlistUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 py-8 bg-white dark:bg-gray-800 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl text-sm font-bold text-red-500 hover:text-red-600 hover:border-red-300 transition-all"
+                  >
+                    <YT s={16} /> شاهد كل فيديوهات هذه القائمة على يوتيوب
+                  </a>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                   {pl.videos.map((v, i) => (
                     <motion.a

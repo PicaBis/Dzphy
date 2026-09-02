@@ -136,7 +136,7 @@ export default function VideosSection() {
                       </div>
                     </div>
                     <span className="absolute bottom-2 right-2 text-[11px] font-black bg-black/70 text-white px-2.5 py-1 rounded-lg">
-                      {pl.videos.length} فيديو
+                      {pl.videos.length > 0 ? `${pl.videos.length} فيديو` : "قائمة تشغيل"}
                     </span>
                     <span className={`absolute top-2 right-2 text-[10px] font-black ${pl.accent} bg-white/90 dark:bg-black/60 px-2 py-0.5 rounded-lg`}>
                       {pl.badge}

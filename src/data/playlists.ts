@@ -49,7 +49,7 @@ export const playlists: PlaylistConfig[] = [
     id: "bem-skills",
     title: "المكتسبات القبلية BEM",
     levelKey: "bem",
-    levelLabel: "شهادة التعليم المتوسط (BEM)",
+    levelLabel: "السنة الرابعة متوسط",
     stream: "العلوم الفيزيائية والتكنولوجيا",
     description: "دورة المكتسبات القبلية لتحضير شهادة التعليم المتوسط — الوحدات، التحويلات والقياس.",
     playlistId: "PLSWzUlE4bftk",
@@ -60,7 +60,7 @@ export const playlists: PlaylistConfig[] = [
   },
   {
     id: "3as-lessons",
-    title: "دروس السنة الثالثة ثانوي BAC",
+    title: "دروس السنة الثالثة ثانوي",
     levelKey: "3as",
     levelLabel: "السنة الثالثة ثانوي",
     stream: "العلوم الفيزيائية",
@@ -73,7 +73,7 @@ export const playlists: PlaylistConfig[] = [
   },
   {
     id: "2as-lessons",
-    title: "دروس السنة الثانية ثانوي 2AS",
+    title: "دروس السنة الثانية ثانوي",
     levelKey: "2as",
     levelLabel: "السنة الثانية ثانوي",
     stream: "العلوم الفيزيائية",
@@ -86,7 +86,7 @@ export const playlists: PlaylistConfig[] = [
   },
   {
     id: "1as-lessons",
-    title: "دروس السنة الأولى ثانوي 1AS",
+    title: "دروس السنة الأولى ثانوي",
     levelKey: "1as",
     levelLabel: "السنة الأولى ثانوي",
     stream: "العلوم الفيزيائية",
@@ -99,9 +99,9 @@ export const playlists: PlaylistConfig[] = [
   },
   {
     id: "4am-lessons",
-    title: "دروس السنة الرابعة متوسط (BEM)",
+    title: "دروس السنة الرابعة متوسط",
     levelKey: "bem",
-    levelLabel: "شهادة التعليم المتوسط (BEM)",
+    levelLabel: "السنة الرابعة متوسط",
     stream: "العلوم الفيزيائية والتكنولوجيا",
     description: "دروس الرابعة متوسط للتحضير الجيد لشهادة التعليم المتوسط.",
     playlistId: "PLEZiwx-tv7C8",
@@ -143,6 +143,6 @@ export const levelLabels: Record<PlaylistLevelKey, string> = {
   "2as": "السنة الثانية ثانوي",
   "3as": "السنة الثالثة ثانوي",
   bac: "البكالوريا",
-  bem: "شهادة التعليم المتوسط (BEM)",
+  bem: "السنة الرابعة متوسط",
   general: "عام",
 };

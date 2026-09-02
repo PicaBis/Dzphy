@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { BookOpen, FileText, ClipboardList, ArrowLeft } from "lucide-react";
+import ZoomableImage from "@/components/ui/ZoomableImage";
 
 const teacherResources = [
   { icon: BookOpen, title: "خطط الدروس", description: "خطط دروس جاهزة وفق المنهاج الرسمي الجزائري", href: "#" },
@@ -10,7 +10,7 @@ const teacherResources = [
 
 export default function TeacherPage() {
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-black mb-3">حقيبة الأستاذ</h1>
@@ -44,23 +44,15 @@ export default function TeacherPage() {
             انضم إلى قناة التلغرام للحصول على آخر التحديثات والملفات والتمارين
           </p>
           <div className="flex flex-col items-center gap-6">
-            <a
-              href="https://t.me/addlist/zyYD4lHlYudlNzQ8"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block"
-            >
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-500/20 shadow-2xl hover:shadow-orange-200 dark:hover:shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1">
-                <Image
-                  src="/about/telegram.png"
-                  alt="قناة التلغرام - الأستاذ بيكا"
-                  width={320}
-                  height={320}
-                  sizes="(max-width: 640px) 256px, 320px"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </a>
+            <ZoomableImage
+              src="/about/telegram.png"
+              alt="قناة التلغرام - الأستاذ بيكا"
+              width={640}
+              height={640}
+              sizes="(max-width: 640px) 320px, 400px"
+              className="w-80 h-80 sm:w-96 sm:h-96 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-500/20 shadow-2xl"
+              imgClassName="object-cover w-full h-full transition-transform duration-300 group-hover:scale-[1.03]"
+            />
             <a
               href="https://t.me/addlist/zyYD4lHlYudlNzQ8"
               target="_blank"
