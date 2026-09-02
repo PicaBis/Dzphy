@@ -5,6 +5,7 @@ import { Play, ExternalLink } from "lucide-react";
 import { tiktokVideos, instagramPosts, type SocialVideo } from "@/data/social";
 import type { TikTokEnriched } from "@/lib/tiktok";
 import { socialIconMap } from "@/components/icons/SocialIcons";
+import { useLanguage } from "@/context/LanguageContext";
 
 const TikTokIcon = socialIconMap.tiktok;
 const InstagramIcon = socialIconMap.instagram;
@@ -12,6 +13,7 @@ const InstagramIcon = socialIconMap.instagram;
 type Card = SocialVideo & { localThumb?: string };
 
 export function SocialGallery() {
+  const { t } = useLanguage();
   // Start with the curated list; enrich TikTok cards live from oEmbed so covers
   // are real and every link is verified to open the exact original video.
   const [tiktok, setTiktok] = useState<Card[]>(tiktokVideos);
@@ -104,8 +106,8 @@ export function SocialGallery() {
             <TikTokIcon className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">أهم فيديوهات التيك توك</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">أفكار سريعة ومقاطع مختارة من @profpica</p>
+            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">{t("sg.tiktokTitle")}</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{t("sg.tiktokSub")}</p>
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
@@ -120,8 +122,8 @@ export function SocialGallery() {
             <InstagramIcon className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">أحدث منشورات إنستغرام</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">آخر ريلز ومنشورات من @prof_pica</p>
+            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">{t("sg.igTitle")}</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{t("sg.igSub")}</p>
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">

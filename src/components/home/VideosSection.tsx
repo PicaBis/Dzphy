@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Play, ArrowLeft, AlertCircle } from "lucide-react";
+import { Play, AlertCircle } from "lucide-react";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
 import { tiktokVideos, type SocialVideo } from "@/data/social";
 import type { TikTokEnriched } from "@/lib/tiktok";
 import { PlaylistCardSkeleton } from "@/components/ui/Skeletons";
+import DirectionArrow from "@/components/ui/DirectionArrow";
+import { useLanguage } from "@/context/LanguageContext";
 
 const YT = ({ s = 16, c = "" }: { s?: number; c?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s} className={c}><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
@@ -17,6 +19,7 @@ const TK = () => (
 );
 
 export default function VideosSection() {
+  const { t } = useLanguage();
   const [data, setData] = useState<PlaylistResponse[] | null>(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -70,17 +73,17 @@ export default function VideosSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} className="mb-10 sm:mb-14 flex flex-col sm:items-end sm:justify-between gap-4">
           <div>
-            <span className="inline-block bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 px-4 py-1.5 rounded-full text-sm font-bold mb-3">الفيديوهات التعليمية</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">تعلم بالفيديو <span className="text-orange-500">مجانا</span></h2>
+            <span className="inline-block bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 px-4 py-1.5 rounded-full text-sm font-bold mb-3">{t("vs.badge")}</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">{t("vs.t1")} <span className="text-orange-500">{t("vs.t2")}</span></h2>
             <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-xl">
-              دروس مرتبة في قوائم تشغيل حسب المستوى — تُحدَّث تلقائيًا من قناة يوتيوب.
+              {t("vs.desc")}
             </p>
           </div>
           <Link
             href="/videos"
             className="inline-flex items-center gap-2 text-red-500 hover:text-red-600 font-bold text-sm shrink-0"
           >
-            كل الفيديوهات <ArrowLeft size={16} />
+            {t("vs.all")} <DirectionArrow size={16} />
           </Link>
         </motion.div>
 
@@ -88,7 +91,7 @@ export default function VideosSection() {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 rounded-xl bg-red-500 flex items-center justify-center"><YT s={16} c="text-white" /></div>
             <h3 className="font-bold text-gray-900 dark:text-white text-lg">
-              قوائم تشغيل YouTube -{" "}
+              {t("vs.yt")}{" "}
               <a href="https://www.youtube.com/@ProfPica" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:underline">@ProfPica</a>
             </h3>
           </div>
@@ -104,9 +107,9 @@ export default function VideosSection() {
           {!loading && error && (
             <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
               <AlertCircle size={32} className="text-red-400" />
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-semibold">تعذّر تحميل الفيديوهات، جرّب فتح صفحة الفيديوهات مباشرة.</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-semibold">{t("vs.error")}</p>
               <Link href="/videos" className="inline-flex items-center gap-2 text-red-500 hover:text-red-600 font-bold text-sm">
-                الانتقال إلى قوائم التشغيل <ArrowLeft size={14} />
+                {t("vs.errorLink")} <DirectionArrow size={14} />
               </Link>
             </div>
           )}
@@ -136,7 +139,7 @@ export default function VideosSection() {
                       </div>
                     </div>
                     <span className="absolute bottom-2 right-2 text-[11px] font-black bg-black/70 text-white px-2.5 py-1 rounded-lg">
-                      {pl.videos.length > 0 ? `${pl.videos.length} فيديو` : "قائمة تشغيل"}
+                      {pl.videos.length > 0 ? `${pl.videos.length} ${t("vs.videosCount")}` : t("vs.playlist")}
                     </span>
                     <span className={`absolute top-2 right-2 text-[10px] font-black ${pl.accent} bg-white/90 dark:bg-black/60 px-2 py-0.5 rounded-lg`}>
                       {pl.badge}
@@ -158,8 +161,8 @@ export default function VideosSection() {
           <div className="text-center mt-8">
             <Link href="/videos" className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg shadow-red-200 hover:shadow-red-300">
               <YT s={18} />
-              استعرض قوائم التشغيل كاملة
-              <ArrowLeft size={16} />
+              {t("vs.browseAll")}
+              <DirectionArrow size={16} />
             </Link>
           </div>
         </div>
@@ -168,7 +171,7 @@ export default function VideosSection() {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 rounded-xl bg-gray-900 flex items-center justify-center"><TK /></div>
             <h3 className="font-bold text-gray-900 dark:text-white text-lg">
-              آخر فيديوهات TikTok -{" "}
+              {t("vs.tiktok")}{" "}
               <a href="https://www.tiktok.com/@profpica" target="_blank" rel="noopener noreferrer" className="text-gray-900 dark:text-white hover:underline">@profpica</a>
             </h3>
           </div>
@@ -186,7 +189,7 @@ export default function VideosSection() {
           </div>
           <div className="text-center mt-8">
             <a href="https://www.tiktok.com/@profpica" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg hover:shadow-xl">
-              <TK /> مشاهدة المزيد على TikTok <ArrowLeft size={16} />
+              <TK /> {t("vs.tiktokMore")} <DirectionArrow size={16} />
             </a>
           </div>
         </div>

@@ -1,7 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { ArrowLeft, Zap, Target, Calculator, Cpu } from "lucide-react";
+import { Zap, Target, Calculator, Cpu } from "lucide-react";
 import { apps } from "@/data/content";
+import DirectionArrow from "@/components/ui/DirectionArrow";
+import { useLanguage } from "@/context/LanguageContext";
 
 const appIcons = [Zap, Target, Calculator, Cpu];
 const appColors = [
@@ -12,6 +14,7 @@ const appColors = [
 ];
 
 export default function AppsSection() {
+  const { t } = useLanguage();
   return (
     <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white overflow-hidden relative">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -21,9 +24,9 @@ export default function AppsSection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <span className="inline-block bg-orange-500/20 text-orange-400 border border-orange-500/30 px-4 py-1.5 rounded-full text-sm font-bold mb-4">التطبيقات والبرامج</span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">اكتشف أدوات <span className="text-orange-400">منصة الأستاذ بيكا</span> الذكية</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">تطبيقات ذكية مصممة خصيصا لمساعدة الطالب الجزائري على فهم الفيزياء بطريقة تفاعلية</p>
+          <span className="inline-block bg-orange-500/20 text-orange-400 border border-orange-500/30 px-4 py-1.5 rounded-full text-sm font-bold mb-4">{t("as.badge")}</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">{t("as.t1")} <span className="text-orange-400">{t("as.t2")}</span> {t("as.t3")}</h2>
+          <p className="text-gray-400 max-w-xl mx-auto">{t("as.desc")}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
@@ -44,7 +47,7 @@ export default function AppsSection() {
                   <h3 className="text-white font-bold text-base mb-2 group-hover:text-orange-400 transition-colors">{app.name}</h3>
                   <p className="text-gray-400 text-xs leading-relaxed mb-4 line-clamp-3">{app.description}</p>
                   <a href={app.url} className="flex items-center justify-center gap-2 w-full py-2.5 bg-white/10 hover:bg-orange-500 text-white rounded-xl text-sm font-semibold transition-all duration-200 border border-white/10 hover:border-transparent">
-                    تجربة التطبيق <ArrowLeft size={14} />
+                    {t("as.try")} <DirectionArrow size={14} />
                   </a>
                 </div>
               </motion.div>

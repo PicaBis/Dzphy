@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Award, Sparkles } from "lucide-react";
 import ZoomableImage from "@/components/ui/ZoomableImage";
+import { useLanguage } from "@/context/LanguageContext";
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/share/191btmBHho/", color: "hover:bg-blue-600" },
@@ -12,6 +13,7 @@ const socialLinks = [
 ];
 
 export default function AboutSection() {
+  const { t } = useLanguage();
   return (
     <section className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,10 +24,10 @@ export default function AboutSection() {
           className="text-center mb-10 sm:mb-14"
         >
           <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
-            ✍️ الأستاذ بيكا 🎓
+            {t("ab.badge")}
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-4">
-            من هو <span className="text-orange-500">الأستاذ بيكا</span>؟
+            {t("ab.t1")} <span className="text-orange-500">{t("ab.t2")}</span>
           </h2>
         </motion.div>
 
@@ -40,7 +42,7 @@ export default function AboutSection() {
               <div className="relative">
                 <ZoomableImage
                   src="/about/cv.png"
-                  alt="السيرة الذاتية - الأستاذ بيكا"
+                  alt={t("ab.cvAlt")}
                   width={440}
                   height={620}
                   sizes="(max-width: 640px) 288px, (max-width: 768px) 340px, 380px"
@@ -48,7 +50,7 @@ export default function AboutSection() {
                   imgClassName="object-cover w-full h-full transition-transform duration-300 group-hover:scale-[1.03]"
                 />
                 <p className="mt-3 text-center text-xs font-semibold text-gray-400 dark:text-gray-500">
-                  اضغط على الصورة لتكبيرها وقراءة السيرة بوضوح
+                  {t("ab.zoom")}
                 </p>
                 <div className="absolute top-2 -right-3 w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
                   <Award size={20} className="text-white" />
@@ -57,24 +59,24 @@ export default function AboutSection() {
 
               <div className="space-y-3 text-right w-full">
                 <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white text-center">
-                  خريج المدرسة العليا للأساتذة
+                  {t("ab.edu")}
                 </h3>
                 <p className="text-orange-600 dark:text-orange-400 font-bold text-center text-base sm:text-lg">
-                  أبسّط الفيزياء بطريقة سهلة وممتعة 💡
+                  {t("ab.tagline")}
                 </p>
                 <div className="bg-orange-50 dark:bg-orange-500/10 rounded-2xl p-5 text-center space-y-2">
                   <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
-                    📝 ملخصات منظمة وشاملة
+                    {t("ab.item1")}
                   </p>
                   <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
-                    📚 حلول تمارين محلولة خطوة بخطوة
+                    {t("ab.item2")}
                   </p>
                   <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
-                    💡 أفكارٌ لن تجدها في الكتب
+                    {t("ab.item3")}
                   </p>
                 </div>
                 <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
-                  🔗👇 تابعونا عبر الروابط
+                  {t("ab.follow")}
                 </p>
               </div>
 
@@ -102,9 +104,9 @@ export default function AboutSection() {
             className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-5 sm:p-6 text-white mt-4 sm:mt-6 text-center"
           >
             <Sparkles size={24} className="mx-auto mb-3" />
-            <h4 className="font-black text-lg mb-2">رسالتنا</h4>
+            <h4 className="font-black text-lg mb-2">{t("ab.mission")}</h4>
             <p className="text-orange-100 text-sm leading-relaxed">
-              جعل تعلم الفيزياء تجربة ممتعة وميسرة لكل طالب جزائري، من خلال توفير أفضل المحتويات التعليمية والأدوات الذكية المجانية.
+              {t("ab.missionDesc")}
             </p>
           </motion.div>
         </div>

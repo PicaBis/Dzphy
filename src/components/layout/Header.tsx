@@ -22,7 +22,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
-import { useLanguage, Lang } from "@/context/LanguageContext";
+import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
 import { useSound } from "@/context/SoundContext";
 
 // ---------------------------------------------------------------------------
@@ -34,21 +34,21 @@ type NavItem =
   | {
       kind: "group";
       key: string;
-      children: { label: string; href: string; icon: typeof BookOpen }[];
+      children: { key: string; href: string; icon: typeof BookOpen }[];
     };
 
 const yearChildren = [
-  { label: "السنة الأولى ثانوي", href: "/grade/1", icon: GraduationCap },
-  { label: "السنة الثانية ثانوي", href: "/grade/2", icon: GraduationCap },
-  { label: "السنة الثالثة ثانوي", href: "/grade/3", icon: GraduationCap },
-  { label: "السنة الرابعة متوسط", href: "/grade/4", icon: GraduationCap },
+  { key: "grade1", href: "/grade/1", icon: GraduationCap },
+  { key: "grade2", href: "/grade/2", icon: GraduationCap },
+  { key: "grade3", href: "/grade/3", icon: GraduationCap },
+  { key: "grade4", href: "/grade/4", icon: GraduationCap },
 ];
 
 const resourceChildren = [
-  { label: "التوزيعات السنوية", href: "/distributions", icon: CalendarRange },
-  { label: "حقيبة الأستاذ", href: "/teacher", icon: Briefcase },
-  { label: "الدورات التعليمية", href: "/courses", icon: BookOpen },
-  { label: "التطبيقات والبرامج", href: "/apps", icon: Boxes },
+  { key: "distributions", href: "/distributions", icon: CalendarRange },
+  { key: "teacherBag", href: "/teacher", icon: Briefcase },
+  { key: "courses", href: "/courses", icon: BookOpen },
+  { key: "apps", href: "/apps", icon: Boxes },
 ];
 
 const navItems: NavItem[] = [
@@ -60,11 +60,7 @@ const navItems: NavItem[] = [
   { kind: "link", key: "about", href: "/about" },
 ];
 
-// Extra UI labels not present in the shared translation dictionary.
-const groupLabels: Record<string, string> = {
-  years: "السنوات الدراسية",
-  resources: "الموارد",
-};
+type NavChild = { key: string; href: string; icon: typeof BookOpen };
 
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
 
@@ -82,7 +78,8 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const label = (key: string) => groupLabels[key] ?? t(key);
+  const label = (key: string) =>
+    key === "years" ? t("nav.years") : key === "resources" ? t("nav.resources") : t(key);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -149,7 +146,7 @@ export default function Header() {
             className="flex items-center gap-2 flex-shrink-0 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
           >
             <div className="relative w-9 h-9 sm:w-10 sm:h-10">
-              <Image src="/logo.png" alt="منصة الأستاذ بيكا للفيزياء" width={40} height={40} sizes="40px" className="object-contain" priority />
+              <Image src="/logo.png" alt={t("splash.logoTitle")} width={40} height={40} sizes="40px" className="object-contain" priority />
             </div>
             <span className="text-lg sm:text-xl font-black leading-none" style={{ color: "#FF7A00" }}>
               بيكا
@@ -239,7 +236,7 @@ export default function Header() {
           <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0 ms-auto lg:ms-0">
             <button
               onClick={() => { play("click"); setSearchOpen((s) => !s); }}
-              aria-label="بحث"
+              aria-label={t("nav.searchAria")}
               className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
             >
               <Search size={19} />
@@ -248,8 +245,8 @@ export default function Header() {
             {/* Sound on/off */}
             <button
               onClick={toggleSound}
-              aria-label={soundOn ? "كتم الأصوات" : "تشغيل الأصوات"}
-              title={soundOn ? "الأصوات مفعّلة" : "الأصوات مكتومة"}
+              aria-label={soundOn ? t("nav.soundOn") : t("nav.soundOff")}
+              title={soundOn ? t("nav.soundEnabled") : t("nav.soundMuted")}
               className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
             >
               {soundOn ? <Volume2 size={19} /> : <VolumeX size={19} />}
@@ -258,7 +255,7 @@ export default function Header() {
             {/* Theme toggle */}
             <button
               onClick={() => { play("toggle"); toggleTheme(); }}
-              aria-label={theme === "dark" ? "الوضع النهاري" : "الوضع الليلي"}
+              aria-label={theme === "dark" ? t("nav.themeDay") : t("nav.themeNight")}
               className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -279,7 +276,7 @@ export default function Header() {
             <div className="relative hidden sm:block">
               <button
                 onClick={() => { play("open"); setLangOpen((o) => !o); }}
-                aria-label="تغيير اللغة"
+                aria-label={t("nav.changeLang")}
                 className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all flex items-center gap-1 text-sm"
               >
                 <Globe size={19} />
@@ -299,7 +296,7 @@ export default function Header() {
                         onClick={() => { play("click"); setLang(l); setLangOpen(false); }}
                         className={`w-full text-right px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap ${lang === l ? "text-orange-500 font-bold bg-orange-50 dark:bg-orange-500/10" : "text-gray-700 dark:text-gray-300"}`}
                       >
-                        {flagMap[l]} {l === "ar" ? "العربية" : l === "fr" ? "Français" : "English"}
+                        {flagMap[l]} {LANG_NAMES[l]}
                       </button>
                     ))}
                   </motion.div>
@@ -319,7 +316,7 @@ export default function Header() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => { play(mobileOpen ? "close" : "open"); setMobileOpen((o) => !o); }}
-              aria-label="القائمة"
+              aria-label={t("nav.menu")}
               aria-expanded={mobileOpen}
               className="lg:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all"
             >
@@ -343,7 +340,7 @@ export default function Header() {
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="ابحث عن ملخصات، تمارين، دروس..."
+                  placeholder={t("nav.searchPh")}
                   className="w-full pr-10 sm:pr-12 pl-3 sm:pl-4 py-2.5 sm:py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all dark:text-white dark:placeholder-gray-500"
                 />
               </form>
@@ -405,7 +402,7 @@ export default function Header() {
                                 className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
                               >
                                 <Icon size={15} className="text-orange-400 flex-shrink-0" />
-                                {sub.label}
+{t(sub.key)}
                               </Link>
                             );
                           })}

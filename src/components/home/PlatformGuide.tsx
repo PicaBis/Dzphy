@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
 import {
   YouTubeIcon,
   TikTokIcon,
@@ -8,6 +7,8 @@ import {
   InstagramIcon,
   FacebookIcon,
 } from "@/components/icons/SocialIcons";
+import DirectionArrow from "@/components/ui/DirectionArrow";
+import { useLanguage } from "@/context/LanguageContext";
 
 // One card per platform, each answering "what will I find here?" — so a new
 // student understands, in seconds, where every kind of content lives.
@@ -15,10 +16,10 @@ const platforms = [
   {
     key: "youtube",
     name: "YouTube",
-    tagline: "الدروس المفصّلة",
+    taglineKey: "youtube.tagline",
     emoji: "🎬",
     Icon: YouTubeIcon,
-    description: "الدروس الكاملة، البثوث المباشرة، حل السلاسل والمراجعات الشاملة لكل مستوى.",
+    descriptionKey: "youtube.desc",
     href: "https://www.youtube.com/@ProfPica",
     gradient: "from-red-500 to-rose-600",
     tint: "bg-red-50 dark:bg-red-500/10",
@@ -27,10 +28,10 @@ const platforms = [
   {
     key: "tiktok",
     name: "TikTok",
-    tagline: "أفكار سريعة",
+    taglineKey: "tiktok.tagline",
     emoji: "⚡",
     Icon: TikTokIcon,
-    description: "أفكار فيزياء سريعة، تبسيط مفهوم، أو حيلة ذكية في ثوانٍ معدودة.",
+    descriptionKey: "tiktok.desc",
     href: "https://www.tiktok.com/@profpica",
     gradient: "from-gray-800 to-black",
     tint: "bg-gray-100 dark:bg-white/5",
@@ -39,10 +40,10 @@ const platforms = [
   {
     key: "telegram",
     name: "Telegram",
-    tagline: "حقيبة الملفات",
+    taglineKey: "telegram.tagline",
     emoji: "📚",
     Icon: TelegramIcon,
-    description: "ملفات الأستاذ: PDF، سلاسل تمارين، ملخصات ومواضيع قابلة للتحميل مباشرة.",
+    descriptionKey: "telegram.desc",
     href: "https://t.me/addlist/zyYD4lHlYudlNzQ8",
     gradient: "from-sky-500 to-sky-600",
     tint: "bg-sky-50 dark:bg-sky-500/10",
@@ -51,10 +52,10 @@ const platforms = [
   {
     key: "instagram",
     name: "Instagram",
-    tagline: "صور وملخصات",
+    taglineKey: "instagram.tagline",
     emoji: "📸",
     Icon: InstagramIcon,
-    description: "صور وملخصات بصرية، قوانين ومفاهيم أساسية تُثبّت المعلومة بسرعة.",
+    descriptionKey: "instagram.desc",
     href: "https://www.instagram.com/prof_pica/",
     gradient: "from-fuchsia-500 via-pink-500 to-orange-400",
     tint: "bg-pink-50 dark:bg-pink-500/10",
@@ -63,10 +64,10 @@ const platforms = [
   {
     key: "facebook",
     name: "Facebook",
-    tagline: "المستجدات الرسمية",
+    taglineKey: "facebook.tagline",
     emoji: "📰",
     Icon: FacebookIcon,
-    description: "المنشورات المهمة، الأخبار الوزارية والتنبيهات الرسمية والملخصات الشاملة.",
+    descriptionKey: "facebook.desc",
     href: "https://www.facebook.com/share/191btmBHho/",
     gradient: "from-blue-600 to-blue-700",
     tint: "bg-blue-50 dark:bg-blue-500/10",
@@ -75,6 +76,7 @@ const platforms = [
 ];
 
 export default function PlatformGuide() {
+  const { t } = useLanguage();
   return (
     <section className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,13 +87,13 @@ export default function PlatformGuide() {
           className="text-center mb-10 sm:mb-14"
         >
           <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
-            دليل الطالب الجديد
+            {t("pg.badge")}
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-3">
-            ماذا تجد في <span className="text-orange-500">كل منصة</span>؟
+            {t("pg.t1")} <span className="text-orange-500">{t("pg.t2")}</span>
           </h2>
           <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-            كل منصة لها وظيفة واحدة واضحة — اعرف أين تذهب وماذا ستجد في كل مكان.
+            {t("pg.desc")}
           </p>
         </motion.div>
 
@@ -119,12 +121,12 @@ export default function PlatformGuide() {
                   <h3 className="font-black text-gray-900 dark:text-white text-lg">{p.name}</h3>
                   <span className="text-base" aria-hidden>{p.emoji}</span>
                 </div>
-                <span className={`text-xs font-bold ${p.text} mb-2`}>{p.tagline}</span>
+                <span className={`text-xs font-bold ${p.text} mb-2`}>{t(p.taglineKey)}</span>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed flex-1">
-                  {p.description}
+                  {t(p.descriptionKey)}
                 </p>
                 <span className="inline-flex items-center gap-1.5 mt-4 text-xs font-bold text-gray-400 dark:text-gray-500 group-hover:text-orange-500 transition-colors">
-                  فتح المنصة <ArrowLeft size={13} />
+                  {t("pg.open")} <DirectionArrow size={13} />
                 </span>
               </motion.a>
             );

@@ -2,18 +2,21 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, FileText, Bell, Send } from "lucide-react";
+import { ExternalLink, FileText, Bell, Send } from "lucide-react";
 import { instagramPosts, type SocialVideo } from "@/data/social";
 import { siteConfig, socialLinks } from "@/data/site";
 import { InstagramIcon, TelegramIcon, FacebookIcon } from "@/components/icons/SocialIcons";
 import { useDbContent } from "@/lib/useDbContent";
 import ZoomableImage from "@/components/ui/ZoomableImage";
+import DirectionArrow from "@/components/ui/DirectionArrow";
+import { useLanguage } from "@/context/LanguageContext";
 
 const facebookOfficial =
   socialLinks.find((s) => s.platform === "facebook")?.url ||
   "https://www.facebook.com/share/191btmBHho/";
 
 export default function HomeSocial() {
+  const { t } = useLanguage();
   // Instagram: curated posts, enriched/extended by any DB rows (newest first).
   const { items: dbInstagram } = useDbContent("instagram");
   const instagram = useMemo<SocialVideo[]>(() => {
@@ -27,7 +30,7 @@ export default function HomeSocial() {
         description: r.description ?? "",
         url: r.url as string,
         thumbnail: r.thumbnail ?? "",
-        badge: r.badge ?? "جديد",
+        badge: r.badge ?? t("common.new"),
         gradient: "from-fuchsia-500 via-pink-500 to-orange-400",
       }));
     return [...extra, ...instagramPosts].slice(0, 6);
@@ -43,10 +46,10 @@ export default function HomeSocial() {
           className="mb-10 sm:mb-14 text-center"
         >
           <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
-            المنصات التعليمية
+            {t("hs.badge")}
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white">
-            الصور، الملفات <span className="text-orange-500">والمستجدات</span>
+            {t("hs.t1")} <span className="text-orange-500">{t("hs.t2")}</span>
           </h2>
         </motion.div>
 
@@ -58,8 +61,8 @@ export default function HomeSocial() {
                 <InstagramIcon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-black text-gray-900 dark:text-white text-lg">إنستغرام — صور وملخصات</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">قوانين ومفاهيم بصرية سريعة من @prof_pica</p>
+                <h3 className="font-black text-gray-900 dark:text-white text-lg">{t("hs.instagram")}</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{t("hs.instagramSub")}</p>
               </div>
             </div>
             <a
@@ -68,7 +71,7 @@ export default function HomeSocial() {
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-1.5 text-pink-600 dark:text-pink-400 hover:opacity-80 font-bold text-sm shrink-0"
             >
-              متابعة <ArrowLeft size={15} />
+              {t("hs.follow")} <DirectionArrow size={15} />
             </a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
@@ -110,14 +113,14 @@ export default function HomeSocial() {
                 <TelegramIcon className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-black text-gray-900 dark:text-white text-lg">تلغرام — حقيبة الملفات</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">PDF، سلاسل تمارين، ملخصات ومواضيع</p>
+                <h3 className="font-black text-gray-900 dark:text-white text-lg">{t("hs.telegram")}</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{t("hs.telegramSub")}</p>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-5">
               <ZoomableImage
                 src="/about/telegram.png"
-                alt="قناة التلغرام - الأستاذ بيكا"
+                alt={t("telegram.tagline")}
                 width={480}
                 height={480}
                 sizes="(max-width: 640px) 180px, 200px"
@@ -126,9 +129,9 @@ export default function HomeSocial() {
               />
               <div className="flex-1 text-center sm:text-right">
                 <ul className="space-y-2 mb-4 text-sm text-gray-600 dark:text-gray-300">
-                  <li className="flex items-center gap-2 justify-center sm:justify-start"><FileText size={15} className="text-sky-500" /> ملفات PDF جاهزة للتحميل</li>
-                  <li className="flex items-center gap-2 justify-center sm:justify-start"><FileText size={15} className="text-sky-500" /> سلاسل تمارين ومواضيع</li>
-                  <li className="flex items-center gap-2 justify-center sm:justify-start"><Bell size={15} className="text-sky-500" /> إعلانات وتحديثات مهمة</li>
+                  <li className="flex items-center gap-2 justify-center sm:justify-start"><FileText size={15} className="text-sky-500" /> {t("hs.tg1")}</li>
+                  <li className="flex items-center gap-2 justify-center sm:justify-start"><FileText size={15} className="text-sky-500" /> {t("hs.tg2")}</li>
+                  <li className="flex items-center gap-2 justify-center sm:justify-start"><Bell size={15} className="text-sky-500" /> {t("hs.tg3")}</li>
                 </ul>
                 <a
                   href={siteConfig.linktree}
@@ -136,7 +139,7 @@ export default function HomeSocial() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-5 py-2.5 rounded-2xl font-bold text-sm transition-all shadow-sm hover:shadow-md"
                 >
-                  <Send size={16} /> انضم إلى قنوات التلغرام
+                  <Send size={16} /> {t("hs.tgCta")}
                 </a>
               </div>
             </div>
@@ -149,8 +152,8 @@ export default function HomeSocial() {
                 <FacebookIcon className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-black text-gray-900 dark:text-white text-lg">فيسبوك — المستجدات الرسمية</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">أخبار وزارية، تنبيهات وملخصات شاملة</p>
+                <h3 className="font-black text-gray-900 dark:text-white text-lg">{t("hs.facebook")}</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{t("hs.facebookSub")}</p>
               </div>
             </div>
             <div className="space-y-3">
@@ -161,8 +164,8 @@ export default function HomeSocial() {
                 className="group flex items-center justify-between gap-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-4 hover:border-blue-300 dark:hover:border-blue-500/40 hover:shadow-md transition-all"
               >
                 <div>
-                  <p className="font-black text-gray-900 dark:text-white text-sm mb-0.5">الصفحة الرسمية</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">المنشورات والمستجدات اليومية والملخصات</p>
+                  <p className="font-black text-gray-900 dark:text-white text-sm mb-0.5">{t("hs.fbOfficial")}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{t("hs.fbOfficialSub")}</p>
                 </div>
                 <ExternalLink size={17} className="text-gray-300 dark:text-gray-600 group-hover:text-blue-500 transition-colors flex-shrink-0" />
               </a>
@@ -173,8 +176,8 @@ export default function HomeSocial() {
                 className="group flex items-center justify-between gap-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-4 hover:border-blue-300 dark:hover:border-blue-500/40 hover:shadow-md transition-all"
               >
                 <div>
-                  <p className="font-black text-gray-900 dark:text-white text-sm mb-0.5">حساب الأستاذ الشخصي</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">تواصل مباشر وتفاعل مع الأستاذ بيكا</p>
+                  <p className="font-black text-gray-900 dark:text-white text-sm mb-0.5">{t("hs.fbPersonal")}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{t("hs.fbPersonalSub")}</p>
                 </div>
                 <ExternalLink size={17} className="text-gray-300 dark:text-gray-600 group-hover:text-blue-500 transition-colors flex-shrink-0" />
               </a>
@@ -182,7 +185,7 @@ export default function HomeSocial() {
                 href="/follow"
                 className="flex items-center justify-center gap-1.5 text-blue-600 dark:text-blue-400 hover:opacity-80 font-bold text-sm pt-1"
               >
-                كل المنصات والمجتمعات <ArrowLeft size={15} />
+                {t("hs.all")} <DirectionArrow size={15} />
               </Link>
             </div>
           </div>

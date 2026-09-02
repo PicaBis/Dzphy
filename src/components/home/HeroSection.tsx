@@ -2,13 +2,16 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, PlayCircle, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, PlayCircle, Play } from "lucide-react";
 import { siteConfig, socialLinks } from "@/data/site";
+import { useLanguage } from "@/context/LanguageContext";
 
 const youtubeUrl = socialLinks.find((s) => s.platform === "youtube")?.url || "https://www.youtube.com/@ProfPica";
 const isValidVideoId = (id: string) => /^[A-Za-z0-9_-]{11}$/.test(id);
 
 export default function HeroSection() {
+  const { t, dir } = useLanguage();
+  const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
   return (
     <section className="relative min-h-[100svh] flex items-center overflow-hidden bg-white dark:bg-gray-950 pt-14 sm:pt-16">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -29,7 +32,7 @@ export default function HeroSection() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 text-orange-700 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-semibold mb-6"
             >
-              شعارنا <span dir="ltr" className="font-black">@profpica</span> — تتفكرها مع بيكا
+              {t("hero.badge")}
             </motion.div>
 
             <motion.h1
@@ -38,14 +41,14 @@ export default function HeroSection() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 dark:text-white leading-tight mb-5 sm:mb-6"
             >
-              منصة الأستاذ بيكا{" "}
+              {t("hero.title1")}{" "}
               <span className="text-orange-500 relative">
-                لتعليم الفيزياء
+                {t("hero.title2")}
                 <svg className="absolute -bottom-2 right-0 w-full" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 8C50 3 150 3 298 8" stroke="#FF7A00" strokeWidth="3" strokeLinecap="round" />
                 </svg>
               </span>{" "}
-              كل ما يحتاجه الطالب
+              {t("hero.title3")}
             </motion.h1>
 
             <motion.p
@@ -54,7 +57,7 @@ export default function HeroSection() {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg"
             >
-              ملخصات، تمارين محلولة، فروض واختبارات، دورات تعليمية، تطبيقات ذكية، وآخر الفيديوهات التعليمية — كل شيء في مكان واحد.
+              {t("hero.desc")}
             </motion.p>
 
             <motion.div
@@ -67,15 +70,15 @@ export default function HeroSection() {
                 href="/about"
                 className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 shadow-lg shadow-orange-200 dark:shadow-orange-500/20 hover:shadow-orange-300 dark:hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
               >
-                من نحن؟
-                <ArrowLeft size={16} />
+                {t("hero.watch")}
+                <Arrow size={16} />
               </Link>
               <Link
                 href="/courses"
                 className="inline-flex items-center gap-2 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-400 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-gray-900 px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 hover:bg-orange-50 dark:hover:bg-orange-500/10"
               >
                 <PlayCircle size={18} className="text-orange-500" />
-                استكشف الدورات
+                {t("hero.courses")}
               </Link>
             </motion.div>
           </motion.div>
@@ -91,7 +94,7 @@ export default function HeroSection() {
                 <iframe
                   className="w-full h-full absolute inset-0"
                   src={`https://www.youtube-nocookie.com/embed/${siteConfig.heroVideoId}?rel=0&modestbranding=1`}
-                  title="فيديو تعريفي - DzPhy"
+                  title={t("hero.videoTitleAttr")}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
@@ -101,12 +104,12 @@ export default function HeroSection() {
                   href={youtubeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="شاهد الدروس على قناة يوتيوب"
+                  aria-label={t("hero.watchAria")}
                   className="group absolute inset-0 block"
                 >
                   <Image
                     src="/about/teacher.jpg"
-                    alt="الأستاذ بيكا - دروس الفيزياء"
+                    alt={t("hero.posterAlt")}
                     width={640}
                     height={360}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 50vw"
@@ -120,8 +123,8 @@ export default function HeroSection() {
                     </span>
                   </div>
                   <div className="absolute bottom-0 inset-x-0 p-5 text-center">
-                    <p className="text-white font-black text-lg">شاهد أحدث الدروس على يوتيوب</p>
-                    <p className="text-white/70 text-sm">@ProfPica — شروحات كاملة وحلول تمارين</p>
+                    <p className="text-white font-black text-lg">{t("hero.videoTitle")}</p>
+                    <p className="text-white/70 text-sm">{t("hero.videoSub")}</p>
                   </div>
                 </a>
               )}
