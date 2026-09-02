@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { SoundProvider } from "@/context/SoundContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SplashScreen from "@/components/splash/SplashScreen";
 import MotionProvider from "@/components/providers/MotionProvider";
+import TipsOverlay from "@/components/ui/TipsOverlay";
 import jsonLd from "./json-ld";
 
 export const metadata: Metadata = {
@@ -82,12 +84,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <ThemeProvider>
           <LanguageProvider>
-            <MotionProvider>
-              <SplashScreen />
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </MotionProvider>
+            <SoundProvider>
+              <MotionProvider>
+                <SplashScreen />
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <TipsOverlay />
+              </MotionProvider>
+            </SoundProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

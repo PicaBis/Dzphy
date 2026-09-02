@@ -2,74 +2,98 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Search, BookOpen, FileText, ClipboardList, FlaskConical, Video, Sun, Moon, Globe, CalendarRange } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Search,
+  GraduationCap,
+  CalendarRange,
+  Briefcase,
+  BookOpen,
+  Boxes,
+  Users,
+  Sun,
+  Moon,
+  Globe,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, Lang } from "@/context/LanguageContext";
+import { useSound } from "@/context/SoundContext";
 
-const gradeDropdown = [
-  { label: "التوزيعات السنوية", icon: CalendarRange, href: "/distributions?level={level}" },
-  { label: "الملخصات", icon: BookOpen, href: "/grade/{grade}/resumes" },
-  { label: "التمارين والحلول", icon: FileText, href: "/grade/{grade}/exercises" },
-  { label: "الفروض والاختبارات", icon: ClipboardList, href: "/grade/{grade}/devoirs" },
-  { label: "الأعمال التطبيقية", icon: FlaskConical, href: "/grade/{grade}/tp" },
-  { label: "الفيديوهات التعليمية", icon: Video, href: "/videos?level={videoLevel}" },
+// ---------------------------------------------------------------------------
+// Navigation model — grouped so the top bar stays uncluttered (no overlap).
+//   الرئيسية · السنوات الدراسية ▾ · الفيديوهات · الموارد ▾ · المنصات · من نحن
+// ---------------------------------------------------------------------------
+type NavItem =
+  | { kind: "link"; key: string; href: string }
+  | {
+      kind: "group";
+      key: string;
+      children: { label: string; href: string; icon: typeof BookOpen }[];
+    };
+
+const yearChildren = [
+  { label: "السنة الأولى ثانوي", href: "/grade/1", icon: GraduationCap },
+  { label: "السنة الثانية ثانوي", href: "/grade/2", icon: GraduationCap },
+  { label: "السنة الثالثة ثانوي", href: "/grade/3", icon: GraduationCap },
+  { label: "السنة الرابعة متوسط", href: "/grade/4", icon: GraduationCap },
 ];
 
-const gradeLevelLabels: Record<string, string> = {
-  "1": "السنة الأولى ثانوي",
-  "2": "السنة الثانية ثانوي",
-  "3": "السنة الثالثة ثانوي",
-  "4": "شهادة التعليم المتوسط (BEM)",
-};
-
-const gradeVideoLevels: Record<string, string> = {
-  "1": "1as",
-  "2": "2as",
-  "3": "3as",
-  "4": "bem",
-};
-
-const buildHref = (template: string, grade: string) =>
-  template
-    .replace("{grade}", grade)
-    .replace("{level}", encodeURIComponent(gradeLevelLabels[grade] || ""))
-    .replace("{videoLevel}", gradeVideoLevels[grade] || "");
-
-// key → translation key in LanguageContext (UI chrome only; content stays Arabic)
-const navItems: { key: string; href: string; grade?: string }[] = [
-  { key: "home", href: "/" },
-  { key: "g1", href: "/grade/1", grade: "1" },
-  { key: "g2", href: "/grade/2", grade: "2" },
-  { key: "g3", href: "/grade/3", grade: "3" },
-  { key: "g4", href: "/grade/4", grade: "4" },
-  { key: "distributions", href: "/distributions" },
-  { key: "videosNav", href: "/videos" },
-  { key: "teacherBag", href: "/teacher" },
-  { key: "courses", href: "/courses" },
-  { key: "apps", href: "/apps" },
-  { key: "about", href: "/about" },
-  { key: "follow", href: "/follow" },
+const resourceChildren = [
+  { label: "التوزيعات السنوية", href: "/distributions", icon: CalendarRange },
+  { label: "حقيبة الأستاذ", href: "/teacher", icon: Briefcase },
+  { label: "الدورات التعليمية", href: "/courses", icon: BookOpen },
+  { label: "التطبيقات والبرامج", href: "/apps", icon: Boxes },
 ];
+
+const navItems: NavItem[] = [
+  { kind: "link", key: "home", href: "/" },
+  { kind: "group", key: "years", children: yearChildren },
+  { kind: "link", key: "videosNav", href: "/videos" },
+  { kind: "group", key: "resources", children: resourceChildren },
+  { kind: "link", key: "follow", href: "/follow" },
+  { kind: "link", key: "about", href: "/about" },
+];
+
+// Extra UI labels not present in the shared translation dictionary.
+const groupLabels: Record<string, string> = {
+  years: "السنوات الدراسية",
+  resources: "الموارد",
+};
 
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [mobileGroup, setMobileGroup] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [langOpen, setLangOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
+  const { enabled: soundOn, toggle: toggleSound, play } = useSound();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const label = (key: string) => groupLabels[key] ?? t(key);
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const groupActive = (children: { href: string }[]) =>
+    children.some((c) => isActive(c.href));
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.trim();
     if (!q) return;
+    play("nav");
     setSearchOpen(false);
     setMobileOpen(false);
     router.push(`/search?q=${encodeURIComponent(q)}`);
@@ -77,104 +101,175 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menus on route change so nothing lingers over a new page.
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenGroup(null);
+    setLangOpen(false);
+    setSearchOpen(false);
+  }, [pathname]);
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <motion.header
+      data-sound-managed
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={`fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
         scrolled
           ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-100 dark:border-gray-800"
-          : "bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm"
+          : "bg-white/85 dark:bg-gray-950/85 backdrop-blur-sm border-b border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="relative w-10 h-10">
-              <Image src="/logo.png" alt="منصة الأستاذ بيكا للفيزياء" width={40} height={40} sizes="40px" className="object-contain" />
+        <div className="flex items-center gap-2 h-16">
+          {/* ---------- Right (RTL start): brand ---------- */}
+          <Link
+            href="/"
+            onClick={() => play("nav")}
+            className="flex items-center gap-2 flex-shrink-0 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+          >
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10">
+              <Image src="/logo.png" alt="منصة الأستاذ بيكا للفيزياء" width={40} height={40} sizes="40px" className="object-contain" priority />
             </div>
-            <span className="text-xl font-black">
-              <span style={{ color: "#FF7A00" }}>بيكا</span>
+            <span className="text-lg sm:text-xl font-black leading-none" style={{ color: "#FF7A00" }}>
+              بيكا
             </span>
           </Link>
 
-          <nav className="hidden xl:flex items-center gap-0.5 flex-1 justify-center px-2 min-w-0">
-            {navItems.map((item) => (
-              <div
-                key={item.key}
-                className="relative"
-                onMouseEnter={() => item.grade && setActiveDropdown(item.grade)}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                  {item.grade ? (
-                    <>
-                      <button onClick={() => router.push(buildHref(item.href, item.grade!))} className="flex items-center gap-1 px-2 py-2 text-[13px] font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap">
-                        {t(item.key)}
-                        <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.grade ? "rotate-180" : ""}`} />
-                      </button>
-                      <AnimatePresence>
-                        {activeDropdown === item.grade && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ duration: 0.15 }}
-                            className="absolute top-full right-0 mt-1 w-52 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50"
-                          >
-                          <div className="p-2">
-                            {gradeDropdown.map((sub) => {
-                              const Icon = sub.icon;
-                              const href = buildHref(sub.href, item.grade!);
-                              return (
-                                <Link
-                                  key={sub.label}
-                                  href={href}
-                                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-500/10 hover:text-orange-600 dark:hover:text-orange-400 rounded-xl transition-all duration-150 group"
-                                >
-                                  <span className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-500/10 group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
-                                    <Icon size={15} className="text-orange-500" />
-                                  </span>
-                                  {sub.label}
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </>
-                 ) : (
-                  <Link
-                    href={item.href}
-                    className="px-2 py-2 text-[13px] font-medium text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all duration-200 whitespace-nowrap"
+          {/* ---------- Center: grouped navigation ---------- */}
+          <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0">
+            {navItems.map((item) =>
+              item.kind === "link" ? (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  onClick={() => play("nav")}
+                  className={`px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                    isActive(item.href)
+                      ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
+                      : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                  }`}
+                >
+                  {label(item.key)}
+                </Link>
+              ) : (
+                <div
+                  key={item.key}
+                  className="relative"
+                  onMouseEnter={() => {
+                    if (openGroup !== item.key) play("hover");
+                    setOpenGroup(item.key);
+                  }}
+                  onMouseLeave={() => setOpenGroup((g) => (g === item.key ? null : g))}
+                >
+                  <button
+                    onClick={() => {
+                      play("open");
+                      setOpenGroup((g) => (g === item.key ? null : item.key));
+                    }}
+                    aria-expanded={openGroup === item.key}
+                    aria-haspopup="true"
+                    className={`flex items-center gap-1 px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                      groupActive(item.children) || openGroup === item.key
+                        ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
+                        : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                    }`}
                   >
-                    {t(item.key)}
-                  </Link>
-                )}
-              </div>
-            ))}
+                    {label(item.key)}
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${openGroup === item.key ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {openGroup === item.key && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                        transition={{ duration: 0.16, ease: "easeOut" }}
+                        className="absolute top-full right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50 p-2"
+                      >
+                        {item.children.map((sub) => {
+                          const Icon = sub.icon;
+                          return (
+                            <Link
+                              key={sub.href}
+                              href={sub.href}
+                              onClick={() => play("click")}
+                              className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-colors duration-150 group ${
+                                isActive(sub.href)
+                                  ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400"
+                                  : "text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-500/10 hover:text-orange-600 dark:hover:text-orange-400"
+                              }`}
+                            >
+                              <span className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-500/10 group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
+                                <Icon size={15} className="text-orange-500" />
+                              </span>
+                              {sub.label}
+                            </Link>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            )}
           </nav>
 
-          <div className="flex items-center gap-1.5">
-            {/* Dark Mode Toggle */}
+          {/* ---------- Left (RTL end): actions ---------- */}
+          <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0 ms-auto lg:ms-0">
             <button
-              onClick={toggleTheme}
+              onClick={() => { play("click"); setSearchOpen((s) => !s); }}
+              aria-label="بحث"
               className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
-              title={theme === "dark" ? "الوضع النهاري" : "الوضع الليلي"}
             >
-              {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+              <Search size={19} />
             </button>
 
-            {/* Language Switcher */}
-            <div className="relative">
+            {/* Sound on/off */}
+            <button
+              onClick={toggleSound}
+              aria-label={soundOn ? "كتم الأصوات" : "تشغيل الأصوات"}
+              title={soundOn ? "الأصوات مفعّلة" : "الأصوات مكتومة"}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+            >
+              {soundOn ? <Volume2 size={19} /> : <VolumeX size={19} />}
+            </button>
+
+            {/* Theme toggle */}
+            <button
+              onClick={() => { play("toggle"); toggleTheme(); }}
+              aria-label={theme === "dark" ? "الوضع النهاري" : "الوضع الليلي"}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={theme}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.2 }}
+                  className="block"
+                >
+                  {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+                </motion.span>
+              </AnimatePresence>
+            </button>
+
+            {/* Language */}
+            <div className="relative hidden sm:block">
               <button
-                onClick={() => setLangOpen(!langOpen)}
+                onClick={() => { play("open"); setLangOpen((o) => !o); }}
+                aria-label="تغيير اللغة"
                 className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all flex items-center gap-1 text-sm"
               >
                 <Globe size={19} />
-                <span className="hidden sm:inline">{flagMap[lang]}</span>
+                <span>{flagMap[lang]}</span>
               </button>
               <AnimatePresence>
                 {langOpen && (
@@ -182,13 +277,13 @@ export default function Header() {
                     initial={{ opacity: 0, y: 8, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                    className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50 min-w-[100px]"
+                    className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50 min-w-[120px]"
                   >
                     {(["ar", "fr", "en"] as Lang[]).map((l) => (
                       <button
                         key={l}
-                        onClick={() => { setLang(l); setLangOpen(false); }}
-                        className={`w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap ${lang === l ? "text-orange-500 font-bold bg-orange-50 dark:bg-orange-500/10" : "text-gray-700 dark:text-gray-300"}`}
+                        onClick={() => { play("click"); setLang(l); setLangOpen(false); }}
+                        className={`w-full text-right px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap ${lang === l ? "text-orange-500 font-bold bg-orange-50 dark:bg-orange-500/10" : "text-gray-700 dark:text-gray-300"}`}
                       >
                         {flagMap[l]} {l === "ar" ? "العربية" : l === "fr" ? "Français" : "English"}
                       </button>
@@ -198,29 +293,28 @@ export default function Header() {
               </AnimatePresence>
             </div>
 
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
-            >
-              <Search size={20} />
-            </button>
-
+            {/* Primary CTA — تابعونا */}
             <Link
-              href="/admin"
-              className="hidden sm:flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-orange-200 dark:hover:shadow-orange-500/20 hover:shadow-md"
+              href="/follow"
+              onClick={() => play("nav")}
+              className="hidden md:flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-orange-500/20"
             >
-              {t("admin")}
+              <Users size={15} /> {t("follow")}
             </Link>
 
+            {/* Mobile menu toggle */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="xl:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all"
+              onClick={() => { play(mobileOpen ? "close" : "open"); setMobileOpen((o) => !o); }}
+              aria-label="القائمة"
+              aria-expanded={mobileOpen}
+              className="lg:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all"
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
 
+        {/* Search bar */}
         <AnimatePresence>
           {searchOpen && (
             <motion.div
@@ -244,47 +338,93 @@ export default function Header() {
         </AnimatePresence>
       </div>
 
+      {/* ---------- Mobile menu ---------- */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="xl:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="lg:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
           >
-            <div className="px-4 py-3 space-y-1 max-h-[70vh] overflow-y-auto">
-              {navItems.map((item) => (
-                <div key={item.key}>
+            <div className="px-4 py-3 space-y-1 max-h-[72vh] overflow-y-auto">
+              {navItems.map((item) =>
+                item.kind === "link" ? (
                   <Link
+                    key={item.key}
                     href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl font-medium transition-all"
+                    onClick={() => { play("nav"); setMobileOpen(false); }}
+                    className={`block px-4 py-3 text-sm rounded-xl font-semibold transition-all ${
+                      isActive(item.href)
+                        ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
+                        : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                    }`}
                   >
-                    {t(item.key)}
+                    {label(item.key)}
                   </Link>
-                  {item.grade && (
-                    <div className="mr-3 sm:mr-4 mt-1 space-y-1">
-                      {gradeDropdown.map((sub) => {
-                        const href = buildHref(sub.href, item.grade!);
-                        return (
-                          <Link
-                            key={sub.label}
-                            href={href}
-                            onClick={() => setMobileOpen(false)}
-                            className="block px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
-                          >
-                            - {sub.label}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              ))}
+                ) : (
+                  <div key={item.key}>
+                    <button
+                      onClick={() => { play("open"); setMobileGroup((g) => (g === item.key ? null : item.key)); }}
+                      aria-expanded={mobileGroup === item.key}
+                      className="w-full flex items-center justify-between px-4 py-3 text-sm rounded-xl font-semibold text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all"
+                    >
+                      {label(item.key)}
+                      <ChevronDown size={16} className={`transition-transform duration-200 ${mobileGroup === item.key ? "rotate-180" : ""}`} />
+                    </button>
+                    <AnimatePresence>
+                      {mobileGroup === item.key && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden mr-3 mt-1 space-y-1 border-r-2 border-orange-100 dark:border-orange-500/20 pr-2"
+                        >
+                          {item.children.map((sub) => {
+                            const Icon = sub.icon;
+                            return (
+                              <Link
+                                key={sub.href}
+                                href={sub.href}
+                                onClick={() => { play("click"); setMobileOpen(false); }}
+                                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
+                              >
+                                <Icon size={15} className="text-orange-400 flex-shrink-0" />
+                                {sub.label}
+                              </Link>
+                            );
+                          })}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )
+              )}
+
+              {/* Mobile actions row */}
+              <div className="flex items-center gap-2 pt-2 mt-2 border-t border-gray-100 dark:border-gray-800">
+                {(["ar", "fr", "en"] as Lang[]).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => { play("click"); setLang(l); }}
+                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${lang === l ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+                  >
+                    {flagMap[l]}
+                  </button>
+                ))}
+                <Link
+                  href="/follow"
+                  onClick={() => { play("nav"); setMobileOpen(false); }}
+                  className="flex-1 flex items-center justify-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all"
+                >
+                  <Users size={15} /> {t("follow")}
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }
