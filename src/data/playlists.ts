@@ -35,8 +35,8 @@ export const playlists: PlaylistConfig[] = [
   {
     id: "bac-skills",
     title: "المكتسبات القبلية BAC",
-    levelKey: "bac",
-    levelLabel: "البكالوريا",
+    levelKey: "3as",
+    levelLabel: "السنة الثالثة ثانوي",
     stream: "العلوم الفيزيائية",
     description: "دورة المكتسبات القبلية لطلاب البكالوريا — مراجعة أساسيات كل وحدة قبل انطلاق العام الدراسي.",
     playlistId: "PLBnz3ydY2LlQ",

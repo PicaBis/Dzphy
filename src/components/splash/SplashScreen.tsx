@@ -97,15 +97,10 @@ export default function SplashScreen() {
           key="splash"
           data-sound-managed
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.04, filter: "blur(6px)" }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-orange-50/40 to-white dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-white dark:bg-gray-950"
         >
-          {/* soft ambient glow */}
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-1/2 top-1/2 h-[38rem] w-[38rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-400/10 blur-3xl" />
-          </div>
-
           {phase === "logo" && (
             <div className="relative z-10 flex flex-col items-center gap-6">
               {/* Orbits + particles converging on the logo */}

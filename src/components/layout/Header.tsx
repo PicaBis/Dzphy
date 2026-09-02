@@ -114,6 +114,20 @@ export default function Header() {
     setSearchOpen(false);
   }, [pathname]);
 
+  // Accessibility: Escape closes any open menu/dropdown/search.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpenGroup(null);
+      setLangOpen(false);
+      setSearchOpen(false);
+      setMobileOpen(false);
+      setMobileGroup(null);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
     <motion.header
       data-sound-managed

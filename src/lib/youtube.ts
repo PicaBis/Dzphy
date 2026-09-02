@@ -131,12 +131,27 @@ function parseFeed(xml: string, fallbackTitle: string): { title: string; videos:
 }
 
 async function fetchText(url: string): Promise<string> {
-  const res = await fetch(url, {
-    headers: { "User-Agent": "DzPhy/1.0 (+https://dzphy.vercel.app)" },
-    next: { revalidate: REVALIDATE_SECONDS },
-  });
-  if (!res.ok) throw new Error(`fetch ${url} failed: ${res.status}`);
-  return res.text();
+  // Two attempts with an 8s timeout each — YouTube RSS is occasionally slow or
+  // rate-limited; a single transient failure shouldn't empty a whole playlist.
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    try {
+      const res = await fetch(url, {
+        headers: { "User-Agent": "DzPhy/1.0 (+https://dzphy.vercel.app)" },
+        next: { revalidate: REVALIDATE_SECONDS },
+        signal: controller.signal,
+      });
+      if (!res.ok) throw new Error(`fetch ${url} failed: ${res.status}`);
+      return await res.text();
+    } catch (err) {
+      lastErr = err;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error(`fetch ${url} failed`);
 }
 
 // ---------------------------------------------------------------------------

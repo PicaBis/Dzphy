@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { getSupabase, type ContentRow } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 300;
 
 // Reads dynamic educational content from Supabase (persists across redeploys).
 // If Supabase env vars are not configured, returns an empty list so the rest of

@@ -51,6 +51,7 @@ function SearchInner() {
   const router = useRouter();
   const initialQ = params.get("q") ?? "";
   const [query, setQuery] = useState(initialQ);
+  const [active, setActive] = useState(-1);
 
   // keep the URL in sync (shareable search links) without a full navigation
   useEffect(() => {
@@ -65,6 +66,25 @@ function SearchInner() {
 
   const results = useMemo(() => runSearch(query), [query]);
 
+  const updateQuery = (value: string) => {
+    setQuery(value);
+    setActive(-1); // reset the keyboard cursor when the result set changes
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (results.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActive((a) => (a + 1) % results.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActive((a) => (a <= 0 ? results.length - 1 : a - 1));
+    } else if (e.key === "Enter") {
+      const target = results[active] ?? results[0];
+      if (target) router.push(target.url);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
       <div className="bg-gradient-to-br from-orange-500 to-orange-700 py-14 sm:py-16">
@@ -78,7 +98,12 @@ function SearchInner() {
             <input
               autoFocus
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => updateQuery(e.target.value)}
+              onKeyDown={onKeyDown}
+              role="combobox"
+              aria-expanded={results.length > 0}
+              aria-controls="search-results"
+              aria-label="ابحث في المنصة"
               placeholder="اكتب: نيوتن، الكهرباء، القذائف، BAC..."
               className="w-full pr-14 pl-5 py-4 bg-white dark:bg-gray-800 dark:text-white rounded-2xl text-base shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-300 dark:focus:ring-orange-500/40 transition-all"
             />
@@ -87,7 +112,7 @@ function SearchInner() {
             {suggestions.map((s) => (
               <button
                 key={s}
-                onClick={() => setQuery(s)}
+                onClick={() => updateQuery(s)}
                 className="px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-semibold transition-colors"
               >
                 {s}
@@ -114,9 +139,10 @@ function SearchInner() {
               <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">جرّب كلمة أخرى مثل: نيوتن، الكهرباء، BEM</p>
             </motion.div>
           ) : (
-            <motion.div key="list" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-3">
+            <motion.div id="search-results" role="listbox" key="list" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-3">
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
                 <span className="font-bold text-gray-900 dark:text-white">{results.length}</span> نتيجة لـ &quot;{query}&quot;
+                <span className="hidden sm:inline text-gray-400 dark:text-gray-500"> — استخدم ↑ ↓ ثم Enter</span>
               </p>
               {results.map((item, i) => {
                 const Icon = kindIcon[item.kind];
@@ -129,7 +155,14 @@ function SearchInner() {
                   >
                     <Link
                       href={item.url}
-                      className="block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:border-orange-200 dark:hover:border-orange-500/30 hover:shadow-md transition-all group"
+                      role="option"
+                      aria-selected={i === active}
+                      onMouseEnter={() => setActive(i)}
+                      className={`block bg-white dark:bg-gray-800 border rounded-2xl p-4 sm:p-5 hover:shadow-md transition-all group ${
+                        i === active
+                          ? "border-orange-300 dark:border-orange-500/50 ring-2 ring-orange-200 dark:ring-orange-500/30 shadow-md"
+                          : "border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-500/30"
+                      }`}
                     >
                       <div className="flex items-center gap-4">
                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${kindColor[item.kind]}`}>

@@ -19,8 +19,8 @@ function getInitialUrlState() {
   const l = params.get("level");
   const c = params.get("category");
   return {
-    level: l && levels.includes(l as any) ? l : "الكل",
-    category: c && categories.includes(c as any) ? c : "الكل",
+    level: l && (levels as string[]).includes(l) ? l : "الكل",
+    category: c && (categories as string[]).includes(c) ? c : "الكل",
   };
 }
 

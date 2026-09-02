@@ -63,6 +63,9 @@ export default function TipsOverlay() {
   const { play } = useSound();
   const timers = useRef<{ show?: ReturnType<typeof setTimeout>; hide?: ReturnType<typeof setTimeout> }>({});
   const tickRef = useRef(0);
+  // Ref indirection avoids a self-referential callback (and its TDZ pitfall)
+  // while letting the recursive scheduler always call the latest function.
+  const showTipRef = useRef<() => void>(() => {});
 
   const hide = useCallback(() => {
     setVisible(false);
@@ -71,7 +74,7 @@ export default function TipsOverlay() {
   const showTip = useCallback(() => {
     if (isBusy()) {
       // Defer: reschedule a nearer retry without consuming the main cycle.
-      timers.current.show = setTimeout(showTip, RETRY_MS);
+      timers.current.show = setTimeout(() => showTipRef.current(), RETRY_MS);
       return;
     }
     tickRef.current += 1;
@@ -79,17 +82,21 @@ export default function TipsOverlay() {
     setVisible(true);
     timers.current.hide = setTimeout(() => setVisible(false), VISIBLE_MS);
     // schedule the next appearance
-    timers.current.show = setTimeout(showTip, INTERVAL_MS);
+    timers.current.show = setTimeout(() => showTipRef.current(), INTERVAL_MS);
   }, []);
 
   useEffect(() => {
-    timers.current.show = setTimeout(showTip, FIRST_DELAY_MS);
+    showTipRef.current = showTip;
+  }, [showTip]);
+
+  useEffect(() => {
+    timers.current.show = setTimeout(() => showTipRef.current(), FIRST_DELAY_MS);
     const t = timers.current;
     return () => {
       if (t.show) clearTimeout(t.show);
       if (t.hide) clearTimeout(t.hide);
     };
-  }, [showTip]);
+  }, []);
 
   const onClose = () => {
     play("close");

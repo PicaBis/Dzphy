@@ -10,11 +10,10 @@ import {
   Calendar,
   Eye,
   RefreshCw,
-  AlertCircle,
 } from "lucide-react";
 import { type PlaylistLevelKey } from "@/data/playlists";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
-import { PlaylistCardSkeleton } from "@/components/ui/Skeletons";
+import { EmptyState, ErrorState } from "@/components/ui/StateViews";
 
 const YT = ({ s = 18 }: { s?: number }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}>
@@ -24,7 +23,6 @@ const YT = ({ s = 18 }: { s?: number }) => (
 
 const levelFilters: { key: PlaylistLevelKey | "all"; label: string }[] = [
   { key: "all", label: "الكل" },
-  { key: "bac", label: "البكالوريا" },
   { key: "3as", label: "السنة الثالثة ثانوي" },
   { key: "2as", label: "السنة الثانية ثانوي" },
   { key: "1as", label: "السنة الأولى ثانوي" },
@@ -113,24 +111,20 @@ export default function VideosPage() {
         )}
 
         {!loading && error && (
-          <div className="text-center py-20">
-            <AlertCircle size={48} className="mx-auto text-red-300 dark:text-red-500/40 mb-4" />
-            <p className="text-gray-600 dark:text-gray-300 text-lg font-bold mb-2">تعذّر الاتصال بقوائم التشغيل</p>
-            <p className="text-gray-400 dark:text-gray-500 text-sm mb-6">تأكد من اتصال الإنترنت ثم أعد المحاولة</p>
-            <button
-              onClick={() => load(level)}
-              className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-bold transition-all"
-            >
-              <RefreshCw size={16} /> إعادة المحاولة
-            </button>
-          </div>
+          <ErrorState
+            title="تعذّر الاتصال بقوائم التشغيل"
+            hint="تأكد من اتصال الإنترنت ثم أعد المحاولة"
+            onRetry={() => load(level)}
+          />
         )}
 
         {!loading && !error && data && data.length === 0 && (
-          <div className="text-center py-16 sm:py-20">
-            <ListVideo size={40} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-            <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg font-semibold">لا توجد قوائم في هذا المستوى بعد</p>
-          </div>
+          <EmptyState
+            icon={ListVideo}
+            title="لا توجد قوائم في هذا المستوى بعد"
+            hint="جرّب مستوى آخر أو تصفّح كل القوائم."
+            action={{ label: "كل القوائم", onClick: () => setLevel("all") }}
+          />
         )}
 
         {/* Playlists */}

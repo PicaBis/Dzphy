@@ -29,8 +29,7 @@ export default function HeroSection() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 text-orange-700 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-semibold mb-6"
             >
-              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                منصة الأستاذ بيكا للفيزياء
+              شعارنا <span dir="ltr" className="font-black">@profpica</span> — تتفكرها مع بيكا
             </motion.div>
 
             <motion.h1
@@ -39,7 +38,7 @@ export default function HeroSection() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 dark:text-white leading-tight mb-5 sm:mb-6"
             >
-              منصة الأستاذ بيكا للفيزياء{" "}
+              منصة الأستاذ بيكا{" "}
               <span className="text-orange-500 relative">
                 لتعليم الفيزياء
                 <svg className="absolute -bottom-2 right-0 w-full" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
