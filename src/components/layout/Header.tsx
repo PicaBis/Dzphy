@@ -220,7 +220,7 @@ export default function Header() {
                               <span className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-500/10 group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
                                 <Icon size={15} className="text-orange-500" />
                               </span>
-                              {sub.label}
+                              {t(sub.key)}
                             </Link>
                           );
                         })}
