@@ -1,18 +1,8 @@
 "use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { type Lang, LANG_COOKIE, LANG_OPTIONS, LANG_NAMES, dirForLang } from "./i18n";
 
-export type Lang = "ar" | "fr" | "en";
-
-export const LANG_COOKIE = "dzphy-lang";
-export const LANG_OPTIONS: Lang[] = ["ar", "fr", "en"];
-
-export const dirForLang = (l: Lang): "rtl" | "ltr" => (l === "ar" ? "rtl" : "ltr");
-
-export const LANG_NAMES: Record<Lang, string> = {
-  ar: "العربية",
-  fr: "Français",
-  en: "English",
-};
+export { type Lang, LANG_COOKIE, LANG_OPTIONS, LANG_NAMES, dirForLang };
 
 interface LanguageContextType {
   lang: Lang;
@@ -1433,11 +1423,6 @@ export function LanguageProvider({
   initialLang?: Lang;
 }) {
   const [lang, setLang] = useState<Lang>(() => initial ?? initialLang());
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang === "ar" ? "ar" : lang;
@@ -1460,8 +1445,6 @@ export function LanguageProvider({
   };
 
   const t = (key: string) => translations[lang]?.[key] ?? translations.ar[key] ?? key;
-
-  if (!mounted) return <>{children}</>;
 
   return (
     <LanguageContext.Provider

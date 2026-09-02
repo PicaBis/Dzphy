@@ -60,8 +60,6 @@ const navItems: NavItem[] = [
   { kind: "link", key: "about", href: "/about" },
 ];
 
-type NavChild = { key: string; href: string; icon: typeof BookOpen };
-
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
 
 export default function Header() {
