@@ -36,7 +36,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-300"
+            className="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 border-2 border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 transition-all duration-300"
           >
             <div className="flex flex-col items-center text-center gap-6">
               <div className="relative">

@@ -77,7 +77,7 @@ export default function GradeCards() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i * 0.08, ease: "easeOut" }}
-                className={`group relative flex flex-col bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl card-shine tilt-hover ${lvl.glow} transition-all duration-300 hover:-translate-y-1.5`}
+                className={`group relative flex flex-col bg-white dark:bg-gray-800 rounded-3xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl card-shine tilt-hover hover:border-orange-400 dark:hover:border-orange-500/50 ${lvl.glow} transition-all duration-300 hover:-translate-y-1.5`}
               >
                 {/* top accent strip in the level color */}
                 <div className={`h-1.5 w-full bg-gradient-to-l ${lvl.gradient}`} />

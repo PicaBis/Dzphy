@@ -131,7 +131,7 @@ export default function Header() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
         scrolled
-          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-100 dark:border-gray-800"
+          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b-2 border-gray-200 dark:border-gray-800"
           : "bg-white/85 dark:bg-gray-950/85 backdrop-blur-sm border-b border-transparent"
       }`}
     >
@@ -200,7 +200,7 @@ export default function Header() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.97 }}
                         transition={{ duration: 0.16, ease: "easeOut" }}
-                        className="absolute top-full right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50 p-2"
+                        className="absolute top-full right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden z-50 p-2"
                       >
                         {item.children.map((sub) => {
                           const Icon = sub.icon;
@@ -286,7 +286,7 @@ export default function Header() {
                     initial={{ opacity: 0, y: 8, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                    className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50 min-w-[120px]"
+                    className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden z-50 min-w-[120px]"
                   >
                     {(["ar", "fr", "en"] as Lang[]).map((l) => (
                       <button
@@ -339,7 +339,7 @@ export default function Header() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={t("nav.searchPh")}
-                  className="w-full pr-10 sm:pr-12 pl-3 sm:pl-4 py-2.5 sm:py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all dark:text-white dark:placeholder-gray-500"
+                  className="w-full pr-10 sm:pr-12 pl-3 sm:pl-4 py-2.5 sm:py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all dark:text-white dark:placeholder-gray-500"
                 />
               </form>
             </motion.div>
@@ -355,7 +355,7 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="lg:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
+            className="lg:hidden border-t-2 border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1 max-h-[72vh] overflow-y-auto">
               {navItems.map((item) =>

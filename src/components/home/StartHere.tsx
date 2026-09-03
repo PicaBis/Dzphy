@@ -79,7 +79,7 @@ export default function StartHere() {
                     >
                       <Link
                         href={s.href}
-                        className="group flex h-full flex-col rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-4 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+                        className="group flex h-full flex-col rounded-2xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 p-4 hover:-translate-y-1 hover:border-orange-400 dark:hover:border-orange-500/50 hover:shadow-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
                       >
                         <div className="flex items-center justify-between mb-3">
                           <span className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${s.color} text-white group-hover:scale-110 transition-transform`}>

@@ -9,6 +9,7 @@ import HomeSocial from "@/components/home/HomeSocial";
 import CoursesSection from "@/components/home/CoursesSection";
 import WhyDzPhy from "@/components/home/WhyDzPhy";
 import AboutSection from "@/components/home/AboutSection";
+import Newsletter from "@/components/home/Newsletter";
 import SectionDivider from "@/components/ui/SectionDivider";
 
 export default function HomePage() {
@@ -34,6 +35,8 @@ export default function HomePage() {
       <SectionDivider type="wave" dark />
       <WhyDzPhy />
       <SectionDivider type="curve" />
+      <Newsletter />
+      <SectionDivider type="wave" />
       <AboutSection />
     </>
   );

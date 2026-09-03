@@ -28,7 +28,7 @@ export default function WhyDzPhy() {
             const Icon = feature.icon;
             return (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className={`group p-6 rounded-2xl border-2 ${feature.border} bg-white dark:bg-gray-800 hover:shadow-lg card-shine tilt-hover transition-all duration-300 hover:-translate-y-1 cursor-default`}
+                className={`group p-6 rounded-2xl border-2 ${feature.border} bg-white dark:bg-gray-800 hover:shadow-lg card-shine tilt-hover hover:border-orange-400 dark:hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 cursor-default`}
               >
                 <div className={`w-12 h-12 rounded-2xl ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}><Icon size={22} /></div>
                 <h3 className="font-black text-gray-900 dark:text-white text-lg mb-2">{t(feature.titleKey)}</h3>

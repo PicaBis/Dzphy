@@ -68,14 +68,14 @@ export default function HeroSection() {
             >
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 shadow-lg shadow-orange-200 dark:shadow-orange-500/20 hover:shadow-orange-300 dark:hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 shadow-lg shadow-orange-200 dark:shadow-orange-500/20 hover:shadow-orange-300 dark:hover:shadow-orange-500/30 hover:scale-105 active:scale-95 border-2 border-orange-600"
               >
                 {t("hero.watch")}
                 <Arrow size={16} />
               </Link>
               <Link
                 href="/courses"
-                className="inline-flex items-center gap-2 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-400 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-gray-900 px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                className="inline-flex items-center gap-2 border-2 border-gray-300 dark:border-gray-700 hover:border-orange-500 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-gray-900 px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold transition-all duration-200 hover:bg-orange-50 dark:hover:bg-orange-500/10"
               >
                 <PlayCircle size={18} className="text-orange-500" />
                 {t("hero.courses")}

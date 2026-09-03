@@ -258,6 +258,15 @@ const ar: Record<string, string> = {
   "ab.follow": "🔗👇 تابعونا عبر الروابط",
   "ab.mission": "رسالتنا",
   "ab.missionDesc": "جعل تعلم الفيزياء تجربة ممتعة وميسرة لكل طالب جزائري، من خلال توفير أفضل المحتويات التعليمية والأدوات الذكية المجانية.",
+
+  // ---- Newsletter ----
+  "newsletter.title": "ابقَ على اطلاع",
+  "newsletter.desc": "اشترك في النشرة البريدية لتصلك أحدث الدروس والملخصات والتمارين مباشرة إلى بريدك",
+  "newsletter.placeholder": "أدخل بريدك الإلكتروني",
+  "newsletter.subscribe": "اشترك الآن",
+  "newsletter.success": "تم الاشتراك!",
+  "newsletter.privacy": "نحترم خصوصيتك - لن نشارك بريدك مع أي طرف ثالث",
+
   "ab.heroTitle": "من نحن؟",
   "ab.heroDesc": "تعرف على الأستاذ بيكا ومنصة الأستاذ بيكا للفيزياء",
   "ab.cvAlt": "السيرة الذاتية - الأستاذ بيكا",
@@ -718,6 +727,15 @@ const fr: Record<string, string> = {
   "ab.follow": "🔗👇 Suivez-nous via les liens",
   "ab.mission": "Notre mission",
   "ab.missionDesc": "Rendre l'apprentissage de la physique agréable et accessible à chaque élève algérien, en offrant les meilleurs contenus éducatifs et outils intelligents gratuits.",
+
+  // ---- Newsletter ----
+  "newsletter.title": "Restez informé",
+  "newsletter.desc": "Abonnez-vous à notre newsletter pour recevoir les derniers cours, résumés et exercices directement dans votre boîte mail",
+  "newsletter.placeholder": "Entrez votre adresse e-mail",
+  "newsletter.subscribe": "S'abonner",
+  "newsletter.success": "Abonné !",
+  "newsletter.privacy": "Nous respectons votre vie privée - nous ne partagerons jamais votre e-mail",
+
   "ab.heroTitle": "À Propos",
   "ab.heroDesc": "Découvrez l'enseignant Pica et la plateforme de physique",
   "ab.cvAlt": "CV - L'enseignant Pica",
@@ -1165,6 +1183,15 @@ const en: Record<string, string> = {
   "ab.follow": "🔗👇 Follow us via the links",
   "ab.mission": "Our mission",
   "ab.missionDesc": "Making physics an enjoyable, accessible experience for every Algerian student by providing the best educational content and free smart tools.",
+
+  // ---- Newsletter ----
+  "newsletter.title": "Stay Updated",
+  "newsletter.desc": "Subscribe to our newsletter to receive the latest lessons, summaries and exercises directly in your inbox",
+  "newsletter.placeholder": "Enter your email address",
+  "newsletter.subscribe": "Subscribe",
+  "newsletter.success": "Subscribed!",
+  "newsletter.privacy": "We respect your privacy - we will never share your email",
+
   "ab.heroTitle": "About Us",
   "ab.heroDesc": "Get to know Prof. Pica and the Prof. Pica physics platform",
   "ab.cvAlt": "Resume - Prof. Pica",

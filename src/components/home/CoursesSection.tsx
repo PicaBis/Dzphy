@@ -20,7 +20,7 @@ export default function CoursesSection() {
             <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-3">{t("cs.badge")}</span>
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">{t("cs.t1")} <span className="text-orange-500">{t("cs.t2")}</span> {t("cs.t3")}</h2>
           </div>
-          <Link href="/courses" className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border border-orange-200 dark:border-orange-500/30 hover:border-orange-400 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10">{t("cs.all")} <DirectionArrow size={16} /></Link>
+          <Link href="/courses" className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border-2 border-orange-300 dark:border-orange-500/30 hover:border-orange-500 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10">{t("cs.all")} <DirectionArrow size={16} /></Link>
         </motion.div>
 
         <div className="mb-16">
@@ -28,7 +28,7 @@ export default function CoursesSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {freeCourses.map((course, i) => (
               <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 card-shine transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
+                className="group bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 card-shine transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
               >
                 <div className="relative h-40 overflow-hidden bg-gray-900">
                   {course.image && course.image.startsWith("https://i.ytimg.com") ? (
@@ -66,7 +66,7 @@ export default function CoursesSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {paidCourses.map((course, i) => (
               <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
+                className="group bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
               >
                 <div className="relative h-40 overflow-hidden bg-gray-900">
                   {course.image && !course.image.startsWith("https://i.ytimg.com") ? (

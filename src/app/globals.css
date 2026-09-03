@@ -5,6 +5,8 @@
 :root {
   --orange: #FF7A00;
   --orange-light: #FF9A3C;
+  --card-border-light: #e5e7eb;
+  --card-border-hover-light: #FF7A00;
 }
 
 @theme inline {
@@ -24,6 +26,51 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-light {
+  border: 2px solid var(--card-border-light);
+  transition: all 0.3s ease;
+}
+
+.card-light:hover {
+  border-color: var(--card-border-hover-light);
+  box-shadow: 0 8px 24px rgba(255, 122, 0, 0.12);
+}
+
+.dark .card-light {
+  border-color: rgb(55, 65, 81);
+}
+
+.dark .card-light:hover {
+  border-color: rgb(251, 146, 60);
+}
+
+.btn-primary-light {
+  border: 2px solid #FF7A00;
+  box-shadow: 0 4px 12px rgba(255, 122, 0, 0.15);
+}
+
+.btn-primary-light:hover {
+  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.25);
+}
+
+.input-light {
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.input-light:focus {
+  border-color: #FF7A00;
+  box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.1);
+}
+
+.dark .input-light {
+  border-color: rgb(55, 65, 81);
+}
+
+.dark .input-light:focus {
+  border-color: rgb(251, 146, 60);
 }
 
 @keyframes float {
