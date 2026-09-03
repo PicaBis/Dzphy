@@ -28,7 +28,7 @@ export default function CoursesSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {freeCourses.map((course, i) => (
               <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
+                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 card-shine transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
               >
                 <div className="relative h-40 overflow-hidden bg-gray-900">
                   {course.image && course.image.startsWith("https://i.ytimg.com") ? (

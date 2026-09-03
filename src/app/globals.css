@@ -36,6 +36,24 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 122, 0, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(255, 122, 0, 0.5); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -51,6 +69,58 @@ body {
 
 .orange-gradient {
   background: linear-gradient(135deg, #FF7A00 0%, #FF9A3C 100%);
+}
+
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card-shine:hover::before {
+  left: 125%;
+}
+
+.dark .card-shine::before {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+}
+
+.tilt-hover {
+  transition: transform 0.3s ease;
+}
+
+.tilt-hover:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-4px);
+}
+
+.glow-orange {
+  box-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-orange:hover {
+  box-shadow: 0 0 30px rgba(255, 122, 0, 0.5), 0 0 60px rgba(255, 122, 0, 0.2);
 }
 
 ::-webkit-scrollbar { width: 6px; }
@@ -82,4 +152,61 @@ body {
   .animate-float {
     animation: none !important;
   }
+}
+
+.focus-mode header,
+.focus-mode footer {
+  opacity: 0.3;
+  filter: blur(2px);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.focus-mode header:hover,
+.focus-mode footer:hover {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.focus-mode main {
+  position: relative;
+}
+
+.focus-mode main::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark.focus-mode main::before {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.focus-mode section {
+  position: relative;
+  z-index: 2;
+}
+
+.focus-mode section:hover {
+  z-index: 3;
+}
+
+.focus-mode section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+  transition: background 0.3s;
+  z-index: -1;
+}
+
+.focus-mode section:hover::after {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dark.focus-mode section:hover::after {
+  background: rgba(255, 255, 255, 0.05);
 }

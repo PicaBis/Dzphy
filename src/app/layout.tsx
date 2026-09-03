@@ -10,6 +10,11 @@ import Footer from "@/components/layout/Footer";
 import SplashScreen from "@/components/splash/SplashScreen";
 import MotionProvider from "@/components/providers/MotionProvider";
 import TipsOverlay from "@/components/ui/TipsOverlay";
+import ReadingProgressBar from "@/components/ui/ReadingProgressBar";
+import BackToTop from "@/components/ui/BackToTop";
+import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
+import { FocusModeProvider, FocusModeToggle } from "@/components/ui/FocusMode";
+import QuickActions from "@/components/ui/QuickActions";
 import jsonLd from "./json-ld";
 
 const meta = {
@@ -128,13 +133,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider>
           <LanguageProvider initialLang={lang}>
             <SoundProvider>
-              <MotionProvider>
-                <SplashScreen />
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-                <TipsOverlay />
-              </MotionProvider>
+              <FocusModeProvider>
+                <MotionProvider>
+                  <ReadingProgressBar />
+                  <SplashScreen />
+                  <Header />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
+                  <TipsOverlay />
+                  <BackToTop />
+                  <FocusModeToggle />
+                  <QuickActions />
+                  <KeyboardShortcuts />
+                </MotionProvider>
+              </FocusModeProvider>
             </SoundProvider>
           </LanguageProvider>
         </ThemeProvider>
