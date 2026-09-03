@@ -161,7 +161,7 @@ export default function HomeSocial() {
                 href={facebookOfficial}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between gap-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-4 hover:border-blue-300 dark:hover:border-blue-500/40 hover:shadow-md transition-all"
+                className="group flex items-center justify-between gap-3 rounded-2xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 p-4 hover:border-blue-400 dark:hover:border-blue-500/50 hover:shadow-md transition-all"
               >
                 <div>
                   <p className="font-black text-gray-900 dark:text-white text-sm mb-0.5">{t("hs.fbOfficial")}</p>
@@ -173,7 +173,7 @@ export default function HomeSocial() {
                 href={siteConfig.facebookPersonal}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between gap-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-4 hover:border-blue-300 dark:hover:border-blue-500/40 hover:shadow-md transition-all"
+                className="group flex items-center justify-between gap-3 rounded-2xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 p-4 hover:border-blue-400 dark:hover:border-blue-500/50 hover:shadow-md transition-all"
               >
                 <div>
                   <p className="font-black text-gray-900 dark:text-white text-sm mb-0.5">{t("hs.fbPersonal")}</p>

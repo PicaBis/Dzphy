@@ -124,7 +124,7 @@ export default function VideosSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ delay: i * 0.08, ease: "easeOut" }}
-                  className="group block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl hover:border-red-200 dark:hover:border-red-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
+                  className="group block bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl hover:border-red-400 dark:hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                 >
                   <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${pl.gradient}`}>
                     <img
