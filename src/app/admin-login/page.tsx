@@ -28,7 +28,7 @@ export default function AdminLoginPage() {
       }
 
       router.push('/admin');
-    } catch (err) {
+    } catch {
       setError('حدث خطأ. حاول مرة أخرى.');
       setLoading(false);
     }

@@ -5,6 +5,7 @@ import {
   fetchChannelFeed,
   youtubeThumbnail,
   type PlaylistVideo,
+  type PlaylistFeed,
 } from "@/lib/youtube";
 import { siteConfig } from "@/data/site";
 
@@ -47,7 +48,9 @@ export async function GET(request: NextRequest) {
 
     // Curated playlists (level-filtered) + the channel's latest uploads.
     const [feeds, channel] = await Promise.all([
-      fetchAllPlaylists(playlists.map((p) => p.playlistId)).catch(() => ({} as Record<string, any>)),
+      fetchAllPlaylists(playlists.map((p) => p.playlistId)).catch(
+        () => ({} as Record<string, PlaylistFeed>)
+      ),
       fetchChannelFeed(siteConfig.youtubeChannelId).catch(() => null),
     ]);
 
@@ -57,7 +60,7 @@ export async function GET(request: NextRequest) {
   // two playlists show up / they change on refresh". A curated playlist always
   // has a cover + a real "open on YouTube" link, so it stays useful with 0
   // live videos. Playlists that DID load videos are surfaced first.
-  const feedsData = feeds as Record<string, any>;
+  const feedsData = feeds as Record<string, PlaylistFeed>;
   const data: PlaylistResponse[] = playlists
     .filter((p: PlaylistConfig) => !level || p.levelKey === level)
     .map((p) => ({
@@ -104,7 +107,7 @@ export async function GET(request: NextRequest) {
     }
 
     return Response.json(data);
-  } catch (error) {
+  } catch {
     // Return cached/empty data on error instead of failing
     return Response.json(playlists.filter((p: PlaylistConfig) => !level || p.levelKey === level)
       .map((p) => ({

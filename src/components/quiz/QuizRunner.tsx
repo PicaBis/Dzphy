@@ -50,6 +50,23 @@ export default function QuizRunner({ quizId }: { quizId: string }) {
   const [showExplanation, setShowExplanation] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  useEffect(() => {
+    if (phase !== "playing" || !quiz) return;
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          finishQuiz({});
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
   if (!quiz) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20 flex items-center justify-center">
@@ -70,22 +87,6 @@ export default function QuizRunner({ quizId }: { quizId: string }) {
     setAnswers({});
     setShowExplanation(false);
   };
-
-  useEffect(() => {
-    if (phase !== "playing") return;
-    timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          finishQuiz({});
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [phase]);
 
   const selectAnswer = (qId: string, optionIdx: number) => {
     setAnswers((prev) => ({ ...prev, [qId]: optionIdx }));

@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
       count: contacts.length,
       contacts: contacts.slice(-50), // Last 50
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

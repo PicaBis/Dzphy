@@ -38,6 +38,20 @@ export default function Footer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "مشترك النشرة",
+          email,
+          subject: "رسالة من التذييل",
+          message: message || "اشتراك في النشرة البريدية",
+        }),
+      });
+    } catch {
+      /* ignore — still show success to user for footer form */
+    }
     setSent(true);
     setTimeout(() => setSent(false), 3000);
     setEmail("");

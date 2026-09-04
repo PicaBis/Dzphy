@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
     }
 
     return Response.json({ configured: true, items: (data ?? []) as ContentRow[] });
-  } catch (error) {
+  } catch {
     return Response.json(
       { configured: false, items: [], error: "Invalid request parameters" },
       { status: 400 }

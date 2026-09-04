@@ -1,6 +1,5 @@
 import { MetadataRoute } from "next";
 import { quizzes } from "@/data/quizzes";
-import { videos } from "@/data/social";
 
 const baseUrl = "https://dzphy.vercel.app";
 

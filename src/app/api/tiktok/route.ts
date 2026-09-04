@@ -37,7 +37,7 @@ export async function GET() {
             localThumb: v.thumbnail,
             verified: Boolean(oembed),
           };
-        } catch (error) {
+        } catch {
           // Fallback to local data if enrichment fails
           return {
             id: v.id,
@@ -56,7 +56,7 @@ export async function GET() {
     );
 
     return Response.json(enriched);
-  } catch (error) {
+  } catch {
     // Return cached/empty data on error
     return Response.json(tiktokVideos.map(v => ({
       id: v.id,
