@@ -159,11 +159,10 @@ export const siteConfig = {
   /** Official TikTok handle — new videos are added by URL only (see src/data/social.ts) */
   tiktokHandle: "profpica",
   facebookPersonal: "https://www.facebook.com/share/19Kq65FKqg/",
-  payment: "00799999002885975343",
+  // Sensitive data moved to env vars - see .env.local
   contact: {
-    email: "medjahed10abdelhadi@gmail.com",
-    whatsapp: "213557972459",
     location: "الجزائر",
+    // email and whatsapp from env vars only
   },
   /**
    * Hero video: put a valid 11-char YouTube video ID to embed it directly.

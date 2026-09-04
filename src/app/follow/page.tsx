@@ -1,23 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
-import { ExternalLink, Link2, CreditCard, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import { ExternalLink, Link2 } from "lucide-react";
 import { socialLinks, communityGroups, organizedCommunities, siteConfig } from "@/data/site";
 import { socialIconMap } from "@/components/icons/SocialIcons";
 import { SocialGallery } from "@/components/home/SocialGallery";
 
 export default function FollowPage() {
-  const [copied, setCopied] = useState(false);
-
-  const copyPayment = async () => {
-    try {
-      await navigator.clipboard.writeText(siteConfig.payment);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* ignore */
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16">
@@ -138,23 +126,17 @@ export default function FollowPage() {
         </div>
 
         {/* Support / payment */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 sm:p-8 text-white">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center"><CreditCard size={24} className="text-orange-400" /></div>
-            <div>
-              <h3 className="font-black text-xl">دعم المحتوى والدفع السريع ⚡</h3>
-              <p className="text-gray-400 text-sm">ساهم في استمرار المحتوى التعليمي المجاني</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 mt-4 bg-black/30 rounded-xl p-3">
-            <code dir="ltr" className="flex-1 text-orange-300 font-mono text-sm sm:text-base tracking-wider">{siteConfig.payment}</code>
-            <button
-              onClick={copyPayment}
-              className="flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-bold transition-all"
-            >
-              {copied ? <><Check size={15} /> تم النسخ</> : <><Copy size={15} /> نسخ</>}
-            </button>
-          </div>
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 sm:p-8 text-white text-center">
+          <h3 className="font-black text-xl mb-2">دعم المحتوى والدفع السريع ⚡</h3>
+          <p className="text-gray-400 text-sm mb-4">ساهم في استمرار المحتوى التعليمي المجاني</p>
+          <a
+            href={siteConfig.linktree}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 px-6 py-3 rounded-xl font-bold transition-all"
+          >
+            <Link2 size={18} /> اضغط هنا للدعم والتبرع
+          </a>
         </div>
       </div>
     </div>

@@ -15,28 +15,60 @@ export const revalidate = 3600;
 // resolve to the exact original video. Falls back to the curated data when
 // oEmbed is unavailable, so the section never breaks.
 export async function GET() {
-  const handle = siteConfig.tiktokHandle || "profpica";
+  try {
+    const handle = siteConfig.tiktokHandle || "profpica";
 
-  const enriched: TikTokEnriched[] = await Promise.all(
-    tiktokVideos.map(async (v) => {
-      const url = canonicalTikTokUrl(v.url, handle);
-      const videoId = extractTikTokId(url);
-      const oembed = await fetchTikTokOembed(url);
-      return {
-        id: v.id,
-        url,
-        videoId,
-        // Keep the clean curated title for display; store the raw caption too.
-        title: v.title,
-        oembedTitle: oembed?.title?.trim(),
-        authorName: oembed?.author_name,
-        authorUrl: oembed?.author_url,
-        thumbnail: oembed?.thumbnail_url || v.thumbnail,
-        localThumb: v.thumbnail,
-        verified: Boolean(oembed),
-      };
-    })
-  );
+    const enriched: TikTokEnriched[] = await Promise.all(
+      tiktokVideos.map(async (v) => {
+        try {
+          const url = canonicalTikTokUrl(v.url, handle);
+          const videoId = extractTikTokId(url);
+          const oembed = await fetchTikTokOembed(url).catch(() => null);
+          return {
+            id: v.id,
+            url,
+            videoId,
+            // Keep the clean curated title for display; store the raw caption too.
+            title: v.title,
+            oembedTitle: oembed?.title?.trim(),
+            authorName: oembed?.author_name,
+            authorUrl: oembed?.author_url,
+            thumbnail: oembed?.thumbnail_url || v.thumbnail,
+            localThumb: v.thumbnail,
+            verified: Boolean(oembed),
+          };
+        } catch (error) {
+          // Fallback to local data if enrichment fails
+          return {
+            id: v.id,
+            url: v.url,
+            videoId: v.id,
+            title: v.title,
+            oembedTitle: undefined,
+            authorName: siteConfig.tiktokHandle,
+            authorUrl: undefined,
+            thumbnail: v.thumbnail,
+            localThumb: v.thumbnail,
+            verified: false,
+          };
+        }
+      })
+    );
 
-  return Response.json(enriched);
+    return Response.json(enriched);
+  } catch (error) {
+    // Return cached/empty data on error
+    return Response.json(tiktokVideos.map(v => ({
+      id: v.id,
+      url: v.url,
+      videoId: v.id,
+      title: v.title,
+      oembedTitle: undefined,
+      authorName: siteConfig.tiktokHandle,
+      authorUrl: undefined,
+      thumbnail: v.thumbnail,
+      localThumb: v.thumbnail,
+      verified: false,
+    })));
+  }
 }

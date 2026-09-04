@@ -102,19 +102,13 @@ export default function Footer() {
             <ul className="space-y-3 mb-6">
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Mail size={15} className="text-orange-500 flex-shrink-0" />
-                <span>{siteConfig.contact.email}</span>
-              </li>
-              <li className="flex items-center gap-3 text-sm text-gray-400">
-                <Phone size={15} className="text-orange-500 flex-shrink-0" />
-                <span dir="ltr">+213 {siteConfig.contact.whatsapp.slice(3)}</span>
+                <Link href="/contact" className="hover:text-orange-400 transition-colors">
+                  {t("footer.contact")} بنا
+                </Link>
               </li>
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <MapPin size={15} className="text-orange-500 flex-shrink-0 mt-0.5" />
                 <span>{t(siteConfig.contact.location)}</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-gray-400">
-                <CreditCard size={15} className="text-orange-500 flex-shrink-0 mt-0.5" />
-                <span>{t("footer.support")} <span dir="ltr" className="text-gray-300 font-mono">{siteConfig.payment}</span></span>
               </li>
             </ul>
           </div>

@@ -26,10 +26,30 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 2000));
-    setStatus("success");
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setTimeout(() => setStatus("idle"), 4000);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        setStatus("error");
+        console.error('Contact form error:', error);
+        setTimeout(() => setStatus("idle"), 4000);
+        return;
+      }
+
+      setStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setStatus("idle"), 4000);
+    } catch (error) {
+      console.error('Contact form error:', error);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -135,6 +155,20 @@ export default function ContactPage() {
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">تم الإرسال بنجاح!</h3>
                     <p className="text-gray-500 dark:text-gray-400">شكرًا لتواصلك معنا. سنرد عليك في أقرب وقت ممكن.</p>
+                  </motion.div>
+                ) : status === "error" ? (
+                  <motion.div
+                    key="error"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="text-center py-12"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+                      <AlertCircle size={32} className="text-red-600 dark:text-red-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">حدث خطأ</h3>
+                    <p className="text-gray-500 dark:text-gray-400">يرجى التحقق من البيانات المدخلة والمحاولة مرة أخرى.</p>
                   </motion.div>
                 ) : (
                   <motion.form
