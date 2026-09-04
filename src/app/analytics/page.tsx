@@ -15,11 +15,26 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
+interface QuizResultLite {
+  score: number;
+  total: number;
+  timeTaken?: number;
+  date?: string;
+}
+interface BookmarkLite {
+  id: string;
+  title?: string;
+}
+interface ProfileLite {
+  name?: string;
+  grade?: number;
+}
+
 export default function AnalyticsPage() {
   const { lang, t } = useLanguage();
-  const [quizResults, setQuizResults] = useState<any[]>([]);
-  const [bookmarks, setBookmarks] = useState<any[]>([]);
-  const [profile, setProfile] = useState<any>(null);
+  const [quizResults, setQuizResults] = useState<QuizResultLite[]>([]);
+  const [bookmarks, setBookmarks] = useState<BookmarkLite[]>([]);
+  const [profile, setProfile] = useState<ProfileLite | null>(null);
 
   useEffect(() => {
     try {
@@ -33,13 +48,13 @@ export default function AnalyticsPage() {
 
   const totalQuizzes = quizResults.length;
   const avgScore = totalQuizzes > 0
-    ? Math.round(quizResults.reduce((sum: any, r: any) => sum + (r.score / r.total) * 100, 0) / totalQuizzes)
+    ? Math.round(quizResults.reduce((sum, r) => sum + (r.score / r.total) * 100, 0) / totalQuizzes)
     : 0;
   const bestScore = totalQuizzes > 0
-    ? Math.max(...quizResults.map((r: any) => Math.round((r.score / r.total) * 100)))
+    ? Math.max(...quizResults.map((r) => Math.round((r.score / r.total) * 100)))
     : 0;
   const worstScore = totalQuizzes > 0
-    ? Math.min(...quizResults.map((r: any) => Math.round((r.score / r.total) * 100)))
+    ? Math.min(...quizResults.map((r) => Math.round((r.score / r.total) * 100)))
     : 0;
 
   // Simulated analytics data
