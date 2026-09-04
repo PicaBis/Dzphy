@@ -15,6 +15,11 @@ import BackToTop from "@/components/ui/BackToTop";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
 import { FocusModeProvider, FocusModeToggle } from "@/components/ui/FocusMode";
 import QuickActions from "@/components/ui/QuickActions";
+import { ToastProvider } from "@/components/ui/Toast";
+import { BookmarksProvider } from "@/components/ui/Bookmarks";
+import ServiceWorkerRegistration from "@/components/providers/ServiceWorkerRegistration";
+import NotificationPrompt from "@/components/ui/NotificationPrompt";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import jsonLd from "./json-ld";
 
 const meta = {
@@ -121,6 +126,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <link rel="icon" type="image/png" href="/logo.png" />
         <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#030712" media="(prefers-color-scheme: dark)" />
@@ -130,26 +136,34 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-        <ThemeProvider>
-          <LanguageProvider initialLang={lang}>
-            <SoundProvider>
-              <FocusModeProvider>
-                <MotionProvider>
-                  <ReadingProgressBar />
-                  <SplashScreen />
-                  <Header />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-                  <TipsOverlay />
-                  <BackToTop />
-                  <FocusModeToggle />
-                  <QuickActions />
-                  <KeyboardShortcuts />
-                </MotionProvider>
-              </FocusModeProvider>
-            </SoundProvider>
-          </LanguageProvider>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider>
+            <LanguageProvider initialLang={lang}>
+              <SoundProvider>
+                <FocusModeProvider>
+                  <ToastProvider>
+                    <BookmarksProvider>
+                      <MotionProvider>
+                        <ReadingProgressBar />
+                        <SplashScreen />
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                        <TipsOverlay />
+                        <BackToTop />
+                        <FocusModeToggle />
+                        <QuickActions />
+                        <KeyboardShortcuts />
+                        <NotificationPrompt />
+                        <ServiceWorkerRegistration />
+                      </MotionProvider>
+                    </BookmarksProvider>
+                  </ToastProvider>
+                </FocusModeProvider>
+              </SoundProvider>
+            </LanguageProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

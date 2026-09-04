@@ -2,6 +2,7 @@ import HeroSection from "@/components/home/HeroSection";
 import StartHere from "@/components/home/StartHere";
 import GradeCards from "@/components/home/GradeCards";
 import PlatformGuide from "@/components/home/PlatformGuide";
+import StatsCounter from "@/components/home/StatsCounter";
 import LatestContent from "@/components/home/LatestContent";
 import AppsSection from "@/components/home/AppsSection";
 import VideosSection from "@/components/home/VideosSection";
@@ -23,10 +24,12 @@ export default function HomePage() {
       <SectionDivider type="curve" flip />
       <PlatformGuide />
       <SectionDivider type="wave" flip />
-      <VideosSection />
+      <StatsCounter />
       <SectionDivider type="gradient" />
-      <HomeSocial />
+      <VideosSection />
       <SectionDivider type="zigzag" />
+      <HomeSocial />
+      <SectionDivider type="wave" flip />
       <LatestContent />
       <SectionDivider type="curve" flip />
       <CoursesSection />

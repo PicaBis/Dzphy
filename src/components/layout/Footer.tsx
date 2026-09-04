@@ -16,6 +16,9 @@ const quickLinks = [
   { key: "courses", href: "/courses" },
   { key: "teacherBag", href: "/teacher" },
   { key: "follow", href: "/follow" },
+  { key: "bookmarks", href: "/bookmarks" },
+  { key: "faq", href: "/faq" },
+  { key: "contact", href: "/contact" },
 ];
 
 export default function Footer() {

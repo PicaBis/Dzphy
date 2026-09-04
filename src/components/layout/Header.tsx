@@ -20,6 +20,7 @@ import {
   Globe,
   Volume2,
   VolumeX,
+  Bookmark,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
@@ -30,7 +31,7 @@ import { useSound } from "@/context/SoundContext";
 //   الرئيسية · السنوات الدراسية ▾ · الفيديوهات · الموارد ▾ · المنصات · من نحن
 // ---------------------------------------------------------------------------
 type NavItem =
-  | { kind: "link"; key: string; href: string }
+  | { kind: "link"; key: string; href: string; icon?: typeof BookOpen }
   | {
       kind: "group";
       key: string;
@@ -57,6 +58,7 @@ const navItems: NavItem[] = [
   { kind: "link", key: "videosNav", href: "/videos" },
   { kind: "group", key: "resources", children: resourceChildren },
   { kind: "link", key: "follow", href: "/follow" },
+  { kind: "link", key: "bookmarks", href: "/bookmarks", icon: Bookmark },
   { kind: "link", key: "about", href: "/about" },
 ];
 
@@ -159,12 +161,13 @@ export default function Header() {
                   key={item.key}
                   href={item.href}
                   onClick={() => play("nav")}
-                  className={`px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                  className={`flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
                     isActive(item.href)
                       ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                       : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
                   }`}
                 >
+                  {item.icon && <item.icon size={15} />}
                   {label(item.key)}
                 </Link>
               ) : (
@@ -364,12 +367,13 @@ export default function Header() {
                     key={item.key}
                     href={item.href}
                     onClick={() => { play("nav"); setMobileOpen(false); }}
-                    className={`block px-4 py-3 text-sm rounded-xl font-semibold transition-all ${
+                    className={`flex items-center gap-2 px-4 py-3 text-sm rounded-xl font-semibold transition-all ${
                       isActive(item.href)
                         ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                         : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
                     }`}
                   >
+                    {item.icon && <item.icon size={16} />}
                     {label(item.key)}
                   </Link>
                 ) : (

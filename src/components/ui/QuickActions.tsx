@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Search, Bookmark, Share2 } from "lucide-react";
 import { useFocusMode } from "./FocusMode";
@@ -7,13 +8,46 @@ import { useFocusMode } from "./FocusMode";
 export default function QuickActions() {
   const [open, setOpen] = useState(false);
   const { isFocused } = useFocusMode();
+  const router = useRouter();
 
   if (isFocused) return null;
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "منصة الأستاذ بيكا للفيزياء",
+          text: "اكتشف منصة الأستاذ بيكا لتعلم الفيزياء",
+          url: window.location.href,
+        });
+      } catch {
+        // user cancelled
+      }
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+    }
+    setOpen(false);
+  };
+
   const actions = [
-    { icon: Search, label: "بحث", href: "/search", color: "bg-blue-500" },
-    { icon: Bookmark, label: "المفضلة", href: "#", color: "bg-purple-500" },
-    { icon: Share2, label: "مشاركة", href: "#", color: "bg-green-500" },
+    {
+      icon: Search,
+      label: "بحث",
+      onClick: () => { router.push("/search"); setOpen(false); },
+      color: "bg-blue-500",
+    },
+    {
+      icon: Bookmark,
+      label: "المفضلة",
+      onClick: () => { router.push("/bookmarks"); setOpen(false); },
+      color: "bg-purple-500",
+    },
+    {
+      icon: Share2,
+      label: "مشاركة",
+      onClick: handleShare,
+      color: "bg-green-500",
+    },
   ];
 
   return (
@@ -23,9 +57,9 @@ export default function QuickActions() {
           actions.map((action, i) => {
             const Icon = action.icon;
             return (
-              <motion.a
+              <motion.button
                 key={action.label}
-                href={action.href}
+                onClick={action.onClick}
                 initial={{ opacity: 0, scale: 0.5, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.5, y: 20 }}
@@ -38,7 +72,7 @@ export default function QuickActions() {
                 <div className={`w-10 h-10 rounded-full ${action.color} text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform`}>
                   <Icon size={18} />
                 </div>
-              </motion.a>
+              </motion.button>
             );
           })}
       </AnimatePresence>
