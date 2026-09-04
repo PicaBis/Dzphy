@@ -23,6 +23,14 @@ import {
   Bookmark,
   Zap,
   User,
+  Calendar,
+  Layers,
+  Calculator,
+  Video,
+  FileText,
+  BarChart3,
+  TrendingUp,
+  Award,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
@@ -63,6 +71,16 @@ const navItems: NavItem[] = [
   { kind: "link", key: "follow", href: "/follow" },
   { kind: "link", key: "bookmarks", href: "/bookmarks", icon: Bookmark },
   { kind: "link", key: "about", href: "/about" },
+];
+
+const mobileExtraItems = [
+  { key: "progress", href: "/progress", icon: TrendingUp },
+  { key: "flashcards", href: "/flashcards", icon: Layers },
+  { key: "formulas", href: "/formulas", icon: Calculator },
+  { key: "calendar", href: "/calendar", icon: Calendar },
+  { key: "certificates", href: "/certificates", icon: Award },
+  { key: "assignments", href: "/assignments", icon: FileText },
+  { key: "live", href: "/live", icon: Video },
 ];
 
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
