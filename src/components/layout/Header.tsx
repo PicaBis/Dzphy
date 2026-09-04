@@ -21,6 +21,8 @@ import {
   Volume2,
   VolumeX,
   Bookmark,
+  Zap,
+  User,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
@@ -56,6 +58,7 @@ const navItems: NavItem[] = [
   { kind: "link", key: "home", href: "/" },
   { kind: "group", key: "years", children: yearChildren },
   { kind: "link", key: "videosNav", href: "/videos" },
+  { kind: "link", key: "quizzes", href: "/quizzes", icon: Zap },
   { kind: "group", key: "resources", children: resourceChildren },
   { kind: "link", key: "follow", href: "/follow" },
   { kind: "link", key: "bookmarks", href: "/bookmarks", icon: Bookmark },
@@ -235,6 +238,15 @@ export default function Header() {
 
           {/* ---------- Left (RTL end): actions ---------- */}
           <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0 ms-auto lg:ms-0">
+            <Link
+              href="/profile"
+              onClick={() => play("nav")}
+              aria-label="الملف الشخصي"
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-xl transition-all"
+            >
+              <User size={19} />
+            </Link>
+
             <button
               onClick={() => { play("click"); setSearchOpen((s) => !s); }}
               aria-label={t("nav.searchAria")}

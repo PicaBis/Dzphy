@@ -49,6 +49,8 @@ const ar: Record<string, string> = {
   bookmarks: "المفضلة",
   faq: "الأسئلة الشائعة",
   contact: "اتصل بنا",
+  quizzes: "الاختبارات",
+  profile: "الملف الشخصي",
 
   // ---- Common ----
   "common.all": "الكل",
@@ -591,6 +593,8 @@ const fr: Record<string, string> = {
   bookmarks: "Favoris",
   faq: "Questions Fréquentes",
   contact: "Contact",
+  quizzes: "Quiz",
+  profile: "Profil",
 
   "common.all": "Tous",
   "common.view": "Voir",
@@ -1101,6 +1105,8 @@ const en: Record<string, string> = {
   bookmarks: "Bookmarks",
   faq: "FAQ",
   contact: "Contact",
+  quizzes: "Quizzes",
+  profile: "Profile",
 
   "common.all": "All",
   "common.view": "View",

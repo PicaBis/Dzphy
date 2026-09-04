@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Search, Bookmark, Share2 } from "lucide-react";
+import { Plus, Search, Bookmark, Share2, Zap, User } from "lucide-react";
 import { useFocusMode } from "./FocusMode";
 
 export default function QuickActions() {
@@ -30,6 +30,18 @@ export default function QuickActions() {
   };
 
   const actions = [
+    {
+      icon: User,
+      label: "الملف الشخصي",
+      onClick: () => { router.push("/profile"); setOpen(false); },
+      color: "bg-indigo-500",
+    },
+    {
+      icon: Zap,
+      label: "الاختبارات",
+      onClick: () => { router.push("/quizzes"); setOpen(false); },
+      color: "bg-violet-500",
+    },
     {
       icon: Search,
       label: "بحث",

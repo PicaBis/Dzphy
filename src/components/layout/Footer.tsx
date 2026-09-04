@@ -16,7 +16,9 @@ const quickLinks = [
   { key: "courses", href: "/courses" },
   { key: "teacherBag", href: "/teacher" },
   { key: "follow", href: "/follow" },
+  { key: "quizzes", href: "/quizzes" },
   { key: "bookmarks", href: "/bookmarks" },
+  { key: "profile", href: "/profile" },
   { key: "faq", href: "/faq" },
   { key: "contact", href: "/contact" },
 ];
