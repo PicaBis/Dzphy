@@ -37,16 +37,16 @@ function validateContentQuery(params: Record<string, string | null>) {
 // Query params (all optional): ?type=video&level=bem&platform=youtube&limit=50
 export async function GET(request: NextRequest) {
   try {
+    const sp = request.nextUrl.searchParams;
+    const params = Object.fromEntries(sp.entries());
+
+    // Validate query parameters FIRST (before any data access)
+    const validated = validateContentQuery(params);
+
     const supabase = getSupabase();
     if (!supabase) {
       return Response.json({ configured: false, items: [] as ContentRow[] });
     }
-
-    const sp = request.nextUrl.searchParams;
-    const params = Object.fromEntries(sp.entries());
-
-    // Validate query parameters
-    const validated = validateContentQuery(params);
 
     let query = supabase
       .from("content")
