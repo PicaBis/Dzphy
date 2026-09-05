@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { LANG_COOKIE, LANG_OPTIONS, dirForLang, type Lang } from "@/context/i18n";
 import { SoundProvider } from "@/context/SoundContext";
@@ -139,6 +140,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ErrorBoundary>
           <ThemeProvider>
             <LanguageProvider initialLang={lang}>
+              <AuthProvider>
               <SoundProvider>
                 <FocusModeProvider>
                   <ToastProvider>
@@ -167,6 +169,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   </ToastProvider>
                 </FocusModeProvider>
               </SoundProvider>
+              </AuthProvider>
             </LanguageProvider>
           </ThemeProvider>
         </ErrorBoundary>

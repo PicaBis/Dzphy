@@ -1,8 +1,9 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useToast } from "./Toast";
+import { useAuth } from "@/context/AuthContext";
 
 interface BookmarkItem {
   id: string;
@@ -35,6 +36,8 @@ const STORAGE_KEY = "dzphy-bookmarks";
 export function BookmarksProvider({ children }: { children: ReactNode }) {
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const { showToast } = useToast();
+  const { user } = useAuth();
+  const syncedForUser = useRef<string | null>(null);
 
   useEffect(() => {
     try {
@@ -55,15 +58,74 @@ export function BookmarksProvider({ children }: { children: ReactNode }) {
     }
   }, [bookmarks]);
 
+  // On sign-in: merge server-side favorites with whatever is already saved
+  // locally (union by id), then push any local-only items to the server so
+  // guest bookmarks migrate into the account. Runs once per user session.
+  useEffect(() => {
+    if (!user || syncedForUser.current === user.id) return;
+    syncedForUser.current = user.id;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/favorites");
+        if (!res.ok) return;
+        const { favorites } = (await res.json()) as {
+          favorites: { item_id: string; item_type: string; title: string | null; url: string | null; created_at: string }[];
+        };
+
+        setBookmarks((local) => {
+          const byId = new Map(local.map((b) => [b.id, b]));
+          for (const f of favorites) {
+            if (!byId.has(f.item_id)) {
+              byId.set(f.item_id, {
+                id: f.item_id,
+                title: f.title || "",
+                url: f.url || "",
+                type: f.item_type,
+                addedAt: new Date(f.created_at).getTime(),
+              });
+            }
+          }
+          return Array.from(byId.values());
+        });
+
+        // Push any local-only bookmarks up to the server (best-effort).
+        const serverIds = new Set(favorites.map((f) => f.item_id));
+        for (const b of bookmarks) {
+          if (!serverIds.has(b.id)) {
+            fetch("/api/favorites", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: b.id, title: b.title, url: b.url, type: b.type }),
+            }).catch(() => {});
+          }
+        }
+      } catch {
+        // offline or API unavailable — local bookmarks still work
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   const addBookmark = (item: Omit<BookmarkItem, "addedAt">) => {
     const newItem: BookmarkItem = { ...item, addedAt: Date.now() };
     setBookmarks((prev) => [...prev, newItem]);
     showToast("تمت الإضافة إلى المفضلة", "success");
+    if (user) {
+      fetch("/api/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id, title: item.title, url: item.url, type: item.type }),
+      }).catch(() => {});
+    }
   };
 
   const removeBookmark = (id: string) => {
     setBookmarks((prev) => prev.filter((b) => b.id !== id));
     showToast("تمت الإزالة من المفضلة", "info");
+    if (user) {
+      fetch(`/api/favorites?id=${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => {});
+    }
   };
 
   const isBookmarked = (id: string) => {

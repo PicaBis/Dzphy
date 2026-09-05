@@ -15,8 +15,12 @@ import {
   X,
   BookOpen,
   BarChart3,
+  Cloud,
+  CloudOff,
 } from "lucide-react";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 import type { QuizResult } from "@/data/quizzes";
 
 const PROFILE_KEY = "dzphy-profile";
@@ -40,10 +44,12 @@ const grades = [
 
 export default function ProfilePage() {
   const { lang, t } = useLanguage();
+  const { user, isConfigured, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editing, setEditing] = useState(false);
   const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
   const [bookmarksCount, setBookmarksCount] = useState(0);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     try {
@@ -58,12 +64,76 @@ export default function ProfilePage() {
     }
   }, []);
 
+  // Signed-in users: pull the server-side profile + quiz history (source of
+  // truth across devices) and merge them over the local/offline copy.
+  useEffect(() => {
+    if (!user) return;
+    setSyncing(true);
+    (async () => {
+      try {
+        const [profileRes, resultsRes] = await Promise.all([
+          fetch("/api/profile"),
+          fetch("/api/quiz/results"),
+        ]);
+        if (profileRes.ok) {
+          const { profile: serverProfile } = await profileRes.json();
+          if (serverProfile) {
+            setProfile((prev) => ({
+              name: serverProfile.name || prev?.name || user.email?.split("@")[0] || "",
+              grade: serverProfile.grade || prev?.grade || 1,
+              avatar: serverProfile.avatar || prev?.avatar || "🎓",
+              goal: serverProfile.goal || prev?.goal || "",
+              joinDate: serverProfile.created_at || prev?.joinDate || new Date().toISOString(),
+            }));
+          }
+        }
+        if (resultsRes.ok) {
+          const { results } = await resultsRes.json();
+          if (Array.isArray(results) && results.length > 0) {
+            setQuizResults((local) => {
+              const serverAsLocal: QuizResult[] = results.map((r: { quiz_id: string; score: number; total: number; time_taken: number; created_at: string }) => ({
+                quizId: r.quiz_id,
+                score: r.score,
+                total: r.total,
+                answers: {},
+                timeTaken: r.time_taken,
+                date: r.created_at,
+              }));
+              const seen = new Set(local.map((r) => `${r.quizId}-${r.date}`));
+              const merged = [...local];
+              for (const r of serverAsLocal) {
+                if (!seen.has(`${r.quizId}-${r.date}`)) merged.push(r);
+              }
+              return merged;
+            });
+          }
+        }
+      } catch {
+        // offline — local data already shown
+      } finally {
+        setSyncing(false);
+      }
+    })();
+  }, [user]);
+
   const saveProfile = (updated: Profile) => {
     setProfile(updated);
     try {
       localStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
     } catch {
       // ignore
+    }
+    if (user) {
+      fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: updated.name,
+          grade: updated.grade,
+          avatar: updated.avatar,
+          goal: updated.goal,
+        }),
+      }).catch(() => {});
     }
     setEditing(false);
   };
@@ -93,6 +163,38 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20">
       <div className="max-w-3xl mx-auto px-4 py-8">
+        {/* Account sync status */}
+        <div className="flex items-center justify-between gap-3 mb-4 px-1">
+          {user ? (
+            <div className="flex items-center gap-2 text-xs font-semibold text-green-600 dark:text-green-400">
+              <Cloud size={15} />
+              {syncing ? "جاري المزامنة..." : `متصل كـ ${user.email}`}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
+              <CloudOff size={15} />
+              {isConfigured ? (
+                <span>
+                  غير مسجل الدخول —{" "}
+                  <Link href="/login" className="text-indigo-500 hover:underline">
+                    سجّل الدخول لحفظ تقدمك عبر أجهزتك
+                  </Link>
+                </span>
+              ) : (
+                "تقدمك محفوظ في هذا المتصفح فقط"
+              )}
+            </div>
+          )}
+          {user && (
+            <button
+              onClick={() => signOut()}
+              className="flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-red-500 transition-colors"
+            >
+              <LogOut size={13} /> خروج
+            </button>
+          )}
+        </div>
+
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

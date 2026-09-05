@@ -4,9 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, FileText, ClipboardList, Video, BookMarked, Cpu,
   Megaphone, Plus, Edit3, Trash2, BarChart2, Users, Eye, TrendingUp,
-  Search, Upload, Save, X
+  Search, Upload, Save, X, LogOut
 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const sidebarItems = [
   { id: "dashboard", label: "لوحة التحكم", icon: BarChart2 },
@@ -40,12 +41,18 @@ interface FormData {
 }
 
 export default function AdminPage() {
+  const router = useRouter();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [showForm, setShowForm] = useState(false);
   const [editItem, setEditItem] = useState<typeof mockItems[0] | null>(null);
   const [items, setItems] = useState(mockItems);
   const [formData, setFormData] = useState<FormData>({ title: "", grade: "السنة الأولى", subject: "", description: "" });
   const [search, setSearch] = useState("");
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin-login");
+  };
 
   const handleAdd = () => {
     setEditItem(null);
@@ -111,13 +118,20 @@ export default function AdminPage() {
         </nav>
 
         <div className="p-4 border-t border-gray-800">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center text-white font-bold text-sm">م</div>
             <div>
               <p className="text-sm font-semibold text-white">الأستاذ بيكا</p>
               <p className="text-xs text-gray-500">مشرف</p>
             </div>
           </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-gray-400 hover:text-white hover:bg-gray-800 rounded-xl py-2 transition-all"
+          >
+            <LogOut size={15} />
+            تسجيل الخروج
+          </button>
         </div>
       </aside>
 

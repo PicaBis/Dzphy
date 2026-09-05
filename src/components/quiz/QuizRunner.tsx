@@ -49,13 +49,69 @@ export default function QuizRunner({ quizId }: { quizId: string }) {
   const [timeLeft, setTimeLeft] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Holds the latest finishQuiz closure so the interval below never calls a
+  // stale/undeclared reference (finishQuiz is defined further down, after
+  // the "quiz not found" guard narrows `quiz` to non-null for TypeScript).
+  const finishQuizRef = useRef<(finalAnswers: Record<string, number>) => void>(() => {});
+
+  // Defined before the "quiz not found" guard (below) so no hook ever runs
+  // conditionally. `quiz!` is safe here: when quiz is undefined the guard
+  // renders the "not found" screen and none of these are ever wired to a
+  // button, so they're never actually invoked in that case.
+  const finishQuiz = (finalAnswers: Record<string, number>) => {
+    const answersToUse = Object.keys(finalAnswers).length > 0 ? finalAnswers : answers;
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    let correct = 0;
+    quiz!.questions.forEach((q) => {
+      if (answersToUse[q.id] === q.correctIndex) correct++;
+    });
+
+    const timeTaken = quiz!.timeLimit - timeLeft;
+
+    const result: QuizResult = {
+      quizId: quiz!.id,
+      score: correct,
+      total: quiz!.questions.length,
+      answers: answersToUse,
+      timeTaken,
+      date: new Date().toISOString(),
+    };
+
+    // localStorage remains the guest/offline fallback — always written so
+    // nothing is lost even if the network request below fails.
+    try {
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      existing.push(result);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+    } catch {
+      // ignore
+    }
+
+    // Server-side authoritative scoring + persistence for signed-in users.
+    // Fire-and-forget: the UI already shows the (identical) locally computed
+    // score immediately, this just syncs it to the account when possible.
+    fetch("/api/quiz/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quizId: quiz!.id, answers: answersToUse, timeTaken }),
+    }).catch(() => {
+      // offline or API unavailable — localStorage result above already covers this
+    });
+
+    setPhase("results");
+  };
+
+  useEffect(() => {
+    finishQuizRef.current = finishQuiz;
+  });
 
   useEffect(() => {
     if (phase !== "playing" || !quiz) return;
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          finishQuiz({});
+          finishQuizRef.current({});
           return 0;
         }
         return prev - 1;
@@ -90,35 +146,6 @@ export default function QuizRunner({ quizId }: { quizId: string }) {
 
   const selectAnswer = (qId: string, optionIdx: number) => {
     setAnswers((prev) => ({ ...prev, [qId]: optionIdx }));
-  };
-
-  const finishQuiz = (finalAnswers: Record<string, number>) => {
-    const answersToUse = Object.keys(finalAnswers).length > 0 ? finalAnswers : answers;
-    if (timerRef.current) clearInterval(timerRef.current);
-
-    let correct = 0;
-    quiz.questions.forEach((q) => {
-      if (answersToUse[q.id] === q.correctIndex) correct++;
-    });
-
-    const result: QuizResult = {
-      quizId: quiz.id,
-      score: correct,
-      total: quiz.questions.length,
-      answers: answersToUse,
-      timeTaken: quiz.timeLimit - timeLeft,
-      date: new Date().toISOString(),
-    };
-
-    try {
-      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      existing.push(result);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-    } catch {
-      // ignore
-    }
-
-    setPhase("results");
   };
 
   const restartQuiz = () => {

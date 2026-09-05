@@ -68,7 +68,6 @@ const navItems: NavItem[] = [
   { kind: "link", key: "videosNav", href: "/videos" },
   { kind: "link", key: "quizzes", href: "/quizzes", icon: Zap },
   { kind: "group", key: "resources", children: resourceChildren },
-  { kind: "link", key: "follow", href: "/follow" },
   { kind: "link", key: "bookmarks", href: "/bookmarks", icon: Bookmark },
   { kind: "link", key: "about", href: "/about" },
 ];
