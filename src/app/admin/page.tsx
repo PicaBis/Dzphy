@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, FileText, ClipboardList, Video, BookMarked, Cpu,
   Megaphone, Plus, Edit3, Trash2, BarChart2, Users, Eye, TrendingUp,
-  Search, Upload, Save, X, LogOut
+  Search, Upload, Save, X, LogOut, MessageSquare, ClipboardCheck
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -20,12 +20,36 @@ const sidebarItems = [
   { id: "announcements", label: "الإعلانات", icon: Megaphone },
 ];
 
-const stats = [
-  { icon: BookOpen, value: "58", label: "ملخص", color: "bg-blue-50 text-blue-600", trend: "+5 هذا الشهر" },
-  { icon: Users, value: "5,234", label: "طالب", color: "bg-green-50 text-green-600", trend: "+120 هذا الأسبوع" },
-  { icon: Eye, value: "24,891", label: "مشاهدة", color: "bg-orange-50 text-orange-600", trend: "+1,200 اليوم" },
-  { icon: TrendingUp, value: "94%", label: "رضا الطلاب", color: "bg-purple-50 text-purple-600", trend: "↑ 2% هذا الشهر" },
+// Dashboard stat cards — values are filled from /api/admin/stats (real data).
+const statCards: {
+  key: "contentItems" | "users" | "quizAttempts" | "contactMessages";
+  icon: typeof BookOpen;
+  label: string;
+  color: string;
+}[] = [
+  { key: "contentItems", icon: BookOpen, label: "عنصر محتوى", color: "bg-blue-50 text-blue-600" },
+  { key: "users", icon: Users, label: "طالب مسجّل", color: "bg-green-50 text-green-600" },
+  { key: "quizAttempts", icon: ClipboardCheck, label: "محاولة اختبار", color: "bg-orange-50 text-orange-600" },
+  { key: "contactMessages", icon: MessageSquare, label: "رسالة تواصل", color: "bg-purple-50 text-purple-600" },
 ];
+
+interface AdminStats {
+  configured: boolean;
+  users?: number;
+  quizAttempts?: number;
+  contactMessages?: number;
+  contentItems?: number;
+}
+
+interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: string;
+  created_at: string;
+}
 
 const mockItems = [
   { id: "1", title: "ملخص الحركة المستقيمة المنتظمة", grade: "السنة الأولى", subject: "الميكانيكا", date: "2026-06-10", status: "منشور" },
@@ -48,6 +72,36 @@ export default function AdminPage() {
   const [items, setItems] = useState(mockItems);
   const [formData, setFormData] = useState<FormData>({ title: "", grade: "السنة الأولى", subject: "", description: "" });
   const [search, setSearch] = useState("");
+  const [stats, setStats] = useState<AdminStats | null>(null);
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  // Fetch real dashboard data (admin-gated endpoints, service-role reads).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const [statsRes, msgRes] = await Promise.all([
+          fetch("/api/admin/stats"),
+          fetch("/api/admin/messages?limit=8"),
+        ]);
+        if (!cancelled) {
+          if (statsRes.ok) setStats(await statsRes.json());
+          if (msgRes.ok) {
+            const data = await msgRes.json();
+            setMessages(Array.isArray(data.messages) ? data.messages : []);
+          }
+        }
+      } catch {
+        // network/API error — dashboard shows zeros/empty gracefully
+      } finally {
+        if (!cancelled) setLoadingStats(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -160,40 +214,62 @@ export default function AdminPage() {
           {/* Dashboard Stats */}
           {activeSection === "dashboard" && (
             <div className="space-y-6">
+              {stats && stats.configured === false && (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
+                  قاعدة البيانات (Supabase) غير مهيّأة بعد. الأرقام ستظهر بمجرد ربط
+                  المشروع وتطبيق ملفات الترحيل (migrations).
+                </div>
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {stats.map((stat, i) => {
-                  const Icon = stat.icon;
+                {statCards.map((card, i) => {
+                  const Icon = card.icon;
+                  const value = stats ? (stats[card.key] ?? 0) : 0;
                   return (
                     <motion.div
-                      key={i}
+                      key={card.key}
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
                       className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-all"
                     >
-                      <div className={`w-11 h-11 rounded-xl ${stat.color} flex items-center justify-center mb-3`}>
+                      <div className={`w-11 h-11 rounded-xl ${card.color} flex items-center justify-center mb-3`}>
                         <Icon size={20} />
                       </div>
-                      <div className="text-3xl font-black text-gray-900 mb-0.5">{stat.value}</div>
-                      <div className="text-gray-500 text-sm mb-2">{stat.label}</div>
-                      <div className="text-xs text-green-600 font-semibold">{stat.trend}</div>
+                      <div className="text-3xl font-black text-gray-900 mb-0.5">
+                        {loadingStats ? "…" : value.toLocaleString("ar-EG")}
+                      </div>
+                      <div className="text-gray-500 text-sm">{card.label}</div>
                     </motion.div>
                   );
                 })}
               </div>
 
-              {/* Recent Activity */}
+              {/* Recent contact messages (real data) */}
               <div className="bg-white rounded-2xl border border-gray-100 p-5">
-                <h2 className="font-bold text-gray-900 mb-4">آخر الإضافات</h2>
+                <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <MessageSquare size={18} className="text-orange-500" />
+                  آخر رسائل التواصل
+                </h2>
                 <div className="space-y-3">
-                  {mockItems.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-sm">{item.title}</p>
-                        <p className="text-xs text-gray-400">{item.grade} • {item.subject} • {item.date}</p>
+                  {messages.length === 0 && (
+                    <p className="text-sm text-gray-400 py-4 text-center">
+                      {loadingStats ? "جارٍ التحميل…" : "لا توجد رسائل بعد."}
+                    </p>
+                  )}
+                  {messages.map((msg) => (
+                    <div key={msg.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-gray-900 text-sm truncate">{msg.subject}</p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {msg.name} • {msg.email} • {new Date(msg.created_at).toLocaleDateString("ar-EG")}
+                        </p>
                       </div>
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${item.status === "منشور" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
-                        {item.status}
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0 ${
+                        msg.status === "new" ? "bg-orange-100 text-orange-700"
+                        : msg.status === "replied" ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-600"
+                      }`}>
+                        {msg.status === "new" ? "جديدة" : msg.status === "replied" ? "تم الرد" : msg.status === "read" ? "مقروءة" : "مؤرشفة"}
                       </span>
                     </div>
                   ))}
