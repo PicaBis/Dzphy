@@ -55,11 +55,31 @@ const yearChildren = [
   { key: "grade4", href: "/grade/4", icon: GraduationCap },
 ];
 
-const resourceChildren = [
+// Study tools — everything a student uses while studying, in one place.
+const studyToolsChildren = [
+  { key: "flashcards", href: "/flashcards", icon: Layers },
+  { key: "formulas", href: "/formulas", icon: Calculator },
   { key: "distributions", href: "/distributions", icon: CalendarRange },
   { key: "teacherBag", href: "/teacher", icon: Briefcase },
+];
+
+// My journey — the student's own progress, stats, bookmarks & achievements.
+const myProgressChildren = [
+  { key: "progress", href: "/progress", icon: TrendingUp },
+  { key: "analytics", href: "/analytics", icon: BarChart3 },
+  { key: "bookmarks", href: "/bookmarks", icon: Bookmark },
+  { key: "certificates", href: "/certificates", icon: Award },
+];
+
+// More — courses, apps, schedule and other secondary destinations.
+const moreChildren = [
   { key: "courses", href: "/courses", icon: BookOpen },
   { key: "apps", href: "/apps", icon: Boxes },
+  { key: "calendar", href: "/calendar", icon: Calendar },
+  { key: "assignments", href: "/assignments", icon: FileText },
+  { key: "live", href: "/live", icon: Video },
+  { key: "faq", href: "/faq", icon: BookOpen },
+  { key: "contact", href: "/contact", icon: Users },
 ];
 
 const navItems: NavItem[] = [
@@ -67,19 +87,10 @@ const navItems: NavItem[] = [
   { kind: "group", key: "years", children: yearChildren },
   { kind: "link", key: "videosNav", href: "/videos" },
   { kind: "link", key: "quizzes", href: "/quizzes", icon: Zap },
-  { kind: "group", key: "resources", children: resourceChildren },
-  { kind: "link", key: "bookmarks", href: "/bookmarks", icon: Bookmark },
+  { kind: "group", key: "studyTools", children: studyToolsChildren },
+  { kind: "group", key: "myProgress", children: myProgressChildren },
+  { kind: "group", key: "more", children: moreChildren },
   { kind: "link", key: "about", href: "/about" },
-];
-
-const mobileExtraItems = [
-  { key: "progress", href: "/progress", icon: TrendingUp },
-  { key: "flashcards", href: "/flashcards", icon: Layers },
-  { key: "formulas", href: "/formulas", icon: Calculator },
-  { key: "calendar", href: "/calendar", icon: Calendar },
-  { key: "certificates", href: "/certificates", icon: Award },
-  { key: "assignments", href: "/assignments", icon: FileText },
-  { key: "live", href: "/live", icon: Video },
 ];
 
 const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
@@ -98,8 +109,15 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const groupLabelKeys: Record<string, string> = {
+    years: "nav.years",
+    resources: "nav.resources",
+    studyTools: "nav.studyTools",
+    myProgress: "nav.myProgress",
+    more: "nav.more",
+  };
   const label = (key: string) =>
-    key === "years" ? t("nav.years") : key === "resources" ? t("nav.resources") : t(key);
+    groupLabelKeys[key] ? t(groupLabelKeys[key]) : t(key);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
