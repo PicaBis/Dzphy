@@ -6,11 +6,13 @@ export default function ServiceWorkerRegistration() {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
         .register("/sw.js")
-        .then((registration) => {
-          console.log("SW registered:", registration.scope);
+        .then(() => {
+          // SW registered successfully (silent in production)
         })
         .catch((error) => {
-          console.log("SW registration failed:", error);
+          if (process.env.NODE_ENV === "development") {
+            console.warn("SW registration failed:", error);
+          }
         });
     }
   }, []);
