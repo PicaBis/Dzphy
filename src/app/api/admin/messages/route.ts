@@ -22,7 +22,10 @@ export async function GET(request: NextRequest) {
     .limit(limit);
 
   if (error) {
-    return NextResponse.json({ error: 'Failed to fetch messages' }, { status: 500 });
+    // Degrade gracefully (e.g. table not created yet / migrations not applied)
+    // so the admin dashboard still renders instead of erroring out.
+    console.error('admin/messages query failed:', error.message);
+    return NextResponse.json({ configured: true, messages: [], dbError: error.message });
   }
 
   return NextResponse.json({ configured: true, messages: data ?? [] });

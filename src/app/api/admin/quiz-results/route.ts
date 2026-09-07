@@ -23,7 +23,9 @@ export async function GET(request: NextRequest) {
     .limit(limit);
 
   if (error) {
-    return NextResponse.json({ error: 'Failed to fetch quiz results' }, { status: 500 });
+    // Degrade gracefully (e.g. table not created yet) so the dashboard renders.
+    console.error('admin/quiz-results query failed:', error.message);
+    return NextResponse.json({ configured: true, attempts: [], dbError: error.message });
   }
 
   return NextResponse.json({ configured: true, attempts: data ?? [] });
