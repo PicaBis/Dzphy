@@ -1,13 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   BarChart3,
   Users,
   Eye,
   TrendingUp,
-  Video,
-  BookOpen,
   Zap,
   MessageSquare,
   ArrowUp,
@@ -31,20 +28,16 @@ interface ProfileLite {
 }
 
 export default function AnalyticsPage() {
-  const { lang, t } = useLanguage();
-  const [quizResults, setQuizResults] = useState<QuizResultLite[]>([]);
-  const [bookmarks, setBookmarks] = useState<BookmarkLite[]>([]);
-  const [profile, setProfile] = useState<ProfileLite | null>(null);
-
-  useEffect(() => {
-    try {
-      setQuizResults(JSON.parse(localStorage.getItem("dzphy-quiz-results") || "[]"));
-      setBookmarks(JSON.parse(localStorage.getItem("dzphy-bookmarks") || "[]"));
-      setProfile(JSON.parse(localStorage.getItem("dzphy-profile") || "null"));
-    } catch {
-      // ignore
-    }
-  }, []);
+  const { t } = useLanguage();
+  const [quizResults, setQuizResults] = useState<QuizResultLite[]>(() => {
+    try { return JSON.parse(localStorage.getItem("dzphy-quiz-results") || "[]"); } catch { return []; }
+  });
+  const [bookmarks, setBookmarks] = useState<BookmarkLite[]>(() => {
+    try { return JSON.parse(localStorage.getItem("dzphy-bookmarks") || "[]"); } catch { return []; }
+  });
+  const [profile, setProfile] = useState<ProfileLite | null>(() => {
+    try { return JSON.parse(localStorage.getItem("dzphy-profile") || "null"); } catch { return null; }
+  });
 
   const totalQuizzes = quizResults.length;
   const avgScore = totalQuizzes > 0
