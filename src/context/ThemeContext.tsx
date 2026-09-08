@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useSyncExternalStore } from "react";
+import { sound } from "@/lib/sound";
 
 type Theme = "light" | "dark";
 
@@ -10,31 +11,27 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType>({ theme: "light", toggleTheme: () => {} });
 
+function useIsClient() {
+  return useSyncExternalStore(() => () => {}, () => true, () => false);
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
     const stored = localStorage.getItem("dzphy-theme") as Theme | null;
     return stored || "light";
   });
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
 
   useEffect(() => {
-    setMounted(true);
+    if (!mounted) return;
+    localStorage.setItem("dzphy-theme", theme);
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme, mounted]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((t) => (t === "light" ? "dark" : "light"));
   }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    localStorage.setItem("dzphy-theme", theme);
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme, mounted]);
-
-  useEffect(() => {
-    if (!mounted) return;
-    localStorage.setItem("dzphy-theme", theme);
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme, mounted]);
-
-  const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
   if (!mounted) return <>{children}</>;
 

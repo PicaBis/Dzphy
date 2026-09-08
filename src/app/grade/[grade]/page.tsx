@@ -86,6 +86,25 @@ export default function GradePage() {
           </span>
         </Link>
 
+        {/* مكتسبات البكالوريا banner (only for grade 3 / BAC) */}
+        {grade === "3" && (
+          <Link
+            href="/maktasabat"
+            className="group flex items-center gap-4 mb-10 rounded-2xl p-5 bg-gradient-to-l from-amber-400 to-yellow-600 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+          >
+            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+              <BookOpen size={24} />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-black text-lg">المكتسبات القبلية — بكالوريا 2027</h3>
+              <p className="text-white/85 text-sm">أساسيات الفيزياء المطلوبة للготовية لامتحان البكالوريا — حمّل الدروس الأربعة بصيغة PDF.</p>
+            </div>
+            <span className="hidden sm:flex items-center gap-1.5 bg-white/20 group-hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-bold transition-colors flex-shrink-0">
+              <Download size={15} /> تحميل
+            </span>
+          </Link>
+        )}
+
         {isBEM ? (
           /* ---- BEM / الرابعة متوسط: no streams, direct real content ---- */
           <BemSections level={level} />
