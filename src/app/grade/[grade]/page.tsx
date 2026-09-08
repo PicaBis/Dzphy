@@ -105,6 +105,25 @@ export default function GradePage() {
           </Link>
         )}
 
+        {/* مكتسبات BEM banner (only for grade 4 / BEM) */}
+        {grade === "4" && (
+          <Link
+            href="/maktasabat-bem"
+            className="group flex items-center gap-4 mb-10 rounded-2xl p-5 bg-gradient-to-l from-green-500 to-emerald-700 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+          >
+            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+              <BookOpen size={24} />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-black text-lg">المكتسبات القبلية — BEM 2027</h3>
+              <p className="text-white/85 text-sm">أساسيات الفيزياء المطلوبة للготовية لشهادة التعليم المتوسط — حمّل الدروس الأربعة بصيغة PDF.</p>
+            </div>
+            <span className="hidden sm:flex items-center gap-1.5 bg-white/20 group-hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-bold transition-colors flex-shrink-0">
+              <Download size={15} /> تحميل
+            </span>
+          </Link>
+        )}
+
         {isBEM ? (
           /* ---- BEM / الرابعة متوسط: no streams, direct real content ---- */
           <BemSections level={level} />
@@ -246,7 +265,7 @@ function BemSections({ level }: { level: ReturnType<typeof getLevelByGradeParam>
   if (!level) return null;
   const cards = [
     { icon: Video, label: "الدروس التعليمية", desc: "جميع دروس الرابعة متوسط بالفيديو من قناة الأستاذ.", href: "/videos?level=bem" },
-    { icon: Sparkles, label: "المكتسبات القبلية", desc: "مراجعة الأساسيات قبل انطلاق برنامج شهادة التعليم المتوسط.", href: "/videos?level=bem" },
+    { icon: Sparkles, label: "المكتسبات القبلية", desc: "مراجعة الأساسيات قبل انطلاق برنامج شهادة التعليم المتوسط (PDF).", href: "/maktasabat-bem" },
     { icon: CalendarRange, label: "التوزيع السنوي", desc: "التوزيع الرسمي لمادة العلوم الفيزيائية والتكنولوجيا (PDF).", href: `/distributions?level=${encodeURIComponent(levelToDistributionLabel.bem)}` },
   ];
   return (
