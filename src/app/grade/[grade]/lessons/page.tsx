@@ -46,7 +46,7 @@ function PartCard({ part, index }: { part: LessonPart; index: number }) {
       className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group"
     >
       {/* Thumbnail */}
-      <div className="relative aspect-[4/3] bg-gray-100 dark:bg-gray-700 overflow-hidden">
+      <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
         {part.thumbnail ? (
           <img
             src={part.thumbnail}
@@ -54,8 +54,9 @@ function PartCard({ part, index }: { part: LessonPart; index: number }) {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <FileText size={40} className="text-gray-300 dark:text-gray-600" />
+          <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+            <FileText size={36} className="text-gray-300 dark:text-gray-600" />
+            <span className="text-xs font-bold text-gray-400 dark:text-gray-500">PDF</span>
           </div>
         )}
         <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-bold px-2 py-1 rounded-lg">
@@ -156,7 +157,7 @@ function UnitCard({ unit, index }: { unit: Unit; index: number }) {
 }
 
 function SeasonSection({ season, index }: { season: Season; index: number }) {
-  const [isOpen, setIsOpen] = useState(index === 0);
+  const [isOpen, setIsOpen] = useState(false);
   const Icon = seasonIcons[season.id] || BookOpen;
   const color = seasonColors[season.id] || "from-orange-500 to-orange-600";
   const bg = seasonBg[season.id] || "bg-orange-50 dark:bg-orange-500/10 border-orange-200 dark:border-orange-500/30";
