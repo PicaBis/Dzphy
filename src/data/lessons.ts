@@ -8,7 +8,6 @@ export interface LessonPart {
   id: string;
   title: string;
   fileUrl: string;
-  thumbnail?: string;
   sizeMB: number;
 }
 
@@ -108,6 +107,18 @@ export const grade3Lessons: GradeLessons = {
                   id: "ms-part5",
                   title: "الجزء الخامس",
                   fileUrl: "/files/lessons/3as/winter/unit1/mechanical-system-evolution-part5.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "ms-part6",
+                  title: "الجزء السادس",
+                  fileUrl: "/files/lessons/3as/winter/unit1/mechanical-system-evolution-part6.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "ms-part7",
+                  title: "الجزء السابع",
+                  fileUrl: "/files/lessons/3as/winter/unit1/mechanical-system-evolution-part7.pdf",
                   sizeMB: 0.7,
                 },
               ],

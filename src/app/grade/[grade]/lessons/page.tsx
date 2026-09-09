@@ -42,46 +42,32 @@ function PartCard({ part, index }: { part: LessonPart; index: number }) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group"
+      transition={{ delay: index * 0.05 }}
+      className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group"
     >
-      {/* Thumbnail */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
-        {part.thumbnail ? (
-          <img
-            src={part.thumbnail}
-            alt={part.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-            <FileText size={36} className="text-gray-300 dark:text-gray-600" />
-            <span className="text-xs font-bold text-gray-400 dark:text-gray-500">PDF</span>
-          </div>
-        )}
-        <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-bold px-2 py-1 rounded-lg">
-          PDF · {part.sizeMB}MB
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-500/10 flex items-center justify-center flex-shrink-0">
+          <FileText size={18} className="text-green-500" />
         </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4">
-        <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-3 line-clamp-2">
-          {part.title}
-        </h4>
+        <div className="flex-1 min-w-0">
+          <h4 className="font-bold text-gray-900 dark:text-white text-sm truncate">
+            {part.title}
+          </h4>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500">PDF · {part.sizeMB}MB</p>
+        </div>
         {hasContent ? (
           <a
             href={part.fileUrl}
             download
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow-md"
+            className="flex items-center gap-1.5 px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-xs font-bold transition-all shadow-sm hover:shadow-md flex-shrink-0"
           >
-            <Download size={14} /> تحميل
+            <Download size={12} /> تحميل
           </a>
         ) : (
-          <span className="flex items-center justify-center gap-2 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-xl text-xs font-bold border border-dashed border-gray-300 dark:border-gray-600 cursor-not-allowed">
-            <Lock size={14} /> قريبًا
+          <span className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-lg text-xs font-bold border border-dashed border-gray-300 dark:border-gray-600 cursor-not-allowed flex-shrink-0">
+            <Lock size={12} /> قريبًا
           </span>
         )}
       </div>
@@ -114,7 +100,7 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
       </div>
 
       {hasParts ? (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {lesson.parts.map((part, i) => (
             <PartCard key={part.id} part={part} index={i} />
           ))}

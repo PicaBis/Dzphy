@@ -135,6 +135,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd()) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if (!localStorage.getItem('pica-fullscreen-seen') && document.documentElement.requestFullscreen) {
+                    document.addEventListener('click', function() {
+                      if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(function() {});
+                      }
+                      localStorage.setItem('pica-fullscreen-seen', 'true');
+                    }, { once: true });
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <ErrorBoundary>
