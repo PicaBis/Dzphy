@@ -47,6 +47,11 @@ export default async function SectionPage({
     redirect(`/videos?level=${level.videoLevel}`);
   }
 
+  // Lessons have their own dedicated page with seasons/units structure
+  if (section === "lessons") {
+    redirect(`/grade/${grade}/lessons`);
+  }
+
   // BEM has no PDF sections yet → send to its hub instead of an empty page
   const content = gradeContent[grade as keyof typeof gradeContent];
   if (!content) {

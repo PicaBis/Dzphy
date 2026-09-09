@@ -21,11 +21,12 @@ import { useParams, notFound } from "next/navigation";
 import { getLevelByGradeParam, levelToDistributionLabel } from "@/lib/levels";
 
 const sections = [
-  { id: "resumes", label: "الملخصات", icon: BookOpen, desc: "ملخصات شاملة لجميع دروس الوحدة" },
-  { id: "exercises", label: "التمارين والحلول", icon: FileText, desc: "تمارين متنوعة مع حلول مفصلة" },
-  { id: "devoirs", label: "الفروض والاختبارات", icon: ClipboardList, desc: "نماذج فروض واختبارات مع الحلول" },
-  { id: "tp", label: "الأعمال التطبيقية", icon: FlaskConical, desc: "تقارير وملخصات الأعمال التطبيقية", onlyScientific: true },
-  { id: "videos", label: "الفيديوهات التعليمية", icon: Video, desc: "فيديوهات تعليمية مختارة" },
+  { id: "lessons", label: "الدروس", icon: BookOpen, desc: "الدروس م organized حسب الفصول والوحدات" },
+  { id: "resumes", label: "الملخصات", icon: FileText, desc: "ملخصات شاملة لجميع دروس الوحدة" },
+  { id: "exercises", label: "التمارين والحلول", icon: ClipboardList, desc: "تمارين متنوعة مع حلول مفصلة" },
+  { id: "devoirs", label: "الفروض والاختبارات", icon: FlaskConical, desc: "نماذج فروض واختبارات مع الحلول" },
+  { id: "tp", label: "الأعمال التطبيقية", icon: Video, desc: "تقارير وملخصات الأعمال التطبيقية", onlyScientific: true },
+  { id: "videos", label: "الفيديوهات التعليمية", icon: Sparkles, desc: "فيديوهات تعليمية مختارة" },
 ];
 
 const scientificStreams = [
