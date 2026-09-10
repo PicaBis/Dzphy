@@ -54,18 +54,18 @@ export default function GradePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-14 sm:pt-16">
-      <div className={`bg-gradient-to-br ${level.gradient} text-white py-12 sm:py-16`}>
+      <div className={`bg-gradient-to-br ${level.gradient} text-white py-14 sm:py-20`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-xs sm:text-sm text-white/70 mb-3 sm:mb-4">
+          <nav className="text-xs sm:text-sm text-white/75 mb-4 sm:mb-5">
             <Link href="/" className="hover:text-white transition-colors">الرئيسية</Link>
             {" / "}
             <span className="text-white font-semibold">{level.title}</span>
           </nav>
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black">{level.title}</h1>
-            <span className="text-xs font-black bg-white/20 px-3 py-1 rounded-full">{level.badge}</span>
+          <div className="flex items-center gap-3 mb-3">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black">{level.title}</h1>
+            <span className="text-xs font-black bg-white/25 px-3.5 py-1.5 rounded-full shadow-lg">{level.badge}</span>
           </div>
-          <p className="text-white/85 text-sm sm:text-lg max-w-2xl">{level.description}</p>
+          <p className="text-white/90 text-base sm:text-lg max-w-2xl leading-relaxed">{level.description}</p>
         </div>
       </div>
 
@@ -73,17 +73,17 @@ export default function GradePage() {
         {/* Annual distribution banner (level colored) */}
         <Link
           href={`/distributions?level=${encodeURIComponent(levelToDistributionLabel[level.key])}`}
-          className={`group flex items-center gap-4 mb-10 rounded-2xl p-5 bg-gradient-to-l ${level.gradient} text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5`}
+          className={`group flex items-center gap-5 mb-12 rounded-2xl p-6 bg-gradient-to-l ${level.gradient} text-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 border border-white/15`}
         >
-          <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-            <CalendarRange size={24} />
+          <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors shadow-lg">
+            <CalendarRange size={26} />
           </div>
           <div className="flex-1">
             <h3 className="font-black text-lg">التوزيع السنوي — {level.title}</h3>
-            <p className="text-white/85 text-sm">حمّل التوزيع السنوي الرسمي لمادة العلوم الفيزيائية بصيغة PDF مباشرة.</p>
+            <p className="text-white/85 text-sm leading-relaxed">حمّل التوزيع السنوي الرسمي لمادة العلوم الفيزيائية بصيغة PDF مباشرة.</p>
           </div>
-          <span className="hidden sm:flex items-center gap-1.5 bg-white/20 group-hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-bold transition-colors flex-shrink-0">
-            <Download size={15} /> تحميل
+          <span className="hidden sm:flex items-center gap-2 bg-white/25 group-hover:bg-white/35 px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex-shrink-0 shadow-lg">
+            <Download size={16} /> تحميل
           </span>
         </Link>
 
@@ -91,17 +91,17 @@ export default function GradePage() {
         {grade === "3" && (
           <Link
             href="/maktasabat"
-            className="group flex items-center gap-4 mb-10 rounded-2xl p-5 bg-gradient-to-l from-amber-400 to-yellow-600 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+            className="group flex items-center gap-5 mb-12 rounded-2xl p-6 bg-gradient-to-l from-amber-400 to-yellow-600 text-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 border border-white/15"
           >
-            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-              <BookOpen size={24} />
+            <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors shadow-lg">
+              <BookOpen size={26} />
             </div>
             <div className="flex-1">
               <h3 className="font-black text-lg">المكتسبات القبلية — بكالوريا 2027</h3>
-              <p className="text-white/85 text-sm">أساسيات الفيزياء المطلوبة للготовية لامتحان البكالوريا — حمّل الدروس الأربعة بصيغة PDF.</p>
+              <p className="text-white/85 text-sm leading-relaxed">أساسيات الفيزياء المطلوبة للgettyية لامتحان البكالوريا — حمّل الدروس الأربعة بصيغة PDF.</p>
             </div>
-            <span className="hidden sm:flex items-center gap-1.5 bg-white/20 group-hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-bold transition-colors flex-shrink-0">
-              <Download size={15} /> تحميل
+            <span className="hidden sm:flex items-center gap-2 bg-white/25 group-hover:bg-white/35 px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex-shrink-0 shadow-lg">
+              <Download size={16} /> تحميل
             </span>
           </Link>
         )}
@@ -110,17 +110,17 @@ export default function GradePage() {
         {grade === "4" && (
           <Link
             href="/maktasabat-bem"
-            className="group flex items-center gap-4 mb-10 rounded-2xl p-5 bg-gradient-to-l from-green-500 to-emerald-700 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+            className="group flex items-center gap-5 mb-12 rounded-2xl p-6 bg-gradient-to-l from-green-500 to-emerald-700 text-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 border border-white/15"
           >
-            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-              <BookOpen size={24} />
+            <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors shadow-lg">
+              <BookOpen size={26} />
             </div>
             <div className="flex-1">
               <h3 className="font-black text-lg">المكتسبات القبلية — BEM 2027</h3>
-              <p className="text-white/85 text-sm">أساسيات الفيزياء المطلوبة للготовية لشهادة التعليم المتوسط — حمّل الدروس الأربعة بصيغة PDF.</p>
+              <p className="text-white/85 text-sm leading-relaxed">أساسيات الفيزياء المطلوبة للgettyية لشهادة التعليم المتوسط — حمّل الدروس الأربعة بصيغة PDF.</p>
             </div>
-            <span className="hidden sm:flex items-center gap-1.5 bg-white/20 group-hover:bg-white/30 px-4 py-2 rounded-xl text-sm font-bold transition-colors flex-shrink-0">
-              <Download size={15} /> تحميل
+            <span className="hidden sm:flex items-center gap-2 bg-white/25 group-hover:bg-white/35 px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex-shrink-0 shadow-lg">
+              <Download size={16} /> تحميل
             </span>
           </Link>
         )}
@@ -144,14 +144,14 @@ export default function GradePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     onClick={() => handleStreamClick(stream.id)}
-                    className={`group relative overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-right hover:shadow-2xl ${level.border.replace("border-", "hover:border-")} transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]`}
+                    className={`group relative overflow-hidden bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-7 sm:p-8 text-right hover:shadow-2xl ${level.border.replace("border-", "hover:border-")} transition-all duration-300 hover:-translate-y-2 active:scale-[0.98]`}
                   >
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${level.gradient} flex items-center justify-center mb-5 text-white`}>
-                      <stream.icon size={28} />
+                    <div className={`w-18 h-18 rounded-2xl bg-gradient-to-br ${level.gradient} flex items-center justify-center mb-6 text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                      <stream.icon size={32} />
                     </div>
-                    <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">{stream.label}</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">{stream.desc}</p>
-                    <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-4`}>اختر الشعبة <ArrowLeft size={14} /></div>
+                    <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-3">{stream.label}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{stream.desc}</p>
+                    <div className={`flex items-center gap-1.5 ${level.text} text-sm font-semibold mt-6`}>اختر الشعبة <ArrowLeft size={16} className="transition-transform group-hover:translate-x-1" /></div>
                   </motion.button>
                 ))}
               </div>
@@ -170,14 +170,14 @@ export default function GradePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         onClick={() => handleStreamClick(stream.id)}
-                        className={`group bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-6 text-right hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]`}
+                        className={`group bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-5 sm:p-6 text-right hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.98]`}
                       >
-                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${level.gradient} flex items-center justify-center mb-4 text-white`}>
+                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${level.gradient} flex items-center justify-center mb-4 text-white shadow-md group-hover:scale-105 transition-transform`}>
                           <Icon size={24} />
                         </div>
-                        <h3 className="text-lg font-black text-gray-900 dark:text-white mb-1">{stream.label}</h3>
-                        <p className="text-gray-400 text-sm">محتوى مخصص لشعبة {stream.label}</p>
-                        <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-3`}>اختر <ArrowLeft size={14} /></div>
+                        <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2">{stream.label}</h3>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">محتوى مخصص لشعبة {stream.label}</p>
+                        <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-4`}>اختر <ArrowLeft size={14} className="transition-transform group-hover:translate-x-0.5" /></div>
                       </motion.button>
                     );
                   })}
@@ -194,14 +194,14 @@ export default function GradePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         onClick={() => handleStreamClick("literary")}
-                        className="group bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-6 text-right hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
+                        className="group bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-5 sm:p-6 text-right hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.98]"
                       >
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-500 to-gray-700 flex items-center justify-center mb-4 text-white">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-gray-500 to-gray-700 flex items-center justify-center mb-4 text-white shadow-md group-hover:scale-105 transition-transform">
                           <BookType size={24} />
                         </div>
-                        <h3 className="text-lg font-black text-gray-900 dark:text-white mb-1">الشعب الأدبية</h3>
-                        <p className="text-gray-400 text-sm">محتوى مخصص للشعب الأدبية</p>
-                        <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-3`}>اختر <ArrowLeft size={14} /></div>
+                        <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2">الشعب الأدبية</h3>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">محتوى مخصص للشعب الأدبية</p>
+                        <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-4`}>اختر <ArrowLeft size={14} className="transition-transform group-hover:translate-x-0.5" /></div>
                       </motion.button>
                     </div>
                   </>
@@ -226,7 +226,7 @@ export default function GradePage() {
             </h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 sm:mb-8">اختر القسم الذي تريد تصفحه</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8 sm:mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-10 sm:mb-12">
               {sections
                 .filter((s) => isScientific || !s.onlyScientific)
                 .map((section) => {
@@ -235,20 +235,20 @@ export default function GradePage() {
                     <Link
                       key={section.id}
                       href={`/grade/${grade}/${section.id}`}
-                      className={`group bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 sm:p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col gap-3 sm:gap-4`}
+                      className={`group bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-5 sm:p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.98] flex flex-col gap-4 sm:gap-5`}
                     >
-                      <div className={`w-12 h-12 rounded-xl ${level.soft} flex items-center justify-center transition-colors`}>
-                        <Icon size={22} className={level.text} />
+                      <div className={`w-14 h-14 rounded-xl ${level.soft} flex items-center justify-center transition-all shadow-sm group-hover:scale-110`}>
+                        <Icon size={24} className={level.text} />
                       </div>
                       <div>
-                        <h3 className="font-black text-gray-900 dark:text-white text-lg mb-1 transition-colors">
+                        <h3 className="font-black text-gray-900 dark:text-white text-lg mb-2 transition-colors">
                           {section.label}
                         </h3>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm">{section.desc}</p>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{section.desc}</p>
                       </div>
                       <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-auto`}>
                         استكشف
-                        <ArrowLeft size={14} />
+                        <ArrowLeft size={14} className="transition-transform group-hover:translate-x-1" />
                       </div>
                     </Link>
                   );
@@ -273,24 +273,24 @@ function BemSections({ level }: { level: ReturnType<typeof getLevelByGradeParam>
     <>
       <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2 sm:mb-3">محتوى شهادة التعليم المتوسط</h2>
       <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 sm:mb-8">اختر القسم الذي تريد تصفحه</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {cards.map((c) => {
           const Icon = c.icon;
           return (
             <Link
               key={c.label}
               href={c.href}
-              className="group bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 sm:p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col gap-4"
+              className="group bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-5 sm:p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.98] flex flex-col gap-4 sm:gap-5"
             >
-              <div className={`w-12 h-12 rounded-xl ${level.soft} flex items-center justify-center`}>
-                <Icon size={22} className={level.text} />
+              <div className={`w-14 h-14 rounded-xl ${level.soft} flex items-center justify-center shadow-sm group-hover:scale-110 transition-all`}>
+                <Icon size={24} className={level.text} />
               </div>
               <div>
-                <h3 className="font-black text-gray-900 dark:text-white text-lg mb-1">{c.label}</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">{c.desc}</p>
+                <h3 className="font-black text-gray-900 dark:text-white text-lg mb-2">{c.label}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{c.desc}</p>
               </div>
               <div className={`flex items-center gap-1 ${level.text} text-sm font-semibold mt-auto`}>
-                استكشف <ArrowLeft size={14} />
+                استكشف <ArrowLeft size={14} className="transition-transform group-hover:translate-x-1" />
               </div>
             </Link>
           );
