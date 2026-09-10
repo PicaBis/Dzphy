@@ -21,9 +21,9 @@ import {
   Bookmark,
   User,
   Layers,
-  Calculator,
   Video,
   HelpCircle,
+  Calculator as CalculatorIcon,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
@@ -61,7 +61,7 @@ const videosChildren = [
 // Study tools — what a student uses while studying (apps included).
 const studyToolsChildren = [
   { key: "flashcards", href: "/flashcards", icon: Layers },
-  { key: "formulas", href: "/formulas", icon: Calculator },
+  { key: "formulas", href: "/formulas", icon: CalculatorIcon },
   { key: "apps", href: "/apps", icon: Boxes },
 ];
 
