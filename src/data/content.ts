@@ -112,7 +112,7 @@ export const courses: Course[] = [
     id: "free-bem-1",
     title: "الميكانيكا والحركة - الرابعة متوسط",
     description: "دورة شاملة في الميكانيكا والحركة - مناسبة لطلاب الرابعة متوسط",
-    image: "https://i.ytimg.com/vi/1/mqdefault.jpg",
+    image: "https://i.ytimg.com/vi/SMFMsBl3e8Y/maxresdefault.jpg", // BEM - أخضر
     lessons: 1,
     level: "شهادة التعليم المتوسط",
     type: "free",
@@ -125,7 +125,7 @@ export const courses: Course[] = [
     id: "free-bem-2",
     title: "الكهرباء والطاقة - الرابعة متوسط",
     description: "شرح مفصل لقوانين الكهرباء والطاقة مع تطبيقات عملية",
-    image: "https://i.ytimg.com/vi/2/mqdefault.jpg",
+    image: "https://i.ytimg.com/vi/oPagkCEZsPo/maxresdefault.jpg", // BEM - أخضر
     lessons: 1,
     level: "شهادة التعليم المتوسط",
     type: "free",
@@ -138,7 +138,7 @@ export const courses: Course[] = [
     id: "free-bac-1",
     title: "الميكانيكا المتقدمة - البكالوريا",
     description: "دورة متقدمة في الميكانيكا وحركة الأجسام لطلاب البكالوريا",
-    image: "https://i.ytimg.com/vi/3/mqdefault.jpg",
+    image: "https://i.ytimg.com/vi/-5EN-AXJJZU/maxresdefault.jpg", // BAC - أصفر
     lessons: 1,
     level: "البكالوريا",
     type: "free",
@@ -151,7 +151,7 @@ export const courses: Course[] = [
     id: "free-bac-2",
     title: "البصريات والموجات - البكالوريا",
     description: "شرح وافي للموجات الضوئية والبصريات الهندسية والظواهر البصرية",
-    image: "https://i.ytimg.com/vi/4/mqdefault.jpg",
+    image: "https://i.ytimg.com/vi/-L5lScjATK0/maxresdefault.jpg", // BAC - أصفر
     lessons: 1,
     level: "البكالوريا",
     type: "free",
