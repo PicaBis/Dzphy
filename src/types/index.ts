@@ -10,6 +10,7 @@ export interface Course {
   category: string;
   instructor: string;
   playlistUrl?: string;
+  videoUrl?: string;
 }
 
 export interface ContentItem {
