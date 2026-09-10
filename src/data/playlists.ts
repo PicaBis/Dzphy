@@ -16,6 +16,8 @@ export type PlaylistLevelKey =
   | "bem"
   | "general";
 
+export type PlaylistType = "lessons" | "courses" | "ideas";
+
 export interface PlaylistConfig {
   id: string;
   title: string;
@@ -29,6 +31,8 @@ export interface PlaylistConfig {
   gradient: string; // tailwind gradient
   accent: string; // tailwind text color
   badge: string;
+  /** Playlist type for filtering: lessons, courses, or ideas */
+  type: PlaylistType;
 }
 
 export const playlists: PlaylistConfig[] = [
@@ -44,6 +48,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-amber-400 to-orange-600",
     accent: "text-amber-500",
     badge: "BAC",
+    type: "lessons",
   },
   {
     id: "bem-skills",
@@ -57,6 +62,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-green-400 to-emerald-600",
     accent: "text-green-500",
     badge: "BEM",
+    type: "lessons",
   },
   {
     id: "3as-lessons",
@@ -70,6 +76,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-amber-400 to-yellow-600",
     accent: "text-amber-500",
     badge: "3AS",
+    type: "lessons",
   },
   {
     id: "2as-lessons",
@@ -83,6 +90,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-blue-500 to-indigo-700",
     accent: "text-blue-500",
     badge: "2AS",
+    type: "lessons",
   },
   {
     id: "1as-lessons",
@@ -96,6 +104,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-blue-500 to-blue-700",
     accent: "text-blue-500",
     badge: "1AS",
+    type: "lessons",
   },
   {
     id: "4am-lessons",
@@ -109,6 +118,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-emerald-400 to-green-600",
     accent: "text-emerald-500",
     badge: "BEM",
+    type: "lessons",
   },
   {
     id: "courses-live",
@@ -122,6 +132,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-rose-400 to-red-600",
     accent: "text-rose-500",
     badge: "دورات",
+    type: "courses",
   },
   {
     id: "ideas-tricks",
@@ -135,6 +146,7 @@ export const playlists: PlaylistConfig[] = [
     gradient: "from-amber-400 to-yellow-600",
     accent: "text-yellow-500",
     badge: "أفكار",
+    type: "ideas",
   },
 ];
 

@@ -359,9 +359,321 @@ export const grade1Lessons: GradeLessons = {
   ],
 };
 
+// ============================================================================
+// Grade 2 — السنة الثانية ثانوي
+// ============================================================================
+export const grade2Lessons: GradeLessons = {
+  seasons: [
+    {
+      id: "winter",
+      title: "الفصل الأول",
+      subtitle: "الشتاء",
+      units: [
+        {
+          id: "unit1",
+          title: "الوحدة 1 — الحركة والسرعة",
+          lessons: [
+            {
+              id: "lesson-motion-basics",
+              title: "الحركة المستقيمة المنتظمة",
+              description: "دراسة الحركة المستقيمة المنتظمة والسرعة الثابتة والحركيات الأساسية",
+              parts: [
+                {
+                  id: "part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/winter/unit1/uniform-motion-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/winter/unit1/uniform-motion-part2.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "part3",
+                  title: "الجزء الثالث",
+                  fileUrl: "/files/lessons/2as/winter/unit1/uniform-motion-part3.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+            {
+              id: "lesson-acceleration",
+              title: "الحركة المتغيرة والتسارع",
+              description: "دراسة الحركة المتغيرة والتسارع الثابت والسقوط الحر",
+              parts: [
+                {
+                  id: "acc-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/winter/unit1/acceleration-motion-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "acc-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/winter/unit1/acceleration-motion-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit2",
+          title: "الوحدة 2 — قوانين نيوتن",
+          lessons: [
+            {
+              id: "lesson-newton-first",
+              title: "القانون الأول لنيوتن",
+              description: "دراسة القصور الذاتي والقوة والتوازن",
+              parts: [
+                {
+                  id: "nf-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/winter/unit2/newton-first-law-part1.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "nf-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/winter/unit2/newton-first-law-part2.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+            {
+              id: "lesson-newton-second",
+              title: "القانون الثاني لنيوتن",
+              description: "العلاقة بين القوة والكتلة والتسارع F=ma",
+              parts: [
+                {
+                  id: "ns-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/winter/unit2/newton-second-law-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "ns-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/winter/unit2/newton-second-law-part2.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "ns-part3",
+                  title: "الجزء الثالث",
+                  fileUrl: "/files/lessons/2as/winter/unit2/newton-second-law-part3.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "spring",
+      title: "الفصل الثاني",
+      subtitle: "الربيع",
+      units: [
+        {
+          id: "unit3",
+          title: "الوحدة 3 — الطاقة والعمل",
+          lessons: [
+            {
+              id: "lesson-work",
+              title: "العمل والطاقة",
+              description: "دراسة مفهوم العمل والقدرة والطاقة الحركية",
+              parts: [
+                {
+                  id: "work-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/spring/unit3/work-energy-part1.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "work-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/spring/unit3/work-energy-part2.pdf",
+                  sizeMB: 0.8,
+                },
+              ],
+            },
+            {
+              id: "lesson-kinetic-potential",
+              title: "الطاقة الحركية والجهد",
+              description: "الطاقة الحركية والطاقة الوضعية والطاقة الميكانيكية",
+              parts: [
+                {
+                  id: "kp-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/spring/unit3/kinetic-potential-energy-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "kp-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/spring/unit3/kinetic-potential-energy-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit4",
+          title: "الوحدة 4 — الكهرباء الساكنة",
+          lessons: [
+            {
+              id: "lesson-electric-field",
+              title: "الحقل الكهربائي",
+              description: "دراسة الحقل الكهربائي والقوة الكهروستاتيكية",
+              parts: [
+                {
+                  id: "ef-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/spring/unit4/electric-field-part1.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "ef-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/spring/unit4/electric-field-part2.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+            {
+              id: "lesson-electric-potential",
+              title: "الجهد الكهربائي",
+              description: "الجهد الكهربائي والفرق الكهربائي والمكثفات",
+              parts: [
+                {
+                  id: "ep-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/spring/unit4/electric-potential-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "ep-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/spring/unit4/electric-potential-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "summer",
+      title: "الفصل الثالث",
+      subtitle: "الصيف",
+      units: [
+        {
+          id: "unit5",
+          title: "الوحدة 5 — التيار الكهربائي",
+          lessons: [
+            {
+              id: "lesson-electric-current",
+              title: "التيار الكهربائي والمقاومة",
+              description: "دراسة التيار الكهربائي وقانون أوم والمقاومة الكهربائية",
+              parts: [
+                {
+                  id: "ec-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/summer/unit5/electric-current-part1.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "ec-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/summer/unit5/electric-current-part2.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "ec-part3",
+                  title: "الجزء الثالث",
+                  fileUrl: "/files/lessons/2as/summer/unit5/electric-current-part3.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+            {
+              id: "lesson-circuits",
+              title: "الدوائر الكهربائية",
+              description: "دراسة الدوائر الكهربائية والعناصر الموصولة بالتسلسل والتوازي",
+              parts: [
+                {
+                  id: "circ-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/summer/unit5/circuits-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "circ-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/summer/unit5/circuits-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit6",
+          title: "الوحدة 6 — المغناطيسية",
+          lessons: [
+            {
+              id: "lesson-magnetism",
+              title: "الحقل المغناطيسي",
+              description: "دراسة الحقل المغناطيسي والقوة المغناطيسية على الشحنات المتحركة",
+              parts: [
+                {
+                  id: "mag-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/summer/unit6/magnetism-field-part1.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "mag-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/summer/unit6/magnetism-field-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+            {
+              id: "lesson-electromagnetic",
+              title: "الكهرومغناطيسية",
+              description: "التفاعل بين الكهرباء والمغناطيسية والحث الكهرومغناطيسي",
+              parts: [
+                {
+                  id: "emag-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/2as/summer/unit6/electromagnetic-part1.pdf",
+                  sizeMB: 0.8,
+                },
+                {
+                  id: "emag-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/2as/summer/unit6/electromagnetic-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 // Helper to get all lessons for a grade
 export function getGradeLessons(grade: string): GradeLessons | null {
   if (grade === "1") return grade1Lessons;
+  if (grade === "2") return grade2Lessons;
   if (grade === "3") return grade3Lessons;
   if (grade === "4") return grade4Lessons;
   return null;

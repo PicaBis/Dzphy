@@ -24,6 +24,7 @@ export interface PlaylistResponse {
   gradient: string;
   accent: string;
   badge: string;
+  type: "lessons" | "courses" | "ideas";
   playlistUrl: string;
   videos: PlaylistVideo[];
 }
@@ -34,14 +35,27 @@ function isValidLevel(level: string | null): boolean {
   return ["bem", "1as", "2as", "3as", "general"].includes(level);
 }
 
+// Validate type parameter
+function isValidType(type: string | null): boolean {
+  if (!type) return true;
+  return ["lessons", "courses", "ideas"].includes(type);
+}
+
 export async function GET(request: NextRequest) {
   const level = request.nextUrl.searchParams.get("level");
+  const type = request.nextUrl.searchParams.get("type");
 
   try {
-    // Validate level parameter
+    // Validate parameters
     if (!isValidLevel(level)) {
       return Response.json(
         { error: "Invalid level parameter" },
+        { status: 400 }
+      );
+    }
+    if (!isValidType(type)) {
+      return Response.json(
+        { error: "Invalid type parameter" },
         { status: 400 }
       );
     }
@@ -63,6 +77,7 @@ export async function GET(request: NextRequest) {
   const feedsData = feeds as Record<string, PlaylistFeed>;
   const data: PlaylistResponse[] = playlists
     .filter((p: PlaylistConfig) => !level || p.levelKey === level)
+    .filter((p: PlaylistConfig) => !type || p.type === type)
     .map((p) => ({
       id: p.id,
       title: p.title,
@@ -75,6 +90,7 @@ export async function GET(request: NextRequest) {
       gradient: p.gradient,
       accent: p.accent,
       badge: p.badge,
+      type: p.type,
       playlistUrl: `https://www.youtube.com/playlist?list=${p.playlistId}`,
       videos: (feedsData[p.playlistId]?.videos as PlaylistVideo[]) ?? [],
     }))
@@ -109,7 +125,9 @@ export async function GET(request: NextRequest) {
     return Response.json(data);
   } catch {
     // Return cached/empty data on error instead of failing
-    return Response.json(playlists.filter((p: PlaylistConfig) => !level || p.levelKey === level)
+    return Response.json(playlists
+      .filter((p: PlaylistConfig) => !level || p.levelKey === level)
+      .filter((p: PlaylistConfig) => !type || p.type === type)
       .map((p) => ({
         id: p.id,
         title: p.title,
@@ -122,6 +140,7 @@ export async function GET(request: NextRequest) {
         gradient: p.gradient,
         accent: p.accent,
         badge: p.badge,
+        type: p.type,
         playlistUrl: `https://www.youtube.com/playlist?list=${p.playlistId}`,
         videos: [],
       })));
