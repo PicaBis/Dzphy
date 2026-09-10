@@ -159,30 +159,30 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 h-16">
+        <div className="flex items-center gap-2 h-14">
           {/* ---------- Right (RTL start): brand ---------- */}
           <Link
             href="/"
             onClick={() => play("nav")}
-            className="flex items-center gap-2 flex-shrink-0 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+            className="flex items-center gap-1.5 flex-shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
           >
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9">
               <Image src="/logo.png" alt={t("splash.logoTitle")} width={40} height={40} sizes="40px" className="object-contain" priority />
             </div>
-            <span className="text-lg sm:text-xl font-black leading-none" style={{ color: "#FF7A00" }}>
+            <span className="text-base sm:text-lg font-black leading-none" style={{ color: "#FF7A00" }}>
               بيكا
             </span>
           </Link>
 
           {/* ---------- Center: grouped navigation ---------- */}
-          <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0">
+          <nav className="hidden lg:flex items-center gap-0 flex-1 justify-center min-w-0">
             {navItems.map((item) =>
               item.kind === "link" ? (
                 <Tooltip key={item.key} label={item.tooltip ? t(item.tooltip) : label(item.key)}>
                   <Link
                     href={item.href}
                     onClick={() => play("nav")}
-                    className={`flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                    className={`flex items-center gap-1 px-2 py-1.5 text-[12px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
                       isActive(item.href)
                         ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                         : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
@@ -208,7 +208,7 @@ export default function Header() {
                     }}
                     aria-expanded={openGroup === item.key}
                     aria-haspopup="true"
-                    className={`flex items-center gap-1 px-2.5 xl:px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                    className={`flex items-center gap-1 px-2 py-1.5 text-[12px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
                       groupActive(item.children) || openGroup === item.key
                         ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                         : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
@@ -224,7 +224,7 @@ export default function Header() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.97 }}
                         transition={{ duration: 0.16, ease: "easeOut" }}
-                        className="absolute top-full right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden z-50 p-2"
+                        className="absolute top-full right-0 mt-1.5 w-48 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden z-50 p-1"
                       >
                         {item.children.map((sub) => {
                           const Icon = sub.icon;
@@ -233,14 +233,14 @@ export default function Header() {
                               key={sub.href}
                               href={sub.href}
                               onClick={() => play("click")}
-                              className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-colors duration-150 group ${
+                              className={`flex items-center gap-2 px-2.5 py-2 text-xs rounded-lg transition-colors duration-150 group ${
                                 isActive(sub.href)
                                   ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400"
                                   : "text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-500/10 hover:text-orange-600 dark:hover:text-orange-400"
                               }`}
                             >
-                              <span className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-500/10 group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
-                                <Icon size={15} className="text-orange-500" />
+                              <span className="w-7 h-7 rounded-lg bg-orange-50 dark:bg-orange-500/10 group-hover:bg-orange-100 dark:group-hover:bg-orange-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
+                                <Icon size={13} className="text-orange-500" />
                               </span>
                               {t(sub.key)}
                             </Link>
@@ -255,13 +255,13 @@ export default function Header() {
           </nav>
 
           {/* ---------- Left (RTL end): actions ---------- */}
-          <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0 ms-auto lg:ms-0">
+          <div className="flex items-center gap-1 flex-shrink-0 ms-auto lg:ms-0">
             <Tooltip label={t("tt.profile")}>
               <Link
                 href="/profile"
                 onClick={() => play("nav")}
                 aria-label={t("tt.profile")}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-xl transition-all"
+                className="p-1.5 text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-all"
               >
                 <User size={19} />
               </Link>
@@ -272,7 +272,7 @@ export default function Header() {
                 onClick={() => { play("click"); setSearchOpen((s) => !s); }}
                 aria-label={t("nav.searchAria")}
                 aria-expanded={searchOpen}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+                className="p-1.5 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
               >
                 <Search size={19} />
               </button>
@@ -284,7 +284,7 @@ export default function Header() {
                 href="/bookmarks"
                 onClick={() => play("nav")}
                 aria-label={t("tt.bookmarks")}
-                className={`p-2 rounded-xl transition-all ${
+                className={`p-1.5 rounded-lg transition-all ${
                   isActive("/bookmarks")
                     ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                     : "text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
@@ -299,7 +299,7 @@ export default function Header() {
               <button
                 onClick={toggleSound}
                 aria-label={soundOn ? t("nav.soundOn") : t("nav.soundOff")}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+                className="p-1.5 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
               >
                 {soundOn ? <Volume2 size={19} /> : <VolumeX size={19} />}
               </button>
@@ -310,7 +310,7 @@ export default function Header() {
               <button
                 onClick={() => { play("toggle"); toggleTheme(); }}
                 aria-label={theme === "dark" ? t("nav.themeDay") : t("nav.themeNight")}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+                className="p-1.5 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
               >
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
@@ -334,7 +334,7 @@ export default function Header() {
                   onClick={() => { play("open"); setLangOpen((o) => !o); }}
                   aria-label={t("nav.changeLang")}
                   aria-expanded={langOpen}
-                  className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all flex items-center gap-1 text-sm font-bold"
+                  className="p-1.5 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all flex items-center gap-1 text-xs font-bold"
                 >
                   <Globe size={19} />
                   <span className="text-[11px] tracking-wide">{lang.toUpperCase()}</span>
@@ -371,7 +371,7 @@ export default function Header() {
                 onClick={() => { play(mobileOpen ? "close" : "open"); setMobileOpen((o) => !o); }}
                 aria-label={t("nav.menu")}
                 aria-expanded={mobileOpen}
-                className="lg:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all"
+                className="lg:hidden p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -386,16 +386,16 @@ export default function Header() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden pb-3"
+              className="overflow-hidden pb-2"
             >
               <form onSubmit={submitSearch} className="relative">
-                <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={t("nav.searchPh")}
-                  className="w-full pr-10 sm:pr-12 pl-3 sm:pl-4 py-2.5 sm:py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all dark:text-white dark:placeholder-gray-500"
+                  className="w-full pr-9 pl-3 py-2 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all dark:text-white dark:placeholder-gray-500"
                 />
               </form>
             </motion.div>
@@ -413,14 +413,14 @@ export default function Header() {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="lg:hidden border-t-2 border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden"
           >
-            <div className="px-4 py-3 space-y-1 max-h-[72vh] overflow-y-auto">
+            <div className="px-3 py-2 space-y-0.5 max-h-[72vh] overflow-y-auto">
               {navItems.map((item) =>
                 item.kind === "link" ? (
                   <Link
                     key={item.key}
                     href={item.href}
                     onClick={() => { play("nav"); setMobileOpen(false); }}
-                    className={`flex items-center gap-2 px-4 py-3 text-sm rounded-xl font-semibold transition-all ${
+                    className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg font-semibold transition-all ${
                       isActive(item.href)
                         ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                         : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
@@ -433,7 +433,7 @@ export default function Header() {
                     <button
                       onClick={() => { play("open"); setMobileGroup((g) => (g === item.key ? null : item.key)); }}
                       aria-expanded={mobileGroup === item.key}
-                      className="w-full flex items-center justify-between px-4 py-3 text-sm rounded-xl font-semibold text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all"
+                      className="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all"
                     >
                       {label(item.key)}
                       <ChevronDown size={16} className={`transition-transform duration-200 ${mobileGroup === item.key ? "rotate-180" : ""}`} />
@@ -453,7 +453,7 @@ export default function Header() {
                                 key={sub.href}
                                 href={sub.href}
                                 onClick={() => { play("click"); setMobileOpen(false); }}
-                                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
+                                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
                               >
                                 <Icon size={15} className="text-orange-400 flex-shrink-0" />
                                 {t(sub.key)}
@@ -473,7 +473,7 @@ export default function Header() {
                   <button
                     key={l}
                     onClick={() => { play("click"); setLang(l); }}
-                    className={`px-3 py-2 rounded-lg text-xs font-black tracking-wide transition-colors ${lang === l ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-black tracking-wide transition-colors ${lang === l ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"}`}
                   >
                     {l.toUpperCase()}
                   </button>
@@ -481,9 +481,9 @@ export default function Header() {
                 <Link
                   href="/follow"
                   onClick={() => { play("nav"); setMobileOpen(false); }}
-                  className="flex-1 flex items-center justify-center gap-1.5 border-2 border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all"
+                  className="flex-1 flex items-center justify-center gap-1 border-2 border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 px-3 py-2 rounded-lg text-xs font-bold hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all"
                 >
-                  <Users size={15} /> {t("follow")}
+                  <Users size={14} /> {t("follow")}
                 </Link>
               </div>
             </div>
