@@ -261,11 +261,11 @@ export default function GradePage() {
   );
 }
 
-// BEM has real content in videos + distributions (no PDF sections yet).
+// BEM sections: lessons (PDF by season), maktasabat, and distributions.
 function BemSections({ level }: { level: ReturnType<typeof getLevelByGradeParam> }) {
   if (!level) return null;
   const cards = [
-    { icon: Video, label: "الدروس التعليمية", desc: "جميع دروس الرابعة متوسط بالفيديو من قناة الأستاذ.", href: "/videos?level=bem" },
+    { icon: BookOpen, label: "الدروس التعليمية", desc: "دروس مقسمة حسب الفصول والوحدات — حمّل الأجزاء بصيغة PDF.", href: "/grade/4/lessons" },
     { icon: Sparkles, label: "المكتسبات القبلية", desc: "مراجعة الأساسيات قبل انطلاق برنامج شهادة التعليم المتوسط (PDF).", href: "/maktasabat-bem" },
     { icon: CalendarRange, label: "التوزيع السنوي", desc: "التوزيع الرسمي لمادة العلوم الفيزيائية والتكنولوجيا (PDF).", href: `/distributions?level=${encodeURIComponent(levelToDistributionLabel.bem)}` },
   ];
