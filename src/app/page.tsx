@@ -1,4 +1,5 @@
 import HeroSection from "@/components/home/HeroSection";
+import SignupSuggestion from "@/components/ui/SignupSuggestion";
 import GradeCards from "@/components/home/GradeCards";
 import PlatformGuide from "@/components/home/PlatformGuide";
 import StatsCounter from "@/components/home/StatsCounter";
@@ -14,6 +15,7 @@ import SectionDivider from "@/components/ui/SectionDivider";
 export default function HomePage() {
   return (
     <>
+      <SignupSuggestion />
       <HeroSection />
       <SectionDivider type="wave" />
       <GradeCards />

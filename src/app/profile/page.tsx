@@ -3,23 +3,20 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   User,
-  GraduationCap,
   Trophy,
   Clock,
   Bookmark,
-  Star,
   Settings,
   LogOut,
-  Edit3,
   Save,
   X,
-  BookOpen,
   BarChart3,
   Cloud,
   CloudOff,
+  Target,
 } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import type { QuizResult } from "@/data/quizzes";
 
@@ -29,12 +26,34 @@ const QUIZ_RESULTS_KEY = "dzphy-quiz-results";
 interface Profile {
   name: string;
   grade: number;
+  /** Color key for the initial-based avatar (legacy emoji values fall back). */
   avatar: string;
   goal: string;
   joinDate: string;
 }
 
-const avatars = ["🎓", "📚", "⚡", "🔬", "🧪", "🌟", "🚀", "💡"];
+// Initial-based avatars — professional color circles (no emoji).
+const AVATAR_COLORS: Record<string, string> = {
+  orange: "bg-orange-500",
+  blue: "bg-blue-500",
+  green: "bg-green-600",
+  violet: "bg-violet-500",
+  rose: "bg-rose-500",
+  amber: "bg-amber-500",
+};
+const DEFAULT_AVATAR = "orange";
+
+function AvatarCircle({ name, color, size = "md" }: { name: string; color: string; size?: "md" | "lg" }) {
+  const cls = AVATAR_COLORS[color] ?? AVATAR_COLORS[DEFAULT_AVATAR];
+  const initial = (name || "طالب").trim().charAt(0);
+  const dims = size === "lg" ? "h-20 w-20 text-3xl" : "h-14 w-14 text-xl";
+  return (
+    <div className={`${dims} ${cls} rounded-full flex items-center justify-center font-black text-white shadow-lg ring-4 ring-white/40 select-none`}>
+      {initial}
+    </div>
+  );
+}
+
 const grades = [
   { value: 1, label: "السنة الأولى ثانوي" },
   { value: 2, label: "السنة الثانية ثانوي" },
@@ -43,8 +62,7 @@ const grades = [
 ];
 
 export default function ProfilePage() {
-  const { lang, t } = useLanguage();
-  const { user, isConfigured, signOut } = useAuth();
+  const { user, displayName, isConfigured, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editing, setEditing] = useState(false);
   const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
@@ -81,7 +99,7 @@ export default function ProfilePage() {
             setProfile((prev) => ({
               name: serverProfile.name || prev?.name || user.email?.split("@")[0] || "",
               grade: serverProfile.grade || prev?.grade || 1,
-              avatar: serverProfile.avatar || prev?.avatar || "🎓",
+              avatar: serverProfile.avatar || prev?.avatar || DEFAULT_AVATAR,
               goal: serverProfile.goal || prev?.goal || "",
               joinDate: serverProfile.created_at || prev?.joinDate || new Date().toISOString(),
             }));
@@ -168,7 +186,7 @@ export default function ProfilePage() {
           {user ? (
             <div className="flex items-center gap-2 text-xs font-semibold text-green-600 dark:text-green-400">
               <Cloud size={15} />
-              {syncing ? "جاري المزامنة..." : `متصل كـ ${user.email}`}
+              {syncing ? "جاري المزامنة..." : `متصل${displayName ? ` كـ ${displayName}` : ` كـ ${user.email}`}`}
             </div>
           ) : (
             <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
@@ -176,7 +194,7 @@ export default function ProfilePage() {
               {isConfigured ? (
                 <span>
                   غير مسجل الدخول —{" "}
-                  <Link href="/login" className="text-indigo-500 hover:underline">
+                  <Link href="/login" className="text-orange-500 hover:underline">
                     سجّل الدخول لحفظ تقدمك عبر أجهزتك
                   </Link>
                 </span>
@@ -201,20 +219,25 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white dark:bg-gray-800 rounded-3xl border-2 border-gray-100 dark:border-gray-700 overflow-hidden mb-6"
         >
-          <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-center text-white relative">
+          <div className="bg-gradient-to-br from-orange-500 to-orange-600 px-8 pt-10 pb-8 text-center text-white relative">
             <button
               onClick={() => setEditing(true)}
+              aria-label="تعديل الملف الشخصي"
               className="absolute top-4 left-4 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-all"
             >
               <Settings size={18} />
             </button>
-            <div className="text-6xl mb-3">{profile.avatar}</div>
+            <div className="flex justify-center mb-4">
+              <AvatarCircle name={profile.name} color={profile.avatar} size="lg" />
+            </div>
             <h1 className="text-2xl font-black">{profile.name}</h1>
-            <p className="text-white/80 text-sm mt-1">
+            <p className="text-white/85 text-sm mt-1">
               {grades.find((g) => g.value === profile.grade)?.label}
             </p>
             {profile.goal && (
-              <p className="text-white/60 text-xs mt-2">🎯 {profile.goal}</p>
+              <p className="text-white/80 text-xs mt-2.5 flex items-center justify-center gap-1.5">
+                <Target size={13} /> {profile.goal}
+              </p>
             )}
           </div>
         </motion.div>
@@ -287,7 +310,7 @@ export default function ProfilePage() {
                 <select
                   value={profile.grade}
                   onChange={(e) => setProfile({ ...profile, grade: parseInt(e.target.value) })}
-                  className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:text-white"
+                  className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 dark:text-white"
                 >
                   {grades.map((g) => (
                     <option key={g.value} value={g.value}>{g.label}</option>
@@ -295,19 +318,20 @@ export default function ProfilePage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">الأفاتار</label>
-                <div className="flex gap-2 flex-wrap">
-                  {avatars.map((a) => (
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">لون الأفاتار</label>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  {Object.entries(AVATAR_COLORS).map(([key, cls]) => (
                     <button
-                      key={a}
-                      onClick={() => setProfile({ ...profile, avatar: a })}
-                      className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all ${
-                        profile.avatar === a
-                          ? "bg-indigo-500 ring-2 ring-indigo-300"
-                          : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                      key={key}
+                      onClick={() => setProfile({ ...profile, avatar: key })}
+                      aria-label={`لون ${key}`}
+                      className={`h-10 w-10 rounded-full ${cls} flex items-center justify-center text-white font-black transition-all ${
+                        (AVATAR_COLORS[profile.avatar] ? profile.avatar : DEFAULT_AVATAR) === key
+                          ? "ring-2 ring-offset-2 ring-gray-900 dark:ring-white dark:ring-offset-gray-800 scale-110"
+                          : "hover:scale-105 opacity-80 hover:opacity-100"
                       }`}
                     >
-                      {a}
+                      {(profile.name || "طالب").trim().charAt(0)}
                     </button>
                   ))}
                 </div>
@@ -317,7 +341,7 @@ export default function ProfilePage() {
             <div className="flex gap-3 p-5 border-t border-gray-100 dark:border-gray-700">
               <button
                 onClick={() => saveProfile(profile)}
-                className="flex-1 flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-sm transition-all"
+                className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-xl font-bold text-sm transition-all"
               >
                 <Save size={15} />
                 حفظ
@@ -339,7 +363,7 @@ export default function ProfilePage() {
 function ProfileSetup({ onComplete }: { onComplete: (p: Profile) => void }) {
   const [name, setName] = useState("");
   const [grade, setGrade] = useState(1);
-  const [avatar, setAvatar] = useState("🎓");
+  const [avatar, setAvatar] = useState(DEFAULT_AVATAR);
   const [goal, setGoal] = useState("");
 
   const handleStart = () => {
@@ -353,34 +377,42 @@ function ProfileSetup({ onComplete }: { onComplete: (p: Profile) => void }) {
     });
   };
 
+  const inputCls =
+    "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 dark:text-white transition-colors";
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4 pt-20 pb-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gray-800 rounded-3xl border-2 border-gray-100 dark:border-gray-700 w-full max-w-md overflow-hidden"
+        className="bg-white dark:bg-gray-800 rounded-3xl border-2 border-gray-100 dark:border-gray-700 w-full max-w-md overflow-hidden shadow-sm"
       >
-        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-center text-white">
-          <div className="text-5xl mb-3">{avatar}</div>
-          <h1 className="text-2xl font-black">مرحبًا بك!</h1>
-          <p className="text-white/80 text-sm mt-2">أنشئ ملفك الشخصي لتتبع تقدمك</p>
+        {/* Brand header — consistent with login/signup */}
+        <div className="p-7 sm:p-8 text-center border-b border-gray-100 dark:border-gray-700">
+          <div className="mx-auto h-14 w-14 mb-4">
+            <Image src="/logo.png" alt="DzPhy" width={64} height={64} sizes="56px" className="h-full w-full object-contain" priority />
+          </div>
+          <h1 className="text-2xl font-black text-gray-900 dark:text-white">مرحبًا بك</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1.5">أنشئ ملفك الشخصي لتتبع تقدمك</p>
         </div>
-        <div className="p-6 space-y-4">
+        <div className="p-6 sm:p-7 space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">اسمك</label>
+            <label htmlFor="setup-name" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5">اسمك</label>
             <input
+              id="setup-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="أدخل اسمك"
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:text-white"
+              className={inputCls}
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">مستواك الدراسي</label>
+            <label htmlFor="setup-grade" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5">مستواك الدراسي</label>
             <select
+              id="setup-grade"
               value={grade}
               onChange={(e) => setGrade(parseInt(e.target.value))}
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:text-white"
+              className={inputCls}
             >
               {grades.map((g) => (
                 <option key={g.value} value={g.value}>{g.label}</option>
@@ -388,36 +420,38 @@ function ProfileSetup({ onComplete }: { onComplete: (p: Profile) => void }) {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">اختر أفاتار</label>
-            <div className="flex gap-2 flex-wrap">
-              {avatars.map((a) => (
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5">لون الأفاتار</label>
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {Object.entries(AVATAR_COLORS).map(([key, cls]) => (
                 <button
-                  key={a}
-                  onClick={() => setAvatar(a)}
-                  className={`w-12 h-12 rounded-xl text-2xl flex items-center justify-center transition-all ${
-                    avatar === a
-                      ? "bg-indigo-500 ring-2 ring-indigo-300 scale-110"
-                      : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  key={key}
+                  onClick={() => setAvatar(key)}
+                  aria-label={`لون ${key}`}
+                  className={`h-11 w-11 rounded-full ${cls} flex items-center justify-center text-white font-black text-lg transition-all ${
+                    avatar === key
+                      ? "ring-2 ring-offset-2 ring-gray-900 dark:ring-white dark:ring-offset-gray-800 scale-110"
+                      : "hover:scale-105 opacity-80 hover:opacity-100"
                   }`}
                 >
-                  {a}
+                  {(name || "طالب").trim().charAt(0)}
                 </button>
               ))}
             </div>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">هدفك (اختياري)</label>
+            <label htmlFor="setup-goal" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5">هدفك (اختياري)</label>
             <input
+              id="setup-goal"
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
               placeholder="مثال: التفوق في الباك"
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:text-white"
+              className={inputCls}
             />
           </div>
           <button
             onClick={handleStart}
             disabled={!name.trim()}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50 text-white py-3.5 rounded-xl font-black text-lg transition-all shadow-lg"
+            className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white py-3.5 rounded-xl font-black text-base transition-all shadow-lg shadow-orange-200 dark:shadow-orange-500/20 active:scale-[0.99]"
           >
             ابدأ الآن
           </button>
@@ -444,7 +478,7 @@ function EditField({ label, value, onChange }: { label: string; value: string; o
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:text-white"
+        className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 dark:text-white"
       />
     </div>
   );
