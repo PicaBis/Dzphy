@@ -154,24 +154,31 @@ export const grade4Lessons: GradeLessons = {
       units: [
         {
           id: "unit-sharida",
-          title: "الشاردة والمحلول الشاردي",
+          title: "الوحدة 1 — الشاردة والمحلول الشاردي",
           lessons: [
             {
-              id: "lesson-sharida",
-              title: "الشاردة والمحلول الشاردي",
-              description: "دراسة المحلول الشاردي وخواصه وتركيبه الجزيئي وال kết hợp مع الكيمياء.",
+              id: "lesson-sharida-part1",
+              title: "الشاردة والمحلول الشاردي — الجزء الأول",
+              description: "دراسة المحلول الشاردي وخواصه وتركيبه الجزيئي والعمليات الكيميائية.",
               parts: [
                 {
                   id: "sh-part1",
                   title: "الجزء الأول",
-                  fileUrl: "/files/lessons/4am/winter/sharida-mushtari-part1.pdf",
-                  sizeMB: 0.7,
+                  fileUrl: "/files/lessons/4am/winter/الشاردة والمحلول الشاردي 1-2.pdf",
+                  sizeMB: 0.76,
                 },
+              ],
+            },
+            {
+              id: "lesson-sharida-part2",
+              title: "الشاردة والمحلول الشاردي — الجزء الثاني",
+              description: "تطبيقات عملية على المحاليل الشاردية والتفاعلات الكيميائية.",
+              parts: [
                 {
                   id: "sh-part2",
                   title: "الجزء الثاني",
-                  fileUrl: "/files/lessons/4am/winter/sharida-mushtari-part2.pdf",
-                  sizeMB: 0.7,
+                  fileUrl: "/files/lessons/4am/winter/الشاردة والمحلول الشاردي 2-2.pdf",
+                  sizeMB: 0.77,
                 },
               ],
             },
@@ -179,7 +186,7 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-amn",
-          title: "الأمن الكهربائي",
+          title: "الوحدة 2 — الأمن الكهربائي",
           lessons: [
             {
               id: "lesson-amn",
@@ -188,9 +195,9 @@ export const grade4Lessons: GradeLessons = {
               parts: [
                 {
                   id: "amn-part1",
-                  title: "الدرس",
-                  fileUrl: "/files/lessons/4am/winter/amn-kahraba.pdf",
-                  sizeMB: 0.6,
+                  title: "الدرس الكامل",
+                  fileUrl: "/files/lessons/4am/winter/الأمن الكهربائي-2.pdf",
+                  sizeMB: 0.77,
                 },
               ],
             },
@@ -198,18 +205,18 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-tayar",
-          title: "التيار الكهربائي المتناوب",
+          title: "الوحدة 3 — التيار الكهربائي المتناوب",
           lessons: [
             {
               id: "lesson-tayar",
               title: "التيار الكهربائي المتناوب",
-              description: "دراسة التيار المتناوب وخصائصه وقياسه بأجهزة مختلفة.",
+              description: "دراسة التيار المتناوب وخصائصه وقياسه بأجهزة مختلفة والحسابات.",
               parts: [
                 {
                   id: "tayar-part1",
-                  title: "الدرس",
-                  fileUrl: "/files/lessons/4am/winter/tayar-mutanawib.pdf",
-                  sizeMB: 0.7,
+                  title: "الدرس الكامل",
+                  fileUrl: "/files/lessons/4am/winter/التيار الكهربائي المتناوب-2.pdf",
+                  sizeMB: 0.76,
                 },
               ],
             },
@@ -217,18 +224,18 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-shahna",
-          title: "الشحنة الكهربائية",
+          title: "الوحدة 4 — الشحنة الكهربائية",
           lessons: [
             {
               id: "lesson-shahna",
               title: "الشحنة الكهربائية",
-              description: "دراسة الشحنة الكهربائية وأنواعها وقوانينها الأساسية.",
+              description: "دراسة الشحنة الكهربائية وأنواعها وقوانينها الأساسية وحسابات الشحنة.",
               parts: [
                 {
                   id: "shahna-part1",
-                  title: "الدرس",
-                  fileUrl: "/files/lessons/4am/winter/shahna-kahraba.pdf",
-                  sizeMB: 0.6,
+                  title: "الدرس الكامل",
+                  fileUrl: "/files/lessons/4am/winter/الشحنة الكهربائية-2.pdf",
+                  sizeMB: 0.58,
                 },
               ],
             },
@@ -236,18 +243,18 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-takahrub",
-          title: "التكهرب",
+          title: "الوحدة 5 — التكهرب",
           lessons: [
             {
               id: "lesson-takahrub",
               title: "التكهرب",
-              description: "دراسة ظاهرة التكهرب وأسبابها وطرق حماية الأشخاص منها.",
+              description: "دراسة ظاهرة التكهرب وأسبابها وطرق حماية الأشخاص والمعدات منها.",
               parts: [
                 {
                   id: "tk-part1",
-                  title: "الدرس",
-                  fileUrl: "/files/lessons/4am/winter/takahrub.pdf",
-                  sizeMB: 0.6,
+                  title: "الدرس الكامل",
+                  fileUrl: "/files/lessons/4am/winter/التكهرب-2.pdf",
+                  sizeMB: 0.45,
                 },
               ],
             },
@@ -255,18 +262,18 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-final",
-          title: "التحليل الكهربائي البسيط",
+          title: "الوحدة 6 — التحليل الكهربائي البسيط",
           lessons: [
             {
               id: "lesson-final",
               title: "التحليل الكهربائي البسيط",
-              description: "دراسة التحليل الكهربائي البسيط وتطبيقاته في المحلول الشاردي.",
+              description: "دراسة التحليل الكهربائي البسيط وتطبيقاته العملية في المحلول الشاردي.",
               parts: [
                 {
                   id: "final-part1",
-                  title: "الدرس",
+                  title: "الدرس الكامل",
                   fileUrl: "/files/lessons/4am/winter/electrolysis-analysis.pdf",
-                  sizeMB: 0.7,
+                  sizeMB: 0.75,
                 },
               ],
             },
@@ -278,13 +285,91 @@ export const grade4Lessons: GradeLessons = {
       id: "spring",
       title: "الفصل الثاني",
       subtitle: "الربيع",
-      units: [],
+      units: [
+        {
+          id: "unit-spring-1",
+          title: "الوحدة 1 — الحركة والسرعة",
+          lessons: [
+            {
+              id: "lesson-motion",
+              title: "الحركة والسرعة",
+              description: "دراسة الحركة المستقيمة والسرعة والتسارع والحركيات الأساسية.",
+              parts: [
+                {
+                  id: "motion-part1",
+                  title: "شرح مفاهيم الحركة",
+                  fileUrl: "/files/lessons/4am/spring/motion-basics.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-spring-2",
+          title: "الوحدة 2 — القوة والطاقة",
+          lessons: [
+            {
+              id: "lesson-force",
+              title: "القوة والطاقة",
+              description: "دراسة القوة والعمل والطاقة الحركية والوضعية.",
+              parts: [
+                {
+                  id: "force-part1",
+                  title: "القوة والعمل",
+                  fileUrl: "/files/lessons/4am/spring/force-energy.pdf",
+                  sizeMB: 0.65,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
       id: "summer",
       title: "الفصل الثالث",
       subtitle: "الصيف",
-      units: [],
+      units: [
+        {
+          id: "unit-summer-1",
+          title: "الوحدة 1 — الظواهر الضوئية",
+          lessons: [
+            {
+              id: "lesson-optics",
+              title: "الظواهر الضوئية",
+              description: "دراسة الضوء والانعكاس والانكسار والعدسات.",
+              parts: [
+                {
+                  id: "optics-part1",
+                  title: "الظواهر الضوئية الأساسية",
+                  fileUrl: "/files/lessons/4am/summer/optical-phenomena.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-summer-2",
+          title: "الوحدة 2 — الموجات الصوتية",
+          lessons: [
+            {
+              id: "lesson-sound",
+              title: "الموجات الصوتية",
+              description: "دراسة الصوت والموجات الصوتية والتردد والطول الموجي.",
+              parts: [
+                {
+                  id: "sound-part1",
+                  title: "الموجات والصوت",
+                  fileUrl: "/files/lessons/4am/summer/sound-waves.pdf",
+                  sizeMB: 0.68,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
 };
