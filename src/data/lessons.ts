@@ -142,8 +142,149 @@ export const grade3Lessons: GradeLessons = {
   ],
 };
 
+// ============================================================================
+// Grade 4 — الرابعة متوسط (BEM)
+// ============================================================================
+export const grade4Lessons: GradeLessons = {
+  seasons: [
+    {
+      id: "winter",
+      title: "الفصل الأول",
+      subtitle: "الشتاء",
+      units: [
+        {
+          id: "unit-sharida",
+          title: "الشاردة والمحلول الشاردي",
+          lessons: [
+            {
+              id: "lesson-sharida",
+              title: "الشاردة والمحلول الشاردي",
+              description: "دراسة المحلول الشاردي وخواصه وتركيبه الجزيئي وال kết hợp مع الكيمياء.",
+              parts: [
+                {
+                  id: "sh-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/4am/winter/sharida-mushtari-part1.pdf",
+                  sizeMB: 0.7,
+                },
+                {
+                  id: "sh-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/4am/winter/sharida-mushtari-part2.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-amn",
+          title: "الأمن الكهربائي",
+          lessons: [
+            {
+              id: "lesson-amn",
+              title: "الأمن الكهربائي",
+              description: "قواعد الأمن والسلامة الكهربائية وحماية الأشخاص والمعدات من مخاطر الكهرباء.",
+              parts: [
+                {
+                  id: "amn-part1",
+                  title: "الدرس",
+                  fileUrl: "/files/lessons/4am/winter/amn-kahraba.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-tayar",
+          title: "التيار الكهربائي المتناوب",
+          lessons: [
+            {
+              id: "lesson-tayar",
+              title: "التيار الكهربائي المتناوب",
+              description: "دراسة التيار المتناوب وخصائصه وقياسه بأجهزة مختلفة.",
+              parts: [
+                {
+                  id: "tayar-part1",
+                  title: "الدرس",
+                  fileUrl: "/files/lessons/4am/winter/tayar-mutanawib.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-shahna",
+          title: "الشحنة الكهربائية",
+          lessons: [
+            {
+              id: "lesson-shahna",
+              title: "الشحنة الكهربائية",
+              description: "دراسة الشحنة الكهربائية وأنواعها وقوانينها الأساسية.",
+              parts: [
+                {
+                  id: "shahna-part1",
+                  title: "الدرس",
+                  fileUrl: "/files/lessons/4am/winter/shahna-kahraba.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-takahrub",
+          title: "التكهرب",
+          lessons: [
+            {
+              id: "lesson-takahrub",
+              title: "التكهرب",
+              description: "دراسة ظاهرة التكهرب وأسبابها وطرق حماية الأشخاص منها.",
+              parts: [
+                {
+                  id: "tk-part1",
+                  title: "الدرس",
+                  fileUrl: "/files/lessons/4am/winter/takahrub.pdf",
+                  sizeMB: 0.6,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-final",
+          title: "درس إضافي",
+          lessons: [
+            {
+              id: "lesson-final",
+              title: "قريبًا",
+              description: "درس إضافي سيكون متاحًا قريبًا.",
+              parts: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "spring",
+      title: "الفصل الثاني",
+      subtitle: "الربيع",
+      units: [],
+    },
+    {
+      id: "summer",
+      title: "الفصل الثالث",
+      subtitle: "الصيف",
+      units: [],
+    },
+  ],
+};
+
 // Helper to get all lessons for a grade
 export function getGradeLessons(grade: string): GradeLessons | null {
   if (grade === "3") return grade3Lessons;
+  if (grade === "4") return grade4Lessons;
   return null;
 }
