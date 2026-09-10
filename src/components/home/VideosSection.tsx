@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Play, AlertCircle } from "lucide-react";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
-import { tiktokVideos, type SocialVideo } from "@/data/social";
-import type { TikTokEnriched } from "@/lib/tiktok";
 import { PlaylistCardSkeleton } from "@/components/ui/Skeletons";
 import DirectionArrow from "@/components/ui/DirectionArrow";
 import { useLanguage } from "@/context/LanguageContext";
@@ -14,16 +12,11 @@ const YT = ({ s = 16, c = "" }: { s?: number; c?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s} className={c}><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
 );
 
-const TK = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z" /></svg>
-);
-
 export default function VideosSection() {
   const { t } = useLanguage();
   const [data, setData] = useState<PlaylistResponse[] | null>(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [tiktok, setTiktok] = useState<(SocialVideo & { localThumb?: string })[]>(tiktokVideos);
 
   useEffect(() => {
     fetch("/api/playlists")
@@ -34,56 +27,6 @@ export default function VideosSection() {
       .then((json: PlaylistResponse[]) => setData(json))
       .catch(() => setError(true))
       .finally(() => setLoading(false));
-  }, []);
-
-  // جلب منشورات TikTok ديناميكياً من API
-  useEffect(() => {
-    let alive = true;
-
-    // محاولة الحصول على منشورات TikTok الجديدة من API
-    fetch("/api/social?platform=tiktok")
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: { posts?: SocialVideo[] }) => {
-        if (!alive || !data.posts || !Array.isArray(data.posts)) return;
-        // تحويل منشورات API إلى صيغة SocialVideo
-        const apiTiktok = data.posts.map((p: SocialVideo) => ({
-          ...p,
-          localThumb: p.thumbnail,
-        })) as (SocialVideo & { localThumb?: string })[];
-        if (apiTiktok.length > 0) setTiktok(apiTiktok);
-      })
-      .catch(() => {
-        // إذا فشل API الجديد، جرب الـ API القديم
-        fetch("/api/tiktok")
-          .then((r) => (r.ok ? r.json() : Promise.reject()))
-          .then((rows: TikTokEnriched[]) => {
-            if (!alive || !Array.isArray(rows) || rows.length === 0) return;
-            const base = new Map(tiktokVideos.map((v) => [v.id, v]));
-            // Show only videos oEmbed could verify → every card opens a real video.
-            const next = rows
-              .filter((r) => r.verified)
-              .map((r) => {
-                const b = base.get(r.id);
-                return {
-                  ...(b ?? ({} as SocialVideo)),
-                  id: r.id,
-                  platform: "tiktok" as const,
-                  url: r.url,
-                  title: r.title,
-                  thumbnail: r.thumbnail || b?.thumbnail || "",
-                  localThumb: r.localThumb || b?.thumbnail,
-                } as SocialVideo & { localThumb?: string };
-              });
-            if (next.length > 0) setTiktok(next);
-          })
-          .catch(() => {
-            /* keep curated fallback */
-          });
-      });
-
-    return () => {
-      alive = false;
-    };
   }, []);
 
   return (
@@ -105,7 +48,7 @@ export default function VideosSection() {
           </Link>
         </motion.div>
 
-        <div className="mb-14">
+        <div>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 rounded-xl bg-red-500 flex items-center justify-center"><YT s={16} c="text-white" /></div>
             <h3 className="font-bold text-gray-900 dark:text-white text-lg">
@@ -182,33 +125,6 @@ export default function VideosSection() {
               {t("vs.browseAll")}
               <DirectionArrow size={16} />
             </Link>
-          </div>
-        </div>
-
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-gray-900 flex items-center justify-center"><TK /></div>
-            <h3 className="font-bold text-gray-900 dark:text-white text-lg">
-              {t("vs.tiktok")}{" "}
-              <a href="https://www.tiktok.com/@profpica" target="_blank" rel="noopener noreferrer" className="text-gray-900 dark:text-white hover:underline">@profpica</a>
-            </h3>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {tiktok.map((v, i) => (
-              <motion.a key={v.id} href={v.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-20px" }} transition={{ delay: i * 0.06, ease: "easeOut" }} className="group relative aspect-[9/16] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-[0.97]">
-                <img src={v.thumbnail} alt={v.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" onError={(e) => { const fb = v.localThumb; if (fb && e.currentTarget.src !== fb) e.currentTarget.src = fb; }} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20 flex flex-col justify-end p-3">
-                  <p className="text-white text-[11px] font-bold leading-tight line-clamp-2 drop-shadow">{v.title}</p>
-                </div>
-                <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 flex items-center justify-center"><TK /></div>
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><Play size={20} fill="white" className="text-white" /></div>
-              </motion.a>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <a href="https://www.tiktok.com/@profpica" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg hover:shadow-xl">
-              <TK /> {t("vs.tiktokMore")} <DirectionArrow size={16} />
-            </a>
           </div>
         </div>
       </div>

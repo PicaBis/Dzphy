@@ -9,61 +9,17 @@ import {
   ChevronLeft,
   Sparkles,
   Atom,
-  Zap,
-  FlaskConical,
-  Magnet,
 } from "lucide-react";
 import { sound } from "@/lib/sound";
 
 type Role = "student" | "teacher" | null;
 
 const years = [
-  { id: "1", label: "السنة الأولى ثانوي", href: "/grade/1", color: "from-blue-500 to-blue-700", soft: "bg-blue-50" },
-  { id: "2", label: "السنة الثانية ثانوي", href: "/grade/2", color: "from-sky-500 to-blue-700", soft: "bg-sky-50" },
-  { id: "3", label: "السنة الثالثة ثانوي", href: "/grade/3", color: "from-amber-400 to-yellow-600", soft: "bg-amber-50" },
-  { id: "4", label: "السنة الرابعة متوسط", href: "/grade/4", color: "from-green-500 to-emerald-700", soft: "bg-green-50" },
+  { id: "1", label: "السنة الأولى ثانوي", href: "/grade/1", color: "from-blue-500 to-blue-700" },
+  { id: "2", label: "السنة الثانية ثانوي", href: "/grade/2", color: "from-sky-500 to-blue-700" },
+  { id: "3", label: "السنة الثالثة ثانوي", href: "/grade/3", color: "from-amber-400 to-yellow-600" },
+  { id: "4", label: "السنة الرابعة متوسط", href: "/grade/4", color: "from-green-500 to-emerald-700" },
 ];
-
-/** Faint floating physics ornaments around the white canvas. */
-function Ornaments() {
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      {/* soft corner glows */}
-      <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-orange-100/60 blur-3xl" />
-      <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-blue-50/70 blur-3xl" />
-
-      {/* faint floating icons */}
-      <motion.div
-        className="absolute top-[14%] left-[12%] text-orange-200"
-        animate={{ y: [0, -12, 0], rotate: [0, 8, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <Atom size={44} strokeWidth={1.4} />
-      </motion.div>
-      <motion.div
-        className="absolute top-[20%] right-[14%] text-amber-200"
-        animate={{ y: [0, 10, 0], rotate: [0, -10, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-      >
-        <Zap size={38} strokeWidth={1.4} />
-      </motion.div>
-      <motion.div
-        className="absolute bottom-[18%] left-[16%] text-sky-200"
-        animate={{ y: [0, -10, 0], rotate: [0, 12, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.1 }}
-      >
-        <FlaskConical size={40} strokeWidth={1.4} />
-      </motion.div>
-      <motion.div
-        className="absolute bottom-[24%] right-[12%] text-rose-200"
-        animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
-        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-      >
-        <Magnet size={36} strokeWidth={1.4} />
-      </motion.div>
-    </div>
-  );
-}
 
 export default function SplashScreen() {
   const [mounted, setMounted] = useState(false);
@@ -134,22 +90,17 @@ export default function SplashScreen() {
           transition={{ duration: 0.45, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-white"
         >
-          <Ornaments />
-
           {/* ============================ Phase 1 — Logo ============================ */}
           {phase === "logo" && (
             <div className="relative z-10 flex flex-col items-center">
-              {/* orbit rings + big logo */}
               <motion.div
                 initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="relative flex h-56 w-56 items-center justify-center sm:h-64 sm:w-64"
               >
-                {/* soft halo */}
-                <div className="absolute inset-6 rounded-full bg-gradient-to-br from-orange-100 via-amber-50 to-orange-50 blur-2xl" />
+                <div className="absolute inset-6 rounded-full bg-orange-50/80 blur-2xl" />
 
-                {/* animated orbit rings */}
                 {!reduce && (
                   <>
                     <motion.span
@@ -162,16 +113,14 @@ export default function SplashScreen() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
                     />
+                    <motion.span
+                      className="absolute inset-0"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    >
+                      <span className="absolute left-1/2 top-1 h-3 w-3 -translate-x-1/2 rounded-full bg-orange-400 shadow-md shadow-orange-200" />
+                    </motion.span>
                   </>
-                )}
-                {!reduce && (
-                  <motion.span
-                    className="absolute inset-0"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                  >
-                    <span className="absolute left-1/2 top-1 h-3 w-3 -translate-x-1/2 rounded-full bg-orange-400 shadow-md shadow-orange-200" />
-                  </motion.span>
                 )}
 
                 <div className="relative h-44 w-44 sm:h-52 sm:w-52">
@@ -187,7 +136,6 @@ export default function SplashScreen() {
                 </div>
               </motion.div>
 
-              {/* title */}
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -197,7 +145,6 @@ export default function SplashScreen() {
                 <h1 className="text-2xl font-black tracking-tight text-gray-900 sm:text-3xl">
                   منصة الأستاذ بيكا
                 </h1>
-                {/* ornament divider */}
                 <div className="flex items-center gap-2">
                   <span className="h-px w-10 bg-gradient-to-l from-orange-400 to-transparent" />
                   <Atom size={16} className="text-orange-500" />
@@ -207,16 +154,13 @@ export default function SplashScreen() {
                   للفيزياء التعليمية — تعلّم بذكاء وفهم بعمق
                 </p>
 
-                {/* loading dots */}
-                <div className="mt-2 flex items-center gap-1.5">
-                  {[0, 1, 2].map((i) => (
-                    <motion.span
-                      key={i}
-                      className="h-2 w-2 rounded-full bg-orange-400"
-                      animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.1, 0.85] }}
-                      transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
-                    />
-                  ))}
+                <div className="mt-3 h-1 w-40 overflow-hidden rounded-full bg-gray-100">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-l from-orange-500 to-amber-400"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: reduce ? 0.5 : 1.8, ease: "easeInOut", delay: 0.2 }}
+                  />
                 </div>
               </motion.div>
             </div>
@@ -233,7 +177,6 @@ export default function SplashScreen() {
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 className="relative z-10 mx-auto w-full max-w-md px-5 sm:px-6"
               >
-                {/* header */}
                 <div className="mb-8 text-center">
                   <motion.div
                     animate={reduce ? {} : { y: [0, -7, 0] }}
@@ -245,7 +188,7 @@ export default function SplashScreen() {
                     <Image src="/logo.png" alt="شعار الأستاذ بيكا" width={112} height={112} sizes="96px" className="relative h-full w-full object-contain drop-shadow-lg" priority />
                   </motion.div>
                   <h1 className="mb-1.5 text-2xl font-black text-gray-900 sm:text-3xl">
-                    مرحبًا بك 👋
+                    مرحبًا بك
                   </h1>
                   <p className="text-sm font-medium text-gray-400 sm:text-base">
                     اختر طريقة الدخول للمتابعة
@@ -262,7 +205,6 @@ export default function SplashScreen() {
                       transition={{ duration: 0.32 }}
                       className="space-y-3.5"
                     >
-                      {/* student */}
                       <motion.button
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
@@ -281,7 +223,6 @@ export default function SplashScreen() {
                         </span>
                       </motion.button>
 
-                      {/* teacher / visitor */}
                       <motion.button
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
@@ -300,7 +241,6 @@ export default function SplashScreen() {
                         </span>
                       </motion.button>
 
-                      {/* skip */}
                       <motion.button
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
@@ -336,7 +276,7 @@ export default function SplashScreen() {
                           onClick={() => handleYearSelect(year.href)}
                           className={`group flex w-full items-center gap-4 rounded-2xl bg-gradient-to-l ${year.color} p-4 text-right font-bold text-white shadow-lg transition-all duration-300 hover:shadow-2xl`}
                         >
-                          <span className={`h-12 w-12 flex-shrink-0 rounded-2xl bg-white/20 backdrop-blur-sm text-xl font-black transition-transform group-hover:scale-110 flex items-center justify-center`}>
+                          <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-white/20 text-xl font-black backdrop-blur-sm transition-transform group-hover:scale-110">
                             {year.id}
                           </span>
                           <span className="flex-1 text-sm font-bold sm:text-base">{year.label}</span>
