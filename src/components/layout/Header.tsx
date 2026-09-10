@@ -30,7 +30,6 @@ import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
 import { useSound } from "@/context/SoundContext";
 import Tooltip from "@/components/ui/Tooltip";
 import NotificationsBell from "@/components/ui/NotificationsBell";
-import Calculator from "@/components/ui/Calculator";
 
 // ---------------------------------------------------------------------------
 // Navigation model — clean top bar:
@@ -266,13 +265,6 @@ export default function Header() {
               >
                 <User size={19} />
               </Link>
-            </Tooltip>
-
-            {/* آلة حاسبة */}
-            <Tooltip label="آلة حاسبة">
-              <div onClick={() => play("click")}>
-                <Calculator />
-              </div>
             </Tooltip>
 
             <Tooltip label={t("tt.search")}>
