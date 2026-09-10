@@ -30,6 +30,7 @@ import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
 import { useSound } from "@/context/SoundContext";
 import Tooltip from "@/components/ui/Tooltip";
 import NotificationsBell from "@/components/ui/NotificationsBell";
+import Calculator from "@/components/ui/Calculator";
 
 // ---------------------------------------------------------------------------
 // Navigation model — clean top bar:
@@ -169,8 +170,8 @@ export default function Header() {
             <div className="relative w-8 h-8 sm:w-9 sm:h-9">
               <Image src="/logo.png" alt={t("splash.logoTitle")} width={40} height={40} sizes="40px" className="object-contain" priority />
             </div>
-            <span className="text-base sm:text-lg font-black leading-none" style={{ color: "#FF7A00" }}>
-              بيكا
+            <span className="text-base sm:text-lg font-black leading-none tracking-wider bg-gradient-to-r from-green-600 via-white to-red-600 bg-clip-text text-transparent">
+              DzPhy
             </span>
           </Link>
 
@@ -265,6 +266,13 @@ export default function Header() {
               >
                 <User size={19} />
               </Link>
+            </Tooltip>
+
+            {/* آلة حاسبة */}
+            <Tooltip label="آلة حاسبة">
+              <div onClick={() => play("click")}>
+                <Calculator />
+              </div>
             </Tooltip>
 
             <Tooltip label={t("tt.search")}>
