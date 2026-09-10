@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
     // Channel uploads appear as a "latest videos" section (all levels view only),
     // so anything newly uploaded to the channel shows up automatically — even
     // before it's added to a curated playlist. Every video keeps a real cover.
-    if (!level && channel && channel.videos.length > 0) {
+    if (!level && !type && channel && channel.videos.length > 0) {
       data.unshift({
         id: "channel-latest",
         title: "أحدث الفيديوهات من القناة",
@@ -114,6 +114,7 @@ export async function GET(request: NextRequest) {
         gradient: "from-red-500 to-rose-600",
         accent: "text-red-500",
         badge: "جديد",
+        type: "lessons",
         playlistUrl: siteConfig.youtubeChannelUrl,
         videos: channel.videos.map((v) => ({
           ...v,
