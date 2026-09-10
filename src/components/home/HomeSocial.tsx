@@ -1,8 +1,8 @@
 "use client";
-import { useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ExternalLink, FileText, Bell, Send } from "lucide-react";
+import { ExternalLink, FileText, Bell, Send, AlertCircle } from "lucide-react";
 import { instagramPosts, type SocialVideo } from "@/data/social";
 import { siteConfig, socialLinks } from "@/data/site";
 import { InstagramIcon, TelegramIcon, FacebookIcon } from "@/components/icons/SocialIcons";
@@ -17,10 +17,46 @@ const facebookOfficial =
 
 export default function HomeSocial() {
   const { t } = useLanguage();
+  const [instagram, setInstagram] = useState<SocialVideo[]>(instagramPosts);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  // جلب المنشورات الديناميكية من API
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/social?platform=instagram")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => {
+        if (isMounted && data.posts && Array.isArray(data.posts)) {
+          setInstagram(data.posts.slice(0, 6));
+          setError(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch Instagram posts:", err);
+        if (isMounted) {
+          setError(true);
+          // Keep the default posts on error
+          setInstagram(instagramPosts.slice(0, 6));
+        }
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Instagram: curated posts, enriched/extended by any DB rows (newest first).
   const { items: dbInstagram } = useDbContent("instagram");
-  const instagram = useMemo<SocialVideo[]>(() => {
-    const seen = new Set(instagramPosts.map((p) => p.url));
+  const instagramWithDb = useMemo<SocialVideo[]>(() => {
+    const seen = new Set(instagram.map((p) => p.url));
     const extra: SocialVideo[] = dbInstagram
       .filter((r) => r.url && !seen.has(r.url))
       .map((r) => ({
@@ -33,8 +69,8 @@ export default function HomeSocial() {
         badge: r.badge ?? t("common.new"),
         gradient: "from-fuchsia-500 via-pink-500 to-orange-400",
       }));
-    return [...extra, ...instagramPosts].slice(0, 6);
-  }, [dbInstagram]);
+    return [...extra, ...instagram].slice(0, 6);
+  }, [instagram, dbInstagram]);
 
   return (
     <section className="py-12 sm:py-20 bg-white dark:bg-gray-950">
@@ -74,8 +110,16 @@ export default function HomeSocial() {
               {t("hs.follow")} <DirectionArrow size={15} />
             </a>
           </div>
+          {error && (
+            <div className="mb-6 rounded-2xl border border-yellow-200 dark:border-yellow-500/30 bg-yellow-50 dark:bg-yellow-500/10 p-4 flex items-start gap-3">
+              <AlertCircle className="text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5" size={18} />
+              <p className="text-sm text-yellow-800 dark:text-yellow-300">
+                جاري تحميل أحدث المنشورات... يتم عرض المنشورات المحفوظة حالياً
+              </p>
+            </div>
+          )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {instagram.map((v, i) => (
+            {instagramWithDb.map((v, i) => (
               <motion.a
                 key={v.id}
                 href={v.url}

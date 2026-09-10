@@ -36,33 +36,51 @@ export default function VideosSection() {
       .finally(() => setLoading(false));
   }, []);
 
+  // جلب منشورات TikTok ديناميكياً من API
   useEffect(() => {
     let alive = true;
-    fetch("/api/tiktok")
+
+    // محاولة الحصول على منشورات TikTok الجديدة من API
+    fetch("/api/social?platform=tiktok")
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((rows: TikTokEnriched[]) => {
-        if (!alive || !Array.isArray(rows) || rows.length === 0) return;
-        const base = new Map(tiktokVideos.map((v) => [v.id, v]));
-        // Show only videos oEmbed could verify → every card opens a real video.
-        const next = rows
-          .filter((r) => r.verified)
-          .map((r) => {
-            const b = base.get(r.id);
-            return {
-              ...(b ?? ({} as SocialVideo)),
-              id: r.id,
-              platform: "tiktok" as const,
-              url: r.url,
-              title: r.title,
-              thumbnail: r.thumbnail || b?.thumbnail || "",
-              localThumb: r.localThumb || b?.thumbnail,
-            } as SocialVideo & { localThumb?: string };
-          });
-        if (next.length > 0) setTiktok(next);
+      .then((data: { posts?: SocialVideo[] }) => {
+        if (!alive || !data.posts || !Array.isArray(data.posts)) return;
+        // تحويل منشورات API إلى صيغة SocialVideo
+        const apiTiktok = data.posts.map((p: SocialVideo) => ({
+          ...p,
+          localThumb: p.thumbnail,
+        })) as (SocialVideo & { localThumb?: string })[];
+        if (apiTiktok.length > 0) setTiktok(apiTiktok);
       })
       .catch(() => {
-        /* keep curated fallback */
+        // إذا فشل API الجديد، جرب الـ API القديم
+        fetch("/api/tiktok")
+          .then((r) => (r.ok ? r.json() : Promise.reject()))
+          .then((rows: TikTokEnriched[]) => {
+            if (!alive || !Array.isArray(rows) || rows.length === 0) return;
+            const base = new Map(tiktokVideos.map((v) => [v.id, v]));
+            // Show only videos oEmbed could verify → every card opens a real video.
+            const next = rows
+              .filter((r) => r.verified)
+              .map((r) => {
+                const b = base.get(r.id);
+                return {
+                  ...(b ?? ({} as SocialVideo)),
+                  id: r.id,
+                  platform: "tiktok" as const,
+                  url: r.url,
+                  title: r.title,
+                  thumbnail: r.thumbnail || b?.thumbnail || "",
+                  localThumb: r.localThumb || b?.thumbnail,
+                } as SocialVideo & { localThumb?: string };
+              });
+            if (next.length > 0) setTiktok(next);
+          })
+          .catch(() => {
+            /* keep curated fallback */
+          });
       });
+
     return () => {
       alive = false;
     };
