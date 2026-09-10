@@ -14,12 +14,10 @@ import TipsOverlay from "@/components/ui/TipsOverlay";
 import ReadingProgressBar from "@/components/ui/ReadingProgressBar";
 import BackToTop from "@/components/ui/BackToTop";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
-import { FocusModeProvider, FocusModeToggle } from "@/components/ui/FocusMode";
 import QuickActions from "@/components/ui/QuickActions";
 import { ToastProvider } from "@/components/ui/Toast";
 import { BookmarksProvider } from "@/components/ui/Bookmarks";
 import ServiceWorkerRegistration from "@/components/providers/ServiceWorkerRegistration";
-import NotificationPrompt from "@/components/ui/NotificationPrompt";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import jsonLd from "./json-ld";
 
@@ -160,7 +158,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <LanguageProvider initialLang={lang}>
               <AuthProvider>
               <SoundProvider>
-                <FocusModeProvider>
                   <ToastProvider>
                     <BookmarksProvider>
                       <MotionProvider>
@@ -177,15 +174,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                         <Footer />
                         <TipsOverlay />
                         <BackToTop />
-                        <FocusModeToggle />
                         <QuickActions />
                         <KeyboardShortcuts />
-                        <NotificationPrompt />
                         <ServiceWorkerRegistration />
                       </MotionProvider>
                     </BookmarksProvider>
                   </ToastProvider>
-                </FocusModeProvider>
               </SoundProvider>
               </AuthProvider>
             </LanguageProvider>

@@ -3,14 +3,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Search, Bookmark, Share2, Zap, User } from "lucide-react";
-import { useFocusMode } from "./FocusMode";
 
 export default function QuickActions() {
   const [open, setOpen] = useState(false);
-  const { isFocused } = useFocusMode();
   const router = useRouter();
-
-  if (isFocused) return null;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -77,6 +73,7 @@ export default function QuickActions() {
                 exit={{ opacity: 0, scale: 0.5, y: 20 }}
                 transition={{ delay: i * 0.05, duration: 0.2 }}
                 className="group relative flex items-center"
+                aria-label={action.label}
               >
                 <span className="absolute right-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                   {action.label}

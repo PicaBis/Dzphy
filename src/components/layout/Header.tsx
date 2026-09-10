@@ -10,8 +10,6 @@ import {
   ChevronDown,
   Search,
   GraduationCap,
-  CalendarRange,
-  Briefcase,
   BookOpen,
   Boxes,
   Users,
@@ -21,27 +19,25 @@ import {
   Volume2,
   VolumeX,
   Bookmark,
-  Zap,
   User,
-  Calendar,
   Layers,
   Calculator,
   Video,
-  FileText,
-  BarChart3,
-  TrendingUp,
-  Award,
+  HelpCircle,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage, LANG_NAMES, Lang } from "@/context/LanguageContext";
 import { useSound } from "@/context/SoundContext";
+import Tooltip from "@/components/ui/Tooltip";
+import NotificationsBell from "@/components/ui/NotificationsBell";
 
 // ---------------------------------------------------------------------------
-// Navigation model — grouped so the top bar stays uncluttered (no overlap).
-//   الرئيسية · السنوات الدراسية ▾ · الفيديوهات · الموارد ▾ · المنصات · من نحن
+// Navigation model — clean top bar:
+//   الرئيسية · السنوات الدراسية ▾ · فيديوهات تعليمية ▾ · أدوات الدراسة ▾
+//   · التوزيعات · حقيبة الأستاذ · من نحن؟ · المزيد ▾ (الأسئلة الشائعة) · اتصل بنا
 // ---------------------------------------------------------------------------
 type NavItem =
-  | { kind: "link"; key: string; href: string; icon?: typeof BookOpen }
+  | { kind: "link"; key: string; href: string; tooltip?: string }
   | {
       kind: "group";
       key: string;
@@ -55,45 +51,33 @@ const yearChildren = [
   { key: "grade4", href: "/grade/4", icon: GraduationCap },
 ];
 
-// Study tools — everything a student uses while studying, in one place.
+// Educational videos — videos + courses live together.
+const videosChildren = [
+  { key: "videosNav", href: "/videos", icon: Video },
+  { key: "courses", href: "/courses", icon: BookOpen },
+];
+
+// Study tools — what a student uses while studying (apps included).
 const studyToolsChildren = [
   { key: "flashcards", href: "/flashcards", icon: Layers },
   { key: "formulas", href: "/formulas", icon: Calculator },
-  { key: "distributions", href: "/distributions", icon: CalendarRange },
-  { key: "teacherBag", href: "/teacher", icon: Briefcase },
-];
-
-// My journey — the student's own progress, stats, bookmarks & achievements.
-const myProgressChildren = [
-  { key: "progress", href: "/progress", icon: TrendingUp },
-  { key: "analytics", href: "/analytics", icon: BarChart3 },
-  { key: "bookmarks", href: "/bookmarks", icon: Bookmark },
-  { key: "certificates", href: "/certificates", icon: Award },
-];
-
-// More — courses, apps, schedule and other secondary destinations.
-const moreChildren = [
-  { key: "courses", href: "/courses", icon: BookOpen },
   { key: "apps", href: "/apps", icon: Boxes },
-  { key: "calendar", href: "/calendar", icon: Calendar },
-  { key: "assignments", href: "/assignments", icon: FileText },
-  { key: "live", href: "/live", icon: Video },
-  { key: "faq", href: "/faq", icon: BookOpen },
-  { key: "contact", href: "/contact", icon: Users },
 ];
+
+// More — FAQ only.
+const moreChildren = [{ key: "faq", href: "/faq", icon: HelpCircle }];
 
 const navItems: NavItem[] = [
-  { kind: "link", key: "home", href: "/" },
+  { kind: "link", key: "home", href: "/", tooltip: "tt.home" },
   { kind: "group", key: "years", children: yearChildren },
-  { kind: "link", key: "videosNav", href: "/videos" },
-  { kind: "link", key: "quizzes", href: "/quizzes", icon: Zap },
+  { kind: "group", key: "videosEducational", children: videosChildren },
   { kind: "group", key: "studyTools", children: studyToolsChildren },
-  { kind: "group", key: "myProgress", children: myProgressChildren },
+  { kind: "link", key: "distributions", href: "/distributions", tooltip: "tt.distributions" },
+  { kind: "link", key: "teacherBag", href: "/teacher", tooltip: "tt.teacherBag" },
+  { kind: "link", key: "about", href: "/about", tooltip: "tt.about" },
   { kind: "group", key: "more", children: moreChildren },
-  { kind: "link", key: "about", href: "/about" },
+  { kind: "link", key: "contact", href: "/contact", tooltip: "tt.contact" },
 ];
-
-const flagMap: Record<Lang, string> = { ar: "🇩🇿", fr: "🇫🇷", en: "🇬🇧" };
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -111,9 +95,8 @@ export default function Header() {
 
   const groupLabelKeys: Record<string, string> = {
     years: "nav.years",
-    resources: "nav.resources",
+    videosEducational: "nav.videosEducational",
     studyTools: "nav.studyTools",
-    myProgress: "nav.myProgress",
     more: "nav.more",
   };
   const label = (key: string) =>
@@ -195,19 +178,19 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0">
             {navItems.map((item) =>
               item.kind === "link" ? (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  onClick={() => play("nav")}
-                  className={`flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
-                    isActive(item.href)
-                      ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
-                      : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
-                  }`}
-                >
-                  {item.icon && <item.icon size={15} />}
-                  {label(item.key)}
-                </Link>
+                <Tooltip key={item.key} label={item.tooltip ? t(item.tooltip) : label(item.key)}>
+                  <Link
+                    href={item.href}
+                    onClick={() => play("nav")}
+                    className={`flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                      isActive(item.href)
+                        ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
+                        : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                    }`}
+                  >
+                    {label(item.key)}
+                  </Link>
+                </Tooltip>
               ) : (
                 <div
                   key={item.key}
@@ -225,7 +208,7 @@ export default function Header() {
                     }}
                     aria-expanded={openGroup === item.key}
                     aria-haspopup="true"
-                    className={`flex items-center gap-1 px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
+                    className={`flex items-center gap-1 px-2.5 xl:px-3 py-2 text-[13px] font-semibold rounded-lg whitespace-nowrap transition-colors duration-200 ${
                       groupActive(item.children) || openGroup === item.key
                         ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
                         : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
@@ -273,70 +256,97 @@ export default function Header() {
 
           {/* ---------- Left (RTL end): actions ---------- */}
           <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0 ms-auto lg:ms-0">
-            <Link
-              href="/profile"
-              onClick={() => play("nav")}
-              aria-label="الملف الشخصي"
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-xl transition-all"
-            >
-              <User size={19} />
-            </Link>
+            <Tooltip label={t("tt.profile")}>
+              <Link
+                href="/profile"
+                onClick={() => play("nav")}
+                aria-label={t("tt.profile")}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-xl transition-all"
+              >
+                <User size={19} />
+              </Link>
+            </Tooltip>
 
-            <button
-              onClick={() => { play("click"); setSearchOpen((s) => !s); }}
-              aria-label={t("nav.searchAria")}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
-            >
-              <Search size={19} />
-            </button>
+            <Tooltip label={t("tt.search")}>
+              <button
+                onClick={() => { play("click"); setSearchOpen((s) => !s); }}
+                aria-label={t("nav.searchAria")}
+                aria-expanded={searchOpen}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+              >
+                <Search size={19} />
+              </button>
+            </Tooltip>
+
+            {/* Bookmarks — beside the search */}
+            <Tooltip label={t("tt.bookmarks")}>
+              <Link
+                href="/bookmarks"
+                onClick={() => play("nav")}
+                aria-label={t("tt.bookmarks")}
+                className={`p-2 rounded-xl transition-all ${
+                  isActive("/bookmarks")
+                    ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10"
+                    : "text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                }`}
+              >
+                <Bookmark size={19} />
+              </Link>
+            </Tooltip>
 
             {/* Sound on/off */}
-            <button
-              onClick={toggleSound}
-              aria-label={soundOn ? t("nav.soundOn") : t("nav.soundOff")}
-              title={soundOn ? t("nav.soundEnabled") : t("nav.soundMuted")}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
-            >
-              {soundOn ? <Volume2 size={19} /> : <VolumeX size={19} />}
-            </button>
+            <Tooltip label={soundOn ? t("nav.soundEnabled") : t("nav.soundMuted")}>
+              <button
+                onClick={toggleSound}
+                aria-label={soundOn ? t("nav.soundOn") : t("nav.soundOff")}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+              >
+                {soundOn ? <Volume2 size={19} /> : <VolumeX size={19} />}
+              </button>
+            </Tooltip>
 
             {/* Theme toggle */}
-            <button
-              onClick={() => { play("toggle"); toggleTheme(); }}
-              aria-label={theme === "dark" ? t("nav.themeDay") : t("nav.themeNight")}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={theme}
-                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                  transition={{ duration: 0.2 }}
-                  className="block"
-                >
-                  {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
-                </motion.span>
-              </AnimatePresence>
-            </button>
+            <Tooltip label={theme === "dark" ? t("nav.themeDay") : t("nav.themeNight")}>
+              <button
+                onClick={() => { play("toggle"); toggleTheme(); }}
+                aria-label={theme === "dark" ? t("nav.themeDay") : t("nav.themeNight")}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={theme}
+                    initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
+                    transition={{ duration: 0.2 }}
+                    className="block"
+                  >
+                    {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+                  </motion.span>
+                </AnimatePresence>
+              </button>
+            </Tooltip>
 
             {/* Language */}
             <div className="relative hidden sm:block">
-              <button
-                onClick={() => { play("open"); setLangOpen((o) => !o); }}
-                aria-label={t("nav.changeLang")}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all flex items-center gap-1 text-sm"
-              >
-                <Globe size={19} />
-                <span>{flagMap[lang]}</span>
-              </button>
+              <Tooltip label={t("nav.changeLang")} disabled={langOpen}>
+                <button
+                  onClick={() => { play("open"); setLangOpen((o) => !o); }}
+                  aria-label={t("nav.changeLang")}
+                  aria-expanded={langOpen}
+                  className="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-all flex items-center gap-1 text-sm font-bold"
+                >
+                  <Globe size={19} />
+                  <span className="text-[11px] tracking-wide">{lang.toUpperCase()}</span>
+                </button>
+              </Tooltip>
               <AnimatePresence>
                 {langOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: 8, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                    className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden z-50 min-w-[120px]"
+                    className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden z-50 min-w-[130px]"
                   >
                     {(["ar", "fr", "en"] as Lang[]).map((l) => (
                       <button
@@ -344,7 +354,7 @@ export default function Header() {
                         onClick={() => { play("click"); setLang(l); setLangOpen(false); }}
                         className={`w-full text-right px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap ${lang === l ? "text-orange-500 font-bold bg-orange-50 dark:bg-orange-500/10" : "text-gray-700 dark:text-gray-300"}`}
                       >
-                        {flagMap[l]} {LANG_NAMES[l]}
+                        {LANG_NAMES[l]}
                       </button>
                     ))}
                   </motion.div>
@@ -352,24 +362,20 @@ export default function Header() {
               </AnimatePresence>
             </div>
 
-            {/* Primary CTA — تابعونا */}
-            <Link
-              href="/follow"
-              onClick={() => play("nav")}
-              className="hidden md:flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-orange-500/20"
-            >
-              <Users size={15} /> {t("follow")}
-            </Link>
+            {/* Notifications — far top-left */}
+            <NotificationsBell />
 
             {/* Mobile menu toggle */}
-            <button
-              onClick={() => { play(mobileOpen ? "close" : "open"); setMobileOpen((o) => !o); }}
-              aria-label={t("nav.menu")}
-              aria-expanded={mobileOpen}
-              className="lg:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all"
-            >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            <Tooltip label={t("nav.menu")}>
+              <button
+                onClick={() => { play(mobileOpen ? "close" : "open"); setMobileOpen((o) => !o); }}
+                aria-label={t("nav.menu")}
+                aria-expanded={mobileOpen}
+                className="lg:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all"
+              >
+                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </Tooltip>
           </div>
         </div>
 
@@ -420,7 +426,6 @@ export default function Header() {
                         : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10"
                     }`}
                   >
-                    {item.icon && <item.icon size={16} />}
                     {label(item.key)}
                   </Link>
                 ) : (
@@ -451,7 +456,7 @@ export default function Header() {
                                 className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-lg transition-all"
                               >
                                 <Icon size={15} className="text-orange-400 flex-shrink-0" />
-{t(sub.key)}
+                                {t(sub.key)}
                               </Link>
                             );
                           })}
@@ -468,15 +473,15 @@ export default function Header() {
                   <button
                     key={l}
                     onClick={() => { play("click"); setLang(l); }}
-                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${lang === l ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+                    className={`px-3 py-2 rounded-lg text-xs font-black tracking-wide transition-colors ${lang === l ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"}`}
                   >
-                    {flagMap[l]}
+                    {l.toUpperCase()}
                   </button>
                 ))}
                 <Link
                   href="/follow"
                   onClick={() => { play("nav"); setMobileOpen(false); }}
-                  className="flex-1 flex items-center justify-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all"
+                  className="flex-1 flex items-center justify-center gap-1.5 border-2 border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-all"
                 >
                   <Users size={15} /> {t("follow")}
                 </Link>
