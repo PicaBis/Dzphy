@@ -1,19 +1,69 @@
 "use client";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { BookOpen, GraduationCap, ChevronLeft, Sparkles, Atom } from "lucide-react";
+import {
+  BookOpen,
+  GraduationCap,
+  ChevronLeft,
+  Sparkles,
+  Atom,
+  Zap,
+  FlaskConical,
+  Magnet,
+} from "lucide-react";
 import { sound } from "@/lib/sound";
 
 type Role = "student" | "teacher" | null;
 
 const years = [
-  { id: "1", label: "السنة الأولى ثانوي", href: "/grade/1", color: "from-blue-500 to-blue-700", icon: "1" },
-  { id: "2", label: "السنة الثانية ثانوي", href: "/grade/2", color: "from-sky-500 to-blue-700", icon: "2" },
-  { id: "3", label: "السنة الثالثة ثانوي", href: "/grade/3", color: "from-amber-400 to-yellow-600", icon: "3" },
-  { id: "4", label: "السنة الرابعة متوسط", href: "/grade/4", color: "from-green-500 to-emerald-700", icon: "4" },
+  { id: "1", label: "السنة الأولى ثانوي", href: "/grade/1", color: "from-blue-500 to-blue-700", soft: "bg-blue-50" },
+  { id: "2", label: "السنة الثانية ثانوي", href: "/grade/2", color: "from-sky-500 to-blue-700", soft: "bg-sky-50" },
+  { id: "3", label: "السنة الثالثة ثانوي", href: "/grade/3", color: "from-amber-400 to-yellow-600", soft: "bg-amber-50" },
+  { id: "4", label: "السنة الرابعة متوسط", href: "/grade/4", color: "from-green-500 to-emerald-700", soft: "bg-green-50" },
 ];
+
+/** Faint floating physics ornaments around the white canvas. */
+function Ornaments() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {/* soft corner glows */}
+      <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-orange-100/60 blur-3xl" />
+      <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-blue-50/70 blur-3xl" />
+
+      {/* faint floating icons */}
+      <motion.div
+        className="absolute top-[14%] left-[12%] text-orange-200"
+        animate={{ y: [0, -12, 0], rotate: [0, 8, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Atom size={44} strokeWidth={1.4} />
+      </motion.div>
+      <motion.div
+        className="absolute top-[20%] right-[14%] text-amber-200"
+        animate={{ y: [0, 10, 0], rotate: [0, -10, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+      >
+        <Zap size={38} strokeWidth={1.4} />
+      </motion.div>
+      <motion.div
+        className="absolute bottom-[18%] left-[16%] text-sky-200"
+        animate={{ y: [0, -10, 0], rotate: [0, 12, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.1 }}
+      >
+        <FlaskConical size={40} strokeWidth={1.4} />
+      </motion.div>
+      <motion.div
+        className="absolute bottom-[24%] right-[12%] text-rose-200"
+        animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+      >
+        <Magnet size={36} strokeWidth={1.4} />
+      </motion.div>
+    </div>
+  );
+}
 
 export default function SplashScreen() {
   const [mounted, setMounted] = useState(false);
@@ -34,7 +84,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     if (!showSplash || !mounted) return;
-    const timer = setTimeout(() => setPhase("welcome"), reduce ? 600 : 1800);
+    const timer = setTimeout(() => setPhase("welcome"), reduce ? 600 : 2000);
     return () => clearTimeout(timer);
   }, [showSplash, mounted, reduce]);
 
@@ -82,79 +132,122 @@ export default function SplashScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.45, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-orange-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-white"
         >
-          {/* Subtle background decorations */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 -right-20 w-72 h-72 bg-orange-200/20 dark:bg-orange-500/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 -left-20 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/5 rounded-full blur-3xl" />
-          </div>
+          <Ornaments />
 
+          {/* ============================ Phase 1 — Logo ============================ */}
           {phase === "logo" && (
-            <div className="relative z-10 flex flex-col items-center gap-6">
-              {/* Logo with clean fade-in */}
+            <div className="relative z-10 flex flex-col items-center">
+              {/* orbit rings + big logo */}
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
+                initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="relative"
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="relative flex h-56 w-56 items-center justify-center sm:h-64 sm:w-64"
               >
-                <div className="relative h-28 w-28 sm:h-32 sm:w-32">
+                {/* soft halo */}
+                <div className="absolute inset-6 rounded-full bg-gradient-to-br from-orange-100 via-amber-50 to-orange-50 blur-2xl" />
+
+                {/* animated orbit rings */}
+                {!reduce && (
+                  <>
+                    <motion.span
+                      className="absolute inset-2 rounded-full border-2 border-dashed border-orange-200"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.span
+                      className="absolute inset-7 rounded-full border border-blue-100"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                    />
+                  </>
+                )}
+                {!reduce && (
+                  <motion.span
+                    className="absolute inset-0"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                  >
+                    <span className="absolute left-1/2 top-1 h-3 w-3 -translate-x-1/2 rounded-full bg-orange-400 shadow-md shadow-orange-200" />
+                  </motion.span>
+                )}
+
+                <div className="relative h-44 w-44 sm:h-52 sm:w-52">
                   <Image
                     src="/logo.png"
                     alt="شعار منصة الأستاذ بيكا للفيزياء"
-                    width={160}
-                    height={160}
-                    sizes="(max-width: 640px) 112px, 128px"
-                    className="h-full w-full object-contain drop-shadow-2xl"
+                    width={256}
+                    height={256}
+                    sizes="(max-width: 640px) 176px, 208px"
+                    className="h-full w-full object-contain drop-shadow-xl"
                     priority
                   />
                 </div>
               </motion.div>
 
-              {/* Title */}
+              {/* title */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="flex flex-col items-center gap-2"
+                transition={{ delay: 0.45, duration: 0.55 }}
+                className="mt-8 flex flex-col items-center gap-3"
               >
+                <h1 className="text-2xl font-black tracking-tight text-gray-900 sm:text-3xl">
+                  منصة الأستاذ بيكا
+                </h1>
+                {/* ornament divider */}
                 <div className="flex items-center gap-2">
-                  <Atom size={20} className="text-orange-500" />
-                  <h1 className="text-xl font-black text-gray-900 dark:text-white sm:text-2xl">
-                    منصة الأستاذ بيكا
-                  </h1>
+                  <span className="h-px w-10 bg-gradient-to-l from-orange-400 to-transparent" />
+                  <Atom size={16} className="text-orange-500" />
+                  <span className="h-px w-10 bg-gradient-to-r from-orange-400 to-transparent" />
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  للفيزياء التعليمية
+                <p className="text-sm font-semibold text-gray-400 sm:text-base">
+                  للفيزياء التعليمية — تعلّم بذكاء وفهم بعمق
                 </p>
+
+                {/* loading dots */}
+                <div className="mt-2 flex items-center gap-1.5">
+                  {[0, 1, 2].map((i) => (
+                    <motion.span
+                      key={i}
+                      className="h-2 w-2 rounded-full bg-orange-400"
+                      animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.1, 0.85] }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+                    />
+                  ))}
+                </div>
               </motion.div>
             </div>
           )}
 
+          {/* ========================== Phase 2 — Welcome ========================== */}
           <AnimatePresence mode="wait">
             {phase === "welcome" && (
               <motion.div
                 key="welcome"
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="relative z-10 mx-auto w-full max-w-lg px-4 sm:px-6"
+                className="relative z-10 mx-auto w-full max-w-md px-5 sm:px-6"
               >
+                {/* header */}
                 <div className="mb-8 text-center">
                   <motion.div
-                    animate={reduce ? {} : { y: [0, -8, 0] }}
-                    transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-                    className="relative mx-auto mb-5 h-20 w-20"
+                    animate={reduce ? {} : { y: [0, -7, 0] }}
+                    transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative mx-auto mb-5 h-24 w-24"
                   >
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400/20 to-orange-600/20 blur-xl" />
-                    <Image src="/logo.png" alt="شعار الأستاذ بيكا" width={96} height={96} sizes="80px" className="relative h-full w-full object-contain drop-shadow-xl" priority />
+                    <div className="absolute inset-0 rounded-full bg-orange-50" />
+                    <div className="absolute inset-2 rounded-full border border-orange-100" />
+                    <Image src="/logo.png" alt="شعار الأستاذ بيكا" width={112} height={112} sizes="96px" className="relative h-full w-full object-contain drop-shadow-lg" priority />
                   </motion.div>
-                  <h1 className="mb-2 text-2xl font-black text-gray-900 dark:text-white sm:text-3xl">
-                    مرحبًا بك
+                  <h1 className="mb-1.5 text-2xl font-black text-gray-900 sm:text-3xl">
+                    مرحبًا بك 👋
                   </h1>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 sm:text-base">
+                  <p className="text-sm font-medium text-gray-400 sm:text-base">
                     اختر طريقة الدخول للمتابعة
                   </p>
                 </div>
@@ -163,49 +256,56 @@ export default function SplashScreen() {
                   {!showYears ? (
                     <motion.div
                       key="roles"
-                      initial={{ opacity: 0, y: 16 }}
+                      initial={{ opacity: 0, y: 14 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -16 }}
-                      transition={{ duration: 0.35 }}
-                      className="space-y-3"
+                      exit={{ opacity: 0, y: -14 }}
+                      transition={{ duration: 0.32 }}
+                      className="space-y-3.5"
                     >
+                      {/* student */}
                       <motion.button
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleRoleSelect("student")}
-                        className="group flex w-full items-center gap-4 rounded-2xl bg-gradient-to-l from-orange-500 to-orange-600 p-4 font-bold text-white shadow-xl shadow-orange-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/30"
+                        className="group flex w-full items-center gap-4 rounded-3xl bg-gradient-to-l from-orange-500 to-orange-600 p-5 text-right font-bold text-white shadow-xl shadow-orange-500/25 ring-1 ring-orange-300/40 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/35"
                       >
-                        <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm transition-transform group-hover:scale-110">
-                          <GraduationCap size={24} />
+                        <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-white/25 backdrop-blur-sm transition-transform group-hover:scale-110 group-hover:rotate-3">
+                          <GraduationCap size={26} />
                         </span>
-                        <span className="flex-1 text-right">
-                          <span className="block text-base font-black sm:text-lg">أنا طالب</span>
-                          <span className="block text-xs text-white/90">اختر مستواك الدراسي وابدأ فورًا</span>
+                        <span className="flex-1">
+                          <span className="block text-lg font-black sm:text-xl">أنا طالب</span>
+                          <span className="block text-xs text-white/90 sm:text-sm">اختر مستواك الدراسي وابدأ فورًا</span>
                         </span>
-                        <ChevronLeft size={18} className="text-white/70 transition-transform group-hover:-translate-x-1" />
+                        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/20 transition-all group-hover:bg-white/30">
+                          <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-0.5" />
+                        </span>
                       </motion.button>
 
+                      {/* teacher / visitor */}
                       <motion.button
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleRoleSelect("teacher")}
-                        className="group flex w-full items-center gap-4 rounded-2xl bg-gray-900 p-4 font-bold text-white shadow-xl transition-all duration-300 hover:bg-gray-800 hover:shadow-2xl dark:bg-gray-800 dark:hover:bg-gray-700"
+                        className="group flex w-full items-center gap-4 rounded-3xl border-2 border-gray-100 bg-white p-5 text-right font-bold text-gray-900 shadow-md transition-all duration-300 hover:border-gray-200 hover:shadow-xl"
                       >
-                        <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm transition-transform group-hover:scale-110">
-                          <BookOpen size={24} />
+                        <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-gray-900 text-white transition-transform group-hover:scale-110 group-hover:-rotate-3">
+                          <BookOpen size={26} />
                         </span>
-                        <span className="flex-1 text-right">
-                          <span className="block text-base font-black sm:text-lg">أنا أستاذ / زائر</span>
-                          <span className="block text-xs text-white/90">الدخول إلى الصفحة الرئيسية</span>
+                        <span className="flex-1">
+                          <span className="block text-lg font-black sm:text-xl">أنا أستاذ / زائر</span>
+                          <span className="block text-xs text-gray-400 sm:text-sm">الدخول إلى الصفحة الرئيسية</span>
                         </span>
-                        <ChevronLeft size={18} className="text-white/70 transition-transform group-hover:-translate-x-1" />
+                        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-all group-hover:bg-gray-200">
+                          <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-0.5" />
+                        </span>
                       </motion.button>
 
+                      {/* skip */}
                       <motion.button
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={handleSkip}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white/50 p-3 text-sm font-semibold text-gray-600 backdrop-blur-sm transition-all hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-400 dark:hover:border-orange-500/40 dark:hover:bg-orange-500/10 dark:hover:text-orange-400"
+                        className="flex w-full items-center justify-center gap-2 rounded-2xl p-3 text-sm font-semibold text-gray-400 transition-colors hover:bg-orange-50 hover:text-orange-600"
                       >
                         تخطي والدخول المباشر <ChevronLeft size={14} />
                       </motion.button>
@@ -216,37 +316,41 @@ export default function SplashScreen() {
                       initial={{ opacity: 0, x: 24 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -24 }}
-                      transition={{ duration: 0.35 }}
-                      className="space-y-2"
+                      transition={{ duration: 0.32 }}
+                      className="space-y-3"
                     >
-                      <p className="mb-3 flex items-center justify-center gap-2 text-center text-lg font-black text-gray-900 dark:text-white">
+                      <p className="mb-4 flex items-center justify-center gap-2 text-center text-lg font-black text-gray-900">
                         <Sparkles size={18} className="text-orange-500" />
                         اختر مستواك الدراسي
                         <Sparkles size={18} className="text-orange-500" />
                       </p>
+
                       {years.map((year, index) => (
                         <motion.button
                           key={year.id}
                           initial={{ opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.08 }}
+                          transition={{ delay: index * 0.07 }}
                           whileHover={{ scale: 1.02, y: -2 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => handleYearSelect(year.href)}
-                          className={`group flex w-full items-center gap-4 rounded-2xl bg-gradient-to-l ${year.color} p-4 font-bold text-white shadow-xl transition-all duration-300 hover:shadow-2xl`}
+                          className={`group flex w-full items-center gap-4 rounded-2xl bg-gradient-to-l ${year.color} p-4 text-right font-bold text-white shadow-lg transition-all duration-300 hover:shadow-2xl`}
                         >
-                          <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-xl font-black transition-transform group-hover:scale-110">
-                            {year.icon}
+                          <span className={`h-12 w-12 flex-shrink-0 rounded-2xl bg-white/20 backdrop-blur-sm text-xl font-black transition-transform group-hover:scale-110 flex items-center justify-center`}>
+                            {year.id}
                           </span>
-                          <span className="flex-1 text-right text-sm font-bold sm:text-base">{year.label}</span>
-                          <ChevronLeft size={18} className="text-white/70 transition-transform group-hover:-translate-x-1" />
+                          <span className="flex-1 text-sm font-bold sm:text-base">{year.label}</span>
+                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20 transition-all group-hover:bg-white/30">
+                            <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                          </span>
                         </motion.button>
                       ))}
+
                       <motion.button
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => { sound.play("back"); setShowYears(false); }}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white/50 p-3 text-sm font-semibold text-gray-600 backdrop-blur-sm transition-all hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-400 dark:hover:border-orange-500/40 dark:hover:bg-orange-500/10 dark:hover:text-orange-400"
+                        className="flex w-full items-center justify-center gap-2 rounded-2xl p-3 text-sm font-semibold text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-700"
                       >
                         <ChevronLeft size={14} className="rotate-180" /> رجوع للخيارات
                       </motion.button>

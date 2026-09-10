@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ExternalLink, FileText, Bell, Send, AlertCircle } from "lucide-react";
-import { instagramPosts, type SocialVideo } from "@/data/social";
+import { ExternalLink, FileText, Bell, Send, Play } from "lucide-react";
+import { tiktokVideos, instagramPosts, TIKTOK_PROFILE, INSTAGRAM_PROFILE, type SocialVideo } from "@/data/social";
 import { siteConfig, socialLinks } from "@/data/site";
-import { InstagramIcon, TelegramIcon, FacebookIcon } from "@/components/icons/SocialIcons";
+import { InstagramIcon, TelegramIcon, FacebookIcon, TikTokIcon } from "@/components/icons/SocialIcons";
 import { useDbContent } from "@/lib/useDbContent";
 import ZoomableImage from "@/components/ui/ZoomableImage";
 import DirectionArrow from "@/components/ui/DirectionArrow";
@@ -15,53 +15,115 @@ const facebookOfficial =
   socialLinks.find((s) => s.platform === "facebook")?.url ||
   "https://www.facebook.com/share/191btmBHho/";
 
+type Platform = "tiktok" | "instagram";
+
+const platformTheme: Record<
+  Platform,
+  { handle: string; iconBg: string; chip: string; ring: string; btn: string }
+> = {
+  tiktok: {
+    handle: "@profpica",
+    iconBg: "bg-gradient-to-br from-gray-800 to-black",
+    chip: "bg-black/70 text-white",
+    ring: "ring-gray-900/10",
+    btn: "bg-gray-900 hover:bg-black text-white",
+  },
+  instagram: {
+    handle: "@prof_pica",
+    iconBg: "bg-gradient-to-br from-fuchsia-500 via-pink-500 to-orange-400",
+    chip: "bg-black/70 text-white",
+    ring: "ring-pink-500/10",
+    btn: "bg-gradient-to-l from-fuchsia-500 via-pink-500 to-orange-400 text-white",
+  },
+};
+
+/** A single post card — thumbnail + direct link to the exact post. */
+function PostCard({ post, index }: { post: SocialVideo; index: number }) {
+  const theme = platformTheme[post.platform];
+  const Icon = post.platform === "tiktok" ? TikTokIcon : InstagramIcon;
+
+  return (
+    <motion.a
+      href={post.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 18, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ delay: index * 0.06, ease: "easeOut", duration: 0.35 }}
+      className={`group relative aspect-[9/16] block rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-md hover:shadow-2xl ring-1 ${theme.ring} dark:ring-white/10 transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.97]`}
+    >
+      {post.thumbnail ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={post.thumbnail}
+          alt={post.title}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+      ) : (
+        <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient}`} />
+      )}
+
+      {/* platform badge */}
+      <span className={`absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-full ${theme.chip} backdrop-blur-sm`}>
+        <Icon className="h-3.5 w-3.5" />
+      </span>
+
+      {/* hover play */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 shadow-xl transition-transform duration-300 group-hover:scale-110">
+          <Play size={22} className="ms-0.5 text-gray-900" fill="currentColor" />
+        </span>
+      </div>
+
+      {/* caption */}
+      <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3 pt-8">
+        <p className="line-clamp-2 text-[11px] font-bold leading-snug text-white drop-shadow sm:text-xs">
+          {post.title}
+        </p>
+        <p className="mt-1 flex items-center gap-1 text-[10px] font-semibold text-white/75">
+          <span dir="ltr">{theme.handle}</span>
+          <span className="mx-0.5">·</span>
+          <span>{post.badge}</span>
+        </p>
+      </div>
+    </motion.a>
+  );
+}
+
 export default function HomeSocial() {
   const { t } = useLanguage();
-  const [instagram, setInstagram] = useState<SocialVideo[]>(instagramPosts);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [platform, setPlatform] = useState<Platform>("tiktok");
 
-  // جلب المنشورات الديناميكية من API
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch("/api/social?platform=instagram")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch");
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted && data.posts && Array.isArray(data.posts)) {
-          setInstagram(data.posts.slice(0, 6));
-          setError(false);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to fetch Instagram posts:", err);
-        if (isMounted) {
-          setError(true);
-          // Keep the default posts on error
-          setInstagram(instagramPosts.slice(0, 6));
-        }
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  // Instagram: curated posts, enriched/extended by any DB rows (newest first).
+  // Curated posts (local thumbnails) enriched by any DB rows for each platform.
+  const { items: dbTiktok } = useDbContent("tiktok");
   const { items: dbInstagram } = useDbContent("instagram");
-  const instagramWithDb = useMemo<SocialVideo[]>(() => {
-    const seen = new Set(instagram.map((p) => p.url));
-    const extra: SocialVideo[] = dbInstagram
+
+  const tiktokPosts = useMemo<SocialVideo[]>(() => {
+    const seen = new Set(tiktokVideos.map((p) => p.url));
+    const extra = dbTiktok
       .filter((r) => r.url && !seen.has(r.url))
       .map((r) => ({
         id: r.id,
-        platform: "instagram",
+        platform: "tiktok" as const,
+        title: r.title,
+        description: r.description ?? "",
+        url: r.url as string,
+        thumbnail: r.thumbnail ?? "",
+        badge: r.badge ?? t("common.new"),
+        gradient: "from-gray-800 to-black",
+      }));
+    return [...extra, ...tiktokVideos].slice(0, 6);
+  }, [dbTiktok, t]);
+
+  const igPosts = useMemo<SocialVideo[]>(() => {
+    const seen = new Set(instagramPosts.map((p) => p.url));
+    const extra = dbInstagram
+      .filter((r) => r.url && !seen.has(r.url))
+      .map((r) => ({
+        id: r.id,
+        platform: "instagram" as const,
         title: r.title,
         description: r.description ?? "",
         url: r.url as string,
@@ -69,87 +131,122 @@ export default function HomeSocial() {
         badge: r.badge ?? t("common.new"),
         gradient: "from-fuchsia-500 via-pink-500 to-orange-400",
       }));
-    return [...extra, ...instagram].slice(0, 6);
-  }, [instagram, dbInstagram]);
+    return [...extra, ...instagramPosts].slice(0, 6);
+  }, [dbInstagram, t]);
+
+  const posts = platform === "tiktok" ? tiktokPosts : igPosts;
+  const theme = platformTheme[platform];
+  const profileUrl = platform === "tiktok" ? TIKTOK_PROFILE : INSTAGRAM_PROFILE;
+
+  const tabs: { id: Platform; label: string; icon: React.ElementType }[] = [
+    { id: "tiktok", label: t("hs.tiktok"), icon: TikTokIcon },
+    { id: "instagram", label: t("hs.igTab"), icon: InstagramIcon },
+  ];
 
   return (
     <section className="py-12 sm:py-20 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          className="mb-10 sm:mb-14 text-center"
+          className="mb-8 sm:mb-12 text-center"
         >
           <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
-            {t("hs.badge")}
+            {t("hs.postsBadge")}
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white">
-            {t("hs.t1")} <span className="text-orange-500">{t("hs.t2")}</span>
+            {t("hs.postsT1")} <span className="text-orange-500">{t("hs.postsT2")}</span>
           </h2>
+          <p className="mt-3 text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+            {t("hs.postsDesc")}
+          </p>
         </motion.div>
 
-        {/* Instagram */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-fuchsia-500 via-pink-500 to-orange-400 flex items-center justify-center text-white">
-                <InstagramIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-black text-gray-900 dark:text-white text-lg">{t("hs.instagram")}</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{t("hs.instagramSub")}</p>
-              </div>
+        {/* Posts showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.45 }}
+          className="rounded-3xl border border-gray-100 dark:border-gray-800 bg-gray-50/70 dark:bg-gray-900/40 p-4 sm:p-6 lg:p-8 shadow-sm"
+        >
+          {/* Platform switcher */}
+          <div className="mb-6 flex flex-col items-center gap-4">
+            <div className="relative inline-flex items-center gap-1 rounded-2xl bg-white dark:bg-gray-800 p-1.5 shadow-inner ring-1 ring-gray-100 dark:ring-gray-700">
+              {tabs.map((tab) => {
+                const active = platform === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setPlatform(tab.id)}
+                    className={`relative z-10 flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-black transition-colors sm:px-6 sm:py-2.5 ${
+                      active ? "text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                    }`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="social-tab-pill"
+                        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                        className={`absolute inset-0 -z-10 rounded-xl ${tab.id === "tiktok" ? "bg-gray-900 dark:bg-black" : "bg-gradient-to-l from-fuchsia-500 via-pink-500 to-orange-400"}`}
+                      />
+                    )}
+                    <tab.icon className="h-4 w-4" />
+                    {tab.label}
+                  </button>
+                );
+              })}
             </div>
-            <a
-              href="https://www.instagram.com/prof_pica/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 text-pink-600 dark:text-pink-400 hover:opacity-80 font-bold text-sm shrink-0"
-            >
-              {t("hs.follow")} <DirectionArrow size={15} />
-            </a>
-          </div>
-          {error && (
-            <div className="mb-6 rounded-2xl border border-yellow-200 dark:border-yellow-500/30 bg-yellow-50 dark:bg-yellow-500/10 p-4 flex items-start gap-3">
-              <AlertCircle className="text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5" size={18} />
-              <p className="text-sm text-yellow-800 dark:text-yellow-300">
-                جاري تحميل أحدث المنشورات... يتم عرض المنشورات المحفوظة حالياً
-              </p>
-            </div>
-          )}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {instagramWithDb.map((v, i) => (
-              <motion.a
-                key={v.id}
-                href={v.url}
+
+            {/* Profile row */}
+            <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
+              <span dir="ltr" className="font-bold">{theme.handle}</span>
+              <span>·</span>
+              <a
+                href={profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, scale: 0.92 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-20px" }}
-                transition={{ delay: i * 0.05, ease: "easeOut" }}
-                className="group relative aspect-[4/5] rounded-2xl overflow-hidden bg-gray-900 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="font-bold text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
               >
-                {v.thumbnail ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={v.thumbnail} alt={v.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500 via-pink-500 to-orange-400" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent flex flex-col justify-end p-3">
-                  <p className="text-white text-[11px] font-bold leading-tight line-clamp-2 drop-shadow">{v.title}</p>
-                </div>
-                <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center text-white">
-                  <InstagramIcon className="w-3.5 h-3.5" />
-                </span>
-              </motion.a>
-            ))}
+                {t("hs.visitProfile")}
+              </a>
+            </div>
           </div>
-        </div>
+
+          {/* Posts grid */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={platform}
+              initial={{ opacity: 0, x: platform === "tiktok" ? -24 : 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: platform === "tiktok" ? 24 : -24 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="grid grid-cols-3 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6"
+            >
+              {posts.map((post, i) => (
+                <PostCard key={post.id} post={post} index={i} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Per-platform CTA */}
+          <div className="mt-7 text-center">
+            <a
+              href={profileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl ${theme.btn}`}
+            >
+              {platform === "tiktok" ? <TikTokIcon className="h-4 w-4" /> : <InstagramIcon className="h-4 w-4" />}
+              {t("hs.watch")} {t("hs.visitProfile")}
+              <DirectionArrow size={15} />
+            </a>
+          </div>
+        </motion.div>
 
         {/* Telegram + Facebook */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mt-8 sm:mt-10">
           {/* Telegram — the teacher's file bag */}
           <div className="rounded-3xl border border-sky-100 dark:border-sky-500/20 bg-gradient-to-br from-sky-50 to-white dark:from-sky-500/10 dark:to-gray-900 p-6 sm:p-7">
             <div className="flex items-center gap-3 mb-4">

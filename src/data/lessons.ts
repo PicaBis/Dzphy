@@ -153,51 +153,38 @@ export const grade4Lessons: GradeLessons = {
       subtitle: "الشتاء",
       units: [
         {
-          id: "unit-sharida",
-          title: "الوحدة 1 — الشاردة والمحلول الشاردي",
+          id: "unit-takahrub",
+          title: "الوحدة 1 — التكهرب",
           lessons: [
             {
-              id: "lesson-sharida-part1",
-              title: "الشاردة والمحلول الشاردي — الجزء الأول",
-              description: "دراسة المحلول الشاردي وخواصه وتركيبه الجزيئي والعمليات الكيميائية.",
+              id: "lesson-takahrub",
+              title: "التكهرب",
+              description: "دراسة ظاهرة التكهرب وأسبابها وطرق حماية الأشخاص والمعدات منها.",
               parts: [
                 {
-                  id: "sh-part1",
-                  title: "الجزء الأول",
-                  fileUrl: "/files/lessons/4am/winter/الشاردة والمحلول الشاردي 1-2.pdf",
-                  sizeMB: 0.76,
-                },
-              ],
-            },
-            {
-              id: "lesson-sharida-part2",
-              title: "الشاردة والمحلول الشاردي — الجزء الثاني",
-              description: "تطبيقات عملية على المحاليل الشاردية والتفاعلات الكيميائية.",
-              parts: [
-                {
-                  id: "sh-part2",
-                  title: "الجزء الثاني",
-                  fileUrl: "/files/lessons/4am/winter/الشاردة والمحلول الشاردي 2-2.pdf",
-                  sizeMB: 0.77,
+                  id: "tk-part1",
+                  title: "الدرس الكامل",
+                  fileUrl: "/files/lessons/4am/winter/التكهرب-2.pdf",
+                  sizeMB: 0.45,
                 },
               ],
             },
           ],
         },
         {
-          id: "unit-amn",
-          title: "الوحدة 2 — الأمن الكهربائي",
+          id: "unit-shahna",
+          title: "الوحدة 2 — الشحنة الكهربائية",
           lessons: [
             {
-              id: "lesson-amn",
-              title: "الأمن الكهربائي",
-              description: "قواعد الأمن والسلامة الكهربائية وحماية الأشخاص والمعدات من مخاطر الكهرباء.",
+              id: "lesson-shahna",
+              title: "الشحنة الكهربائية",
+              description: "دراسة الشحنة الكهربائية وأنواعها وقوانينها الأساسية وحسابات الشحنة.",
               parts: [
                 {
-                  id: "amn-part1",
+                  id: "shahna-part1",
                   title: "الدرس الكامل",
-                  fileUrl: "/files/lessons/4am/winter/الأمن الكهربائي-2.pdf",
-                  sizeMB: 0.77,
+                  fileUrl: "/files/lessons/4am/winter/الشحنة الكهربائية-2.pdf",
+                  sizeMB: 0.58,
                 },
               ],
             },
@@ -223,38 +210,57 @@ export const grade4Lessons: GradeLessons = {
           ],
         },
         {
-          id: "unit-shahna",
-          title: "الوحدة 4 — الشحنة الكهربائية",
+          id: "unit-amn",
+          title: "الوحدة 4 — الأمن الكهربائي",
           lessons: [
             {
-              id: "lesson-shahna",
-              title: "الشحنة الكهربائية",
-              description: "دراسة الشحنة الكهربائية وأنواعها وقوانينها الأساسية وحسابات الشحنة.",
+              id: "lesson-amn",
+              title: "الأمن الكهربائي",
+              description: "قواعد الأمن والسلامة الكهربائية وحماية الأشخاص والمعدات من مخاطر الكهرباء.",
               parts: [
                 {
-                  id: "shahna-part1",
+                  id: "amn-part1",
                   title: "الدرس الكامل",
-                  fileUrl: "/files/lessons/4am/winter/الشحنة الكهربائية-2.pdf",
-                  sizeMB: 0.58,
+                  fileUrl: "/files/lessons/4am/winter/الأمن الكهربائي-2.pdf",
+                  sizeMB: 0.77,
                 },
               ],
             },
           ],
         },
         {
-          id: "unit-takahrub",
-          title: "الوحدة 5 — التكهرب",
+          id: "unit-sharida",
+          title: "الوحدة 5 — الشاردة والمحلول الشاردي",
           lessons: [
             {
-              id: "lesson-takahrub",
-              title: "التكهرب",
-              description: "دراسة ظاهرة التكهرب وأسبابها وطرق حماية الأشخاص والمعدات منها.",
+              id: "lesson-sharida-part1",
+              title: "الشاردة والمحلول الشاردي — الجزء الأول",
+              description: "دراسة المحلول الشاردي وخواصه وتركيبه الجزيئي والعمليات الكيميائية.",
               parts: [
                 {
-                  id: "tk-part1",
-                  title: "الدرس الكامل",
-                  fileUrl: "/files/lessons/4am/winter/التكهرب-2.pdf",
-                  sizeMB: 0.45,
+                  id: "sh-part1",
+                  title: "الجزء الأول",
+                  fileUrl: "/files/lessons/4am/winter/الشاردة والمحلول الشاردي 1-2.pdf",
+                  sizeMB: 0.76,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "unit-sharida-2",
+          title: "الوحدة 6 — الشاردة والمحلول الشاردي الجزء الثاني",
+          lessons: [
+            {
+              id: "lesson-sharida-part2",
+              title: "الشاردة والمحلول الشاردي — الجزء الثاني",
+              description: "تطبيقات عملية على المحاليل الشاردية والتفاعلات الكيميائية.",
+              parts: [
+                {
+                  id: "sh-part2",
+                  title: "الجزء الثاني",
+                  fileUrl: "/files/lessons/4am/winter/الشاردة والمحلول الشاردي 2-2.pdf",
+                  sizeMB: 0.77,
                 },
               ],
             },
@@ -262,7 +268,7 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-final",
-          title: "الوحدة 6 — التحليل الكهربائي البسيط",
+          title: "الوحدة 7 — التحليل الكهربائي البسيط",
           lessons: [
             {
               id: "lesson-final",
