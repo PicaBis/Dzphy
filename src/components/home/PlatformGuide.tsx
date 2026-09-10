@@ -73,26 +73,26 @@ const platforms = [
 export default function PlatformGuide() {
   const { t } = useLanguage();
   return (
-    <section className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-14 sm:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900/50 dark:to-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          className="text-center mb-10 sm:mb-14"
+          className="text-center mb-12 sm:mb-16"
         >
-          <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
+          <span className="inline-block bg-orange-100 dark:bg-orange-500/25 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-full text-sm font-bold mb-4 shadow-sm">
             {t("pg.badge")}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-3">
-            {t("pg.t1")} <span className="text-orange-500">{t("pg.t2")}</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-4">
+            {t("pg.t1")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">{t("pg.t2")}</span>
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-base leading-relaxed">
             {t("pg.desc")}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 sm:gap-6">
           {platforms.map((p, i) => {
             const Icon = p.Icon;
             return (
@@ -105,22 +105,22 @@ export default function PlatformGuide() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ delay: i * 0.07, ease: "easeOut" }}
-                className="group flex flex-col bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-5 hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-400/50 active:scale-[0.98]"
+                className="group flex flex-col bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-6 hover:shadow-lg hover:border-orange-400 dark:hover:border-orange-500/60 hover:-translate-y-1.5 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-400/50 active:scale-[0.98]"
               >
                 <div
-                  className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white mb-4 shadow-sm group-hover:scale-110 transition-transform`}
+                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white mb-5 shadow-md group-hover:scale-120 transition-transform`}
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="w-7 h-7" />
                 </div>
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-2">
                   <h3 className="font-black text-gray-900 dark:text-white text-lg">{p.name}</h3>
                 </div>
-                <span className={`text-xs font-bold ${p.text} mb-2`}>{t(p.taglineKey)}</span>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed flex-1">
+                <span className={`text-xs font-bold ${p.text} mb-3`}>{t(p.taglineKey)}</span>
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed flex-1">
                   {t(p.descriptionKey)}
                 </p>
-                <span className="inline-flex items-center gap-1.5 mt-4 text-xs font-bold text-gray-400 dark:text-gray-500 group-hover:text-orange-500 transition-colors">
-                  {t("pg.open")} <DirectionArrow size={13} />
+                <span className="inline-flex items-center gap-2 mt-5 text-xs font-bold text-gray-500 dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                  {t("pg.open")} <DirectionArrow size={14} className="transition-transform group-hover:translate-x-1" />
                 </span>
               </motion.a>
             );
