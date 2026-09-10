@@ -47,7 +47,7 @@ export default function CoursesSection() {
                   <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2 flex-1">{course.title}</h3>
                   <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">{course.description}</p>
                   <a
-                    href="https://www.youtube.com/@ProfPica"
+                    href={course.playlistUrl || "https://www.youtube.com/@ProfPica"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all"

@@ -255,13 +255,20 @@ export const grade4Lessons: GradeLessons = {
         },
         {
           id: "unit-final",
-          title: "درس إضافي",
+          title: "التحليل الكهربائي البسيط",
           lessons: [
             {
               id: "lesson-final",
-              title: "قريبًا",
-              description: "درس إضافي سيكون متاحًا قريبًا.",
-              parts: [],
+              title: "التحليل الكهربائي البسيط",
+              description: "دراسة التحليل الكهربائي البسيط وتطبيقاته في المحلول الشاردي.",
+              parts: [
+                {
+                  id: "final-part1",
+                  title: "الدرس",
+                  fileUrl: "/files/lessons/4am/winter/electrolysis-analysis.pdf",
+                  sizeMB: 0.7,
+                },
+              ],
             },
           ],
         },

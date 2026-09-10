@@ -9,6 +9,7 @@ export interface Course {
   price?: number;
   category: string;
   instructor: string;
+  playlistUrl?: string;
 }
 
 export interface ContentItem {
