@@ -23,31 +23,31 @@ export default function AppsSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <span className="inline-block bg-orange-500/20 text-orange-400 border border-orange-500/30 px-4 py-1.5 rounded-full text-sm font-bold mb-4">{t("as.badge")}</span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">{t("as.t1")} <span className="text-orange-400">{t("as.t2")}</span> {t("as.t3")}</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">{t("as.desc")}</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <span className="inline-block bg-orange-500/25 text-orange-300 border border-orange-500/40 px-4 py-2 rounded-full text-sm font-bold mb-5 shadow-lg">{t("as.badge")}</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-5">{t("as.t1")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500">{t("as.t2")}</span> {t("as.t3")}</h2>
+          <p className="text-gray-300 max-w-2xl mx-auto text-base leading-relaxed">{t("as.desc")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {apps.map((app, i) => {
             const Icon = appIcons[i];
             return (
               <motion.div key={app.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-                className="group relative bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] hover:shadow-2xl hover:shadow-orange-900/20"
+                className="group relative bg-gray-800/70 backdrop-blur-md border-2 border-gray-700 rounded-2xl overflow-hidden hover:border-orange-500/60 transition-all duration-300 hover:-translate-y-2 active:scale-[0.98] hover:shadow-2xl hover:shadow-orange-900/30"
               >
-                {app.badge && <div className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full z-10">{app.badge}</div>}
-                <div className={`h-32 bg-gradient-to-br ${appColors[i]} flex items-center justify-center relative overflow-hidden`}>
+                {app.badge && <div className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg">{app.badge}</div>}
+                <div className={`h-36 bg-gradient-to-br ${appColors[i]} flex items-center justify-center relative overflow-hidden`}>
                   <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center"
-                  ><Icon size={30} className="text-white" /></motion.div>
+                    className="w-18 h-18 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform"
+                  ><Icon size={32} className="text-white" /></motion.div>
                 </div>
-                <div className="p-5">
-                  <span className="text-xs text-gray-500 font-medium mb-1 block">{app.category}</span>
-                  <h3 className="text-white font-bold text-base mb-2 group-hover:text-orange-400 transition-colors">{app.name}</h3>
-                  <p className="text-gray-400 text-xs leading-relaxed mb-4 line-clamp-3">{app.description}</p>
-                  <a href={app.url} className="flex items-center justify-center gap-2 w-full py-2.5 bg-white/10 hover:bg-orange-500 text-white rounded-xl text-sm font-semibold transition-all duration-200 border border-white/10 hover:border-transparent">
-                    {t("as.try")} <DirectionArrow size={14} />
+                <div className="p-6">
+                  <span className="text-xs text-gray-400 font-semibold mb-2 block uppercase tracking-wide">{app.category}</span>
+                  <h3 className="text-white font-bold text-lg mb-2.5 group-hover:text-orange-300 transition-colors">{app.name}</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-5 line-clamp-3">{app.description}</p>
+                  <a href={app.url} className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-orange-500/50">
+                    {t("as.try")} <DirectionArrow size={16} />
                   </a>
                 </div>
               </motion.div>
