@@ -15,19 +15,19 @@ const socialLinks = [
 export default function AboutSection() {
   const { t } = useLanguage();
   return (
-    <section className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-14 sm:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900/50 dark:to-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-10 sm:mb-14"
+          className="text-center mb-12 sm:mb-16"
         >
-          <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
+          <span className="inline-block bg-orange-100 dark:bg-orange-500/25 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-full text-sm font-bold mb-4 shadow-sm">
             {t("ab.badge")}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-4">
-            {t("ab.t1")} <span className="text-orange-500">{t("ab.t2")}</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-4">
+            {t("ab.t1")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">{t("ab.t2")}</span>
           </h2>
         </motion.div>
 
@@ -36,7 +36,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 border-2 border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 transition-all duration-300"
+            className="bg-white dark:bg-gray-800 rounded-2xl p-7 sm:p-9 border-2 border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg hover:border-orange-400 dark:hover:border-orange-500/60 transition-all duration-300 hover:-translate-y-1"
           >
             <div className="flex flex-col items-center text-center gap-6">
               <div className="relative">
@@ -64,14 +64,14 @@ export default function AboutSection() {
                 <p className="text-orange-600 dark:text-orange-400 font-bold text-center text-base sm:text-lg">
                   {t("ab.tagline")}
                 </p>
-                <div className="bg-orange-50 dark:bg-orange-500/10 rounded-2xl p-5 text-center space-y-2">
-                  <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
+                <div className="bg-gradient-to-b from-orange-50 to-orange-100/50 dark:from-orange-500/15 dark:to-orange-500/10 rounded-2xl p-6 text-center space-y-3 border-2 border-orange-100 dark:border-orange-500/20 shadow-sm">
+                  <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed font-medium">
                     {t("ab.item1")}
                   </p>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
+                  <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed font-medium">
                     {t("ab.item2")}
                   </p>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
+                  <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed font-medium">
                     {t("ab.item3")}
                   </p>
                 </div>
@@ -80,14 +80,14 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 flex-wrap justify-center">
+              <div className="flex items-center gap-3 flex-wrap justify-center">
                 {socialLinks.map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`px-3 py-1.5 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-medium rounded-xl border border-gray-100 dark:border-gray-600 hover:text-white transition-all ${s.color}`}
+                    className={`px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold rounded-lg border-2 border-gray-200 dark:border-gray-600 hover:text-white transition-all shadow-sm hover:shadow-md ${s.color}`}
                   >
                     {s.label}
                   </a>
@@ -101,11 +101,11 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-5 sm:p-6 text-white mt-4 sm:mt-6 text-center"
+            className="bg-gradient-to-br from-orange-500 via-orange-500 to-orange-600 rounded-2xl p-7 sm:p-8 text-white mt-6 sm:mt-8 text-center shadow-lg"
           >
-            <Sparkles size={24} className="mx-auto mb-3" />
-            <h4 className="font-black text-lg mb-2">{t("ab.mission")}</h4>
-            <p className="text-orange-100 text-sm leading-relaxed">
+            <Sparkles size={28} className="mx-auto mb-4" />
+            <h4 className="font-black text-xl mb-3">{t("ab.mission")}</h4>
+            <p className="text-orange-100 text-base leading-relaxed">
               {t("ab.missionDesc")}
             </p>
           </motion.div>
