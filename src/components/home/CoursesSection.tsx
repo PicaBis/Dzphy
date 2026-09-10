@@ -1,14 +1,31 @@
 "use client";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BookOpen, BarChart2, Tag, Play, Lock } from "lucide-react";
+import { BookOpen, BarChart2, Tag, Play, Lock, AlertCircle } from "lucide-react";
 import { courses } from "@/data/content";
-import { playlists } from "@/data/playlists";
+import type { PlaylistResponse } from "@/app/api/playlists/route";
 import DirectionArrow from "@/components/ui/DirectionArrow";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function CoursesSection() {
   const { t } = useLanguage();
+  const [coursePlaylists, setCoursePlaylists] = useState<PlaylistResponse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    // Fetch only course-type playlists (live streams and courses)
+    fetch("/api/playlists?type=courses")
+      .then((r) => {
+        if (!r.ok) throw new Error("failed");
+        return r.json();
+      })
+      .then((data: PlaylistResponse[]) => setCoursePlaylists(data))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, []);
+
   const freeCourses = courses.filter((c) => c.type === "free");
   const paidCourses = courses.filter((c) => c.type === "paid");
 
@@ -22,6 +39,63 @@ export default function CoursesSection() {
           </div>
           <Link href="/courses" className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border-2 border-orange-300 dark:border-orange-500/30 hover:border-orange-500 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10">{t("cs.all")} <DirectionArrow size={16} /></Link>
         </motion.div>
+
+        {/* YouTube Courses & Live Streams */}
+        {!error && !loading && coursePlaylists.length > 0 && (
+          <div className="mb-16">
+            <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">
+              🔴 {t("cs.youtubeCoursesTitle")}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+              {coursePlaylists.map((playlist, i) => (
+                <motion.a
+                  key={playlist.id}
+                  href={playlist.playlistUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-red-400 dark:hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
+                >
+                  <div className="relative h-40 overflow-hidden bg-gray-900">
+                    <img
+                      src={`https://i.ytimg.com/vi/${playlist.videoId}/mqdefault.jpg`}
+                      alt={playlist.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-3 right-3">
+                      <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">{playlist.badge}</span>
+                    </div>
+                  </div>
+                  <div className="p-5 flex flex-col flex-1">
+                    <span className="text-xs font-bold bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-full mb-2 w-fit">
+                      {playlist.levelLabel}
+                    </span>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 flex-1">
+                      {playlist.title}
+                    </h3>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">
+                      {playlist.description}
+                    </p>
+                    <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
+                      <span className="flex items-center gap-1">
+                        <Play size={12} className="text-red-400" />
+                        {playlist.videos.length || "—"} {t("cs.videosCount")}
+                      </span>
+                    </div>
+                    <button className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm font-bold transition-all">
+                      <Play size={14} />
+                      {t("cs.watchNow")}
+                    </button>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mb-16">
           <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">{t("cs.free")}</h3>
