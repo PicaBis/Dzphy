@@ -289,8 +289,79 @@ export const grade4Lessons: GradeLessons = {
   ],
 };
 
+// ============================================================================
+// Grade 1 — السنة الأولى ثانوي
+// ============================================================================
+export const grade1Lessons: GradeLessons = {
+  seasons: [
+    {
+      id: "winter",
+      title: "الفصل الأول",
+      subtitle: "الشتاء",
+      units: [
+        {
+          id: "unit1",
+          title: "الوحدة 1",
+          lessons: [
+            {
+              id: "lesson1",
+              title: "بنية وهندسة أفراد بعض الأنواع الكيميائية",
+              description: "دراسة بنية وتركيب الذرات والجزيئات في التراكيب الكيميائية",
+              parts: [
+                {
+                  id: "part1",
+                  title: "الجزء 1",
+                  fileUrl: "/files/lessons/1as/winter/unit1/chemical-structure-part1.pdf",
+                  sizeMB: 0.5,
+                },
+                {
+                  id: "part2",
+                  title: "الجزء 2",
+                  fileUrl: "/files/lessons/1as/winter/unit1/chemical-structure-part2.pdf",
+                  sizeMB: 0.4,
+                },
+                {
+                  id: "part3",
+                  title: "الجزء 3",
+                  fileUrl: "/files/lessons/1as/winter/unit1/chemical-structure-part3.pdf",
+                  sizeMB: 0.4,
+                },
+                {
+                  id: "part4",
+                  title: "الجزء 4",
+                  fileUrl: "/files/lessons/1as/winter/unit1/chemical-structure-part4.pdf",
+                  sizeMB: 0.6,
+                },
+                {
+                  id: "part5",
+                  title: "الجزء 5",
+                  fileUrl: "/files/lessons/1as/winter/unit1/chemical-structure-part5.pdf",
+                  sizeMB: 0.4,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "spring",
+      title: "الفصل الثاني",
+      subtitle: "الربيع",
+      units: [],
+    },
+    {
+      id: "summer",
+      title: "الفصل الثالث",
+      subtitle: "الصيف",
+      units: [],
+    },
+  ],
+};
+
 // Helper to get all lessons for a grade
 export function getGradeLessons(grade: string): GradeLessons | null {
+  if (grade === "1") return grade1Lessons;
   if (grade === "3") return grade3Lessons;
   if (grade === "4") return grade4Lessons;
   return null;
