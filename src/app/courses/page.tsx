@@ -68,8 +68,12 @@ export default function CoursesPage() {
                   <BookOpen size={36} className="text-white/60" />
                 )}
                 <div className="absolute top-3 right-3">
-                  {course.type === "free" ? (
+                  {course.type === "free" && !course.price ? (
                     <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">مجاني</span>
+                  ) : course.type === "free" && course.price ? (
+                    <span className="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {course.price} دج
+                    </span>
                   ) : (
                     <span className="bg-orange-800 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                       <Lock size={10} />{course.price} دج
@@ -92,12 +96,12 @@ export default function CoursesPage() {
                 </div>
                 {course.type === "free" ? (
                   <a
-                    href={course.image.startsWith("https://i.ytimg.com") ? `https://www.youtube.com/@ProfPica` : "#"}
+                    href={course.videoUrl || (course.image.startsWith("https://i.ytimg.com") ? `https://www.youtube.com/@ProfPica` : "#")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all"
+                    className="flex items-center justify-center py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-bold transition-all shadow-md"
                   >
-                    ابدأ مجانًا
+                    ابدأ الآن
                   </a>
                 ) : (
                   <button
