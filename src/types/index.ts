@@ -35,17 +35,6 @@ export interface App {
   badge?: string;
 }
 
-export interface Video {
-  id: string;
-  title: string;
-  thumbnail: string;
-  url: string;
-  platform: 'youtube' | 'tiktok';
-  views: string;
-  duration?: string;
-  date: string;
-}
-
 export interface NavItem {
   label: string;
   href: string;

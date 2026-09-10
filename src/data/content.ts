@@ -1,4 +1,4 @@
-import { ContentItem, App, Video, Course } from "@/types";
+import { ContentItem, App, Course } from "@/types";
 
 export const latestContent: ContentItem[] = [
   {
@@ -106,56 +106,6 @@ export const apps: App[] = [
   },
 ];
 
-export const videos: Video[] = [
-  {
-    id: "1",
-    title: "شرح الحركة المستقيمة المنتظمة - السنة الأولى ثانوي",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    url: "https://www.youtube.com/@ProfPica",
-    platform: "youtube",
-    views: "25K",
-    duration: "15:30",
-    date: "2026-06-10",
-  },
-  {
-    id: "2",
-    title: "حل تمارين الكهرباء - السنة الثانية",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    url: "https://www.youtube.com/@ProfPica",
-    platform: "youtube",
-    views: "18K",
-    duration: "22:45",
-    date: "2026-06-07",
-  },
-  {
-    id: "3",
-    title: "شرح قوانين نيوتن بطريقة مبسطة",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    url: "https://www.youtube.com/@ProfPica",
-    platform: "youtube",
-    views: "31K",
-    duration: "18:20",
-    date: "2026-06-04",
-  },
-  {
-    id: "4",
-    title: "نصيحة في الفيزياء للباك",
-    thumbnail: "/videos/tiktok1.jpg",
-    url: "https://www.tiktok.com/@profpica",
-    platform: "tiktok",
-    views: "45K",
-    date: "2026-06-09",
-  },
-  {
-    id: "5",
-    title: "خطأ شائع في الميكانيكا",
-    thumbnail: "/videos/tiktok2.jpg",
-    url: "https://www.tiktok.com/@profpica",
-    platform: "tiktok",
-    views: "38K",
-    date: "2026-06-06",
-  },
-];
 
 export const courses: Course[] = [
   {

@@ -93,7 +93,7 @@ export default function HeroSection() {
               {isValidVideoId(siteConfig.heroVideoId) ? (
                 <iframe
                   className="w-full h-full absolute inset-0"
-                  src={`https://www.youtube-nocookie.com/embed/${siteConfig.heroVideoId}?rel=0&modestbranding=1`}
+                  src={`https://www.youtube-nocookie.com/embed/${siteConfig.heroVideoId}?rel=0&modestbranding=1&start=${siteConfig.heroVideoStart ?? 0}&autoplay=1&mute=1`}
                   title={t("hero.videoTitleAttr")}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

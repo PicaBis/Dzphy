@@ -2,185 +2,160 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BookOpen, BarChart2, Tag, Play, Lock, AlertCircle } from "lucide-react";
-import { courses } from "@/data/content";
+import { Play } from "lucide-react";
 import type { PlaylistResponse } from "@/app/api/playlists/route";
 import DirectionArrow from "@/components/ui/DirectionArrow";
 import { useLanguage } from "@/context/LanguageContext";
 
+const YT = ({ s = 13 }: { s?: number }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" /></svg>
+);
+
+// The one free-courses playlist shown on the home page.
+// Static fallback mirrors the real playlist so the section never breaks
+// even when the live API is unreachable.
+const FALLBACK = {
+  title: "الدورات والبثوث",
+  description: "تسجيلات الدورات التأسيسية والبثوث المباشرة — من الصفر إلى الاحتراف.",
+  playlistUrl: "https://youtube.com/playlist?list=PLENnjsac87c8",
+  videoId: "0toWJ_u6ttc",
+  videosCount: 0,
+};
+
+interface PlaylistCard {
+  title: string;
+  description: string;
+  playlistUrl: string;
+  videoId: string;
+  videosCount: number;
+}
+
 export default function CoursesSection() {
   const { t } = useLanguage();
-  const [coursePlaylists, setCoursePlaylists] = useState<PlaylistResponse[]>([]);
+  const [playlist, setPlaylist] = useState<PlaylistCard | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
-    // Fetch only course-type playlists (live streams and courses)
     fetch("/api/playlists?type=courses")
       .then((r) => {
         if (!r.ok) throw new Error("failed");
         return r.json();
       })
-      .then((data: PlaylistResponse[]) => setCoursePlaylists(data))
-      .catch(() => setError(true))
+      .then((data: PlaylistResponse[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const pl = data[0];
+          setPlaylist({
+            title: pl.title,
+            description: pl.description,
+            playlistUrl: pl.playlistUrl,
+            videoId: pl.videoId,
+            videosCount: pl.videos.length,
+          });
+        } else {
+          setPlaylist(FALLBACK);
+        }
+      })
+      .catch(() => setPlaylist(FALLBACK))
       .finally(() => setLoading(false));
   }, []);
 
-  const freeCourses = courses.filter((c) => c.type === "free");
-  const paidCourses = courses.filter((c) => c.type === "paid");
-
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-12">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10"
+        >
           <div>
-            <span className="inline-block bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 rounded-full text-sm font-bold mb-3">{t("cs.badge")}</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">{t("cs.t1")} <span className="text-orange-500">{t("cs.t2")}</span> {t("cs.t3")}</h2>
+            <span className="inline-block bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 px-4 py-1.5 rounded-full text-sm font-bold mb-3">
+              {t("cs.free")}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">
+              {t("cs.freeTitle")}
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-xl text-sm sm:text-base">
+              {t("cs.freeDesc")}
+            </p>
           </div>
-          <Link href="/courses" className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border-2 border-orange-300 dark:border-orange-500/30 hover:border-orange-500 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10">{t("cs.all")} <DirectionArrow size={16} /></Link>
+          <Link
+            href="/courses"
+            className="flex items-center gap-2 text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 font-semibold text-sm border-2 border-orange-300 dark:border-orange-500/30 hover:border-orange-500 dark:hover:border-orange-500/50 px-5 py-2.5 rounded-xl transition-all hover:bg-orange-50 dark:hover:bg-orange-500/10 shrink-0"
+          >
+            {t("cs.all")} <DirectionArrow size={16} />
+          </Link>
         </motion.div>
 
-        {/* YouTube Courses & Live Streams */}
-        {!error && !loading && coursePlaylists.length > 0 && (
-          <div className="mb-16">
-            <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">
-              🔴 {t("cs.youtubeCoursesTitle")}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-              {coursePlaylists.map((playlist, i) => (
-                <motion.a
-                  key={playlist.id}
-                  href={playlist.playlistUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ delay: i * 0.1 }}
-                  className="group bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-red-400 dark:hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
-                >
-                  <div className="relative h-40 overflow-hidden bg-gray-900">
-                    <img
-                      src={`https://i.ytimg.com/vi/${playlist.videoId}/mqdefault.jpg`}
-                      alt={playlist.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 right-3">
-                      <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">{playlist.badge}</span>
-                    </div>
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <span className="text-xs font-bold bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-full mb-2 w-fit">
-                      {playlist.levelLabel}
-                    </span>
-                    <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 flex-1">
-                      {playlist.title}
-                    </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">
-                      {playlist.description}
-                    </p>
-                    <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
-                      <span className="flex items-center gap-1">
-                        <Play size={12} className="text-red-400" />
-                        {playlist.videos.length || "—"} {t("cs.videosCount")}
-                      </span>
-                    </div>
-                    <button className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm font-bold transition-all">
-                      <Play size={14} />
-                      {t("cs.watchNow")}
-                    </button>
-                  </div>
-                </motion.a>
-              ))}
+        {/* The single free playlist */}
+        {loading && (
+          <div className="animate-pulse grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 rounded-3xl bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 p-5 sm:p-7">
+            <div className="aspect-video rounded-2xl bg-gray-100 dark:bg-gray-700" />
+            <div className="space-y-4 py-2">
+              <div className="h-6 w-3/4 rounded-lg bg-gray-100 dark:bg-gray-700" />
+              <div className="h-4 w-full rounded-lg bg-gray-100 dark:bg-gray-700" />
+              <div className="h-4 w-2/3 rounded-lg bg-gray-100 dark:bg-gray-700" />
+              <div className="h-11 w-44 rounded-xl bg-gray-100 dark:bg-gray-700" />
             </div>
           </div>
         )}
 
-        <div className="mb-16">
-          <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">{t("cs.free")}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {freeCourses.map((course, i) => (
-              <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-                className="group bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 card-shine transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
-              >
-                <div className="relative h-40 overflow-hidden bg-gray-900">
-                  {course.image && course.image.startsWith("https://i.ytimg.com") ? (
-                    <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-                      <BookOpen size={40} className="text-white/70" />
-                    </div>
-                  )}
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">{t("common.free")}</span>
-                  </div>
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <span className="text-xs font-bold bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2.5 py-1 rounded-full mb-2">{course.category}</span>
-                  <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2 flex-1">{course.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">{course.description}</p>
-                  <a
-                    href={course.playlistUrl || "https://www.youtube.com/@ProfPica"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all"
-                  >
-                    <Play size={14} />
-                    {t("cs.watch")}
-                  </a>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+        {!loading && playlist && (
+          <motion.a
+            href={playlist.playlistUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="group grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 rounded-3xl bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 p-5 sm:p-7 hover:shadow-2xl hover:border-red-300 dark:hover:border-red-500/40 transition-all duration-300 hover:-translate-y-1 active:scale-[0.99]"
+          >
+            {/* Thumbnail */}
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-900">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`https://i.ytimg.com/vi/${playlist.videoId}/hqdefault.jpg`}
+                alt={playlist.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span className="w-16 h-16 rounded-full bg-red-600 group-hover:bg-red-500 group-hover:scale-110 flex items-center justify-center shadow-2xl transition-all duration-300">
+                  <Play size={26} className="text-white ms-0.5" fill="currentColor" />
+                </span>
+              </div>
+              <span className="absolute top-3 right-3 bg-green-500 text-white text-xs font-black px-3 py-1 rounded-full">
+                {t("common.free")}
+              </span>
+            </div>
 
-        <div>
-          <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6">{t("cs.paid")}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {paidCourses.map((course, i) => (
-              <motion.div key={course.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.1, ease: "easeOut" }}
-                className="group bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-orange-400 dark:hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col"
-              >
-                <div className="relative h-40 overflow-hidden bg-gray-900">
-                  {course.image && !course.image.startsWith("https://i.ytimg.com") ? (
-                    <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-                      <BookOpen size={40} className="text-white/70" />
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                      <Tag size={28} className="text-white" />
-                    </div>
-                  </div>
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-orange-800 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                      <Lock size={10} />{course.price} {t("common.price")}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <span className="text-xs font-bold bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2.5 py-1 rounded-full mb-2">{course.category}</span>
-                  <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2 flex-1">{course.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">{course.description}</p>
-                  <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500 mb-4">
-                    <span className="flex items-center gap-1"><BookOpen size={12} className="text-orange-400" />{course.lessons} {t("cs.lessons")}</span>
-                    <span className="flex items-center gap-1"><BarChart2 size={12} className="text-orange-400" />{course.level}</span>
-                  </div>
-                  <button
-                    onClick={() => alert(t("cs.modalDesc"))}
-                    className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-xl text-sm font-bold transition-all hover:bg-gray-200 dark:hover:bg-gray-600"
-                  >
-                    <Lock size={14} />
-                    {t("common.locked")}
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+            {/* Info */}
+            <div className="flex flex-col justify-center">
+              <span className="inline-flex w-fit items-center gap-1.5 text-xs font-bold text-red-500 bg-red-50 dark:bg-red-500/10 px-3 py-1 rounded-full mb-3">
+                <YT /> YouTube
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white leading-snug mb-3 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                {playlist.title}
+              </h3>
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-5">
+                {playlist.description}
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl text-sm font-bold transition-all shadow-lg shadow-red-200 dark:shadow-red-500/20 group-hover:shadow-xl">
+                  <Play size={16} fill="currentColor" />
+                  {t("cs.watch")}
+                </span>
+                {playlist.videosCount > 0 && (
+                  <span className="text-xs font-bold text-gray-400 dark:text-gray-500">
+                    {playlist.videosCount} {t("cs.videosUnit")}
+                  </span>
+                )}
+              </div>
+            </div>
+          </motion.a>
+        )}
       </div>
     </section>
   );
