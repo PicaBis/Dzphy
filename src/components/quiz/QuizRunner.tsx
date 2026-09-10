@@ -266,7 +266,7 @@ export default function QuizRunner({ quizId }: { quizId: string }) {
               <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4">
                 {pct >= 70 ? <Trophy size={48} /> : pct >= 50 ? <Target size={48} /> : <XCircle size={48} />}
               </div>
-              <h1 className="text-3xl font-black mb-2">{pct >= 70 ? "ممتاز! 🎉" : pct >= 50 ? "جيد 👍" : "حاول مرة أخرى 💪"}</h1>
+              <h1 className="text-3xl font-black mb-2">{pct >= 70 ? "ممتاز!" : pct >= 50 ? "جيد" : "حاول مرة أخرى"}</h1>
               <p className="text-white/80">{score} من {total} إجابة صحيحة</p>
             </div>
 
@@ -303,11 +303,11 @@ export default function QuizRunner({ quizId }: { quizId: string }) {
                       <div className="px-4 pb-4 space-y-2 text-sm">
                         {!correct && (
                           <p className="text-green-600 dark:text-green-400 font-semibold">
-                            ✓ الإجابة الصحيحة: {q.options[q.correctIndex]}
+                            الإجابة الصحيحة: {q.options[q.correctIndex]}
                           </p>
                         )}
                         {userAns !== undefined && (
-                          <p className="text-red-500">✗ إجابتك: {q.options[userAns]}</p>
+                          <p className="text-red-500">إجابتك: {q.options[userAns]}</p>
                         )}
                         <div className="flex items-start gap-2 bg-blue-50 dark:bg-blue-500/10 rounded-lg p-3">
                           <Lightbulb size={16} className="text-blue-500 flex-shrink-0 mt-0.5" />

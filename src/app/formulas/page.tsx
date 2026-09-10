@@ -12,6 +12,7 @@ import {
   Printer,
 } from "lucide-react";
 import { formulas, formulaTopics } from "@/data/formulas";
+import { getTopicIconComponent } from "@/lib/topicIcons";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function FormulasPage() {
@@ -83,15 +84,17 @@ export default function FormulasPage() {
           {formulaTopics.map((topic) => {
             const count = formulas.filter((f) => f.topic === topic.key).length;
             if (count === 0) return null;
+            const TopicIcon = getTopicIconComponent(topic.icon);
             return (
               <button
                 key={topic.key}
                 onClick={() => setFilter(topic.key)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                   filter === topic.key ? `bg-gradient-to-r ${topic.color} text-white` : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
                 }`}
               >
-                {topic.icon} {topic.key} ({count})
+                <TopicIcon size={14} />
+                {topic.key} ({count})
               </button>
             );
           })}

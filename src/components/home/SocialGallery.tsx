@@ -25,7 +25,7 @@ export function SocialGallery() {
       .then((rows: TikTokEnriched[]) => {
         if (!alive || !Array.isArray(rows) || rows.length === 0) return;
         const base = new Map(tiktokVideos.map((v) => [v.id, v]));
-        // Show only videos oEmbed could verify → every card opens a real video.
+        // Show only videos oEmbed could verify -> every card opens a real video.
         const next = rows
           .filter((r) => r.verified)
           .map((r) => {

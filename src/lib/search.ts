@@ -44,11 +44,11 @@ export function normalize(input: string): string {
   return (input || "")
     .replace(/[ؐ-ًؚ-ٰٟ]/g, "") // tashkeel + superscript alef
     .replace(/ـ/g, "") // tatweel ـ
-    .replace(/[آأإٱ]/g, "ا") // آأإٱ → ا
-    .replace(/ى/g, "ي") // ى → ي
-    .replace(/ة/g, "ه") // ة → ه
-    .replace(/ؤ/g, "و") // ؤ → و
-    .replace(/ئ/g, "ي") // ئ → ي
+    .replace(/[آأإٱ]/g, "ا") // آأإٱ -> ا
+    .replace(/ى/g, "ي") // ى -> ي
+    .replace(/ة/g, "ه") // ة -> ه
+    .replace(/ؤ/g, "و") // ؤ -> و
+    .replace(/ئ/g, "ي") // ئ -> ي
     .replace(/ـ/g, "")
     .toLowerCase()
     .replace(/\s+/g, " ")
@@ -74,7 +74,7 @@ const sectionLabels: Record<string, { label: string; kind: SearchKind }> = {
 function buildIndex(): SearchDoc[] {
   const docs: SearchDoc[] = [];
 
-  // 1) Academic levels (so "BEM" → الرابعة متوسط, "BAC" → الثالثة ثانوي)
+  // 1) Academic levels (so "BEM" -> الرابعة متوسط, "BAC" -> الثالثة ثانوي)
   for (const lvl of LEVELS) {
     docs.push({
       id: `level-${lvl.key}`,
@@ -109,7 +109,7 @@ function buildIndex(): SearchDoc[] {
     }
   }
 
-  // 3) Latest content (homepage highlights) → deep-link to its section
+  // 3) Latest content (homepage highlights) -> deep-link to its section
   for (const it of latestContent) {
     const map = typeToSection[it.type];
     if (!map) continue;
@@ -276,7 +276,7 @@ export function search(query: string, limit = 30): SearchResult[] {
 
     // whole-phrase bonus
     if (hay.includes(q)) score += 12;
-    // kind priority (lower rank → higher bonus)
+    // kind priority (lower rank -> higher bonus)
     score += (5 - kindRank[doc.kind]) * 2;
 
     results.push({ ...doc, score });

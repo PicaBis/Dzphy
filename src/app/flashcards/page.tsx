@@ -93,7 +93,7 @@ export default function FlashcardsPage() {
                       </span>
                     ) : (
                       <span className="bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-bold px-3 py-1 rounded-full">
-                        ✓ مكتمل
+                        مكتمل
                       </span>
                     )}
                   </div>
@@ -117,7 +117,7 @@ export default function FlashcardsPage() {
           <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-500/10 flex items-center justify-center mx-auto mb-6">
             <Trophy size={40} className="text-green-500" />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">أحسنت! 🎉</h2>
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">أحسنت!</h2>
           <p className="text-gray-500 dark:text-gray-400 mb-6">راجعت {reviewed} بطاقة بنجاح</p>
           <div className="flex gap-3">
             <button

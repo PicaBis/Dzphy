@@ -38,7 +38,7 @@ export default function TeacherPage() {
 
         <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 border border-gray-100 dark:border-gray-700 shadow-sm">
           <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-6 text-center">
-            📱 تواصل مع الأستاذ عبر تلغرام
+            تواصل مع الأستاذ عبر تلغرام
           </h2>
           <p className="text-gray-500 dark:text-gray-400 text-center mb-8 max-w-2xl mx-auto">
             انضم إلى قناة التلغرام للحصول على آخر التحديثات والملفات والتمارين

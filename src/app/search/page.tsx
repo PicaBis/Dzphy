@@ -142,7 +142,7 @@ function SearchInner() {
             <motion.div id="search-results" role="listbox" key="list" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-3">
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
                 <span className="font-bold text-gray-900 dark:text-white">{results.length}</span> نتيجة لـ &quot;{query}&quot;
-                <span className="hidden sm:inline text-gray-400 dark:text-gray-500"> — استخدم ↑ ↓ ثم Enter</span>
+                <span className="hidden sm:inline text-gray-400 dark:text-gray-500"> — استخدم الأسهم ثم Enter</span>
               </p>
               {results.map((item, i) => {
                 const Icon = kindIcon[item.kind];

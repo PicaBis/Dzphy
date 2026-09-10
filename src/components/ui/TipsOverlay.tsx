@@ -123,7 +123,7 @@ export default function TipsOverlay() {
               </span>
               <div className="min-w-0">
                 <p className="text-xs font-black text-orange-600 dark:text-orange-400 mb-1">
-                  💡 نصيحة الأستاذ بيكا
+                  نصيحة الأستاذ بيكا
                 </p>
                 <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-200">{tip.text}</p>
               </div>

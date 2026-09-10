@@ -127,7 +127,7 @@ export default function FollowPage() {
 
         {/* Support / payment */}
         <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 sm:p-8 text-white text-center">
-          <h3 className="font-black text-xl mb-2">دعم المحتوى والدفع السريع ⚡</h3>
+          <h3 className="font-black text-xl mb-2">دعم المحتوى والدفع السريع</h3>
           <p className="text-gray-400 text-sm mb-4">ساهم في استمرار المحتوى التعليمي المجاني</p>
           <a
             href={siteConfig.linktree}

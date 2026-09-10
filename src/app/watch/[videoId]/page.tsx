@@ -179,19 +179,19 @@ export default function WatchPage() {
               <h3 className="font-bold text-gray-900 dark:text-white mb-3">نصائح للمشاهدة</h3>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                 <li className="flex items-start gap-2">
-                  <span className="text-orange-500 mt-0.5">✦</span>
+                  <span aria-hidden className="mt-1.5 h-1.5 w-1.5 rotate-45 bg-orange-500 flex-shrink-0"></span>
                   شاهد الدرس كاملًا قبل الانتقال للتمرين
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-orange-500 mt-0.5">✦</span>
+                  <span aria-hidden className="mt-1.5 h-1.5 w-1.5 rotate-45 bg-orange-500 flex-shrink-0"></span>
                   دوّن ملاحظاتك أثناء المشاهدة
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-orange-500 mt-0.5">✦</span>
+                  <span aria-hidden className="mt-1.5 h-1.5 w-1.5 rotate-45 bg-orange-500 flex-shrink-0"></span>
                   أعد المشاهدة للأجزاء الصعبة
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-orange-500 mt-0.5">✦</span>
+                  <span aria-hidden className="mt-1.5 h-1.5 w-1.5 rotate-45 bg-orange-500 flex-shrink-0"></span>
                   اختبر نفسك بعد الدرس
                 </li>
               </ul>

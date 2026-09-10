@@ -30,7 +30,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
     const unsub = sound.subscribe((on) => setEnabled(on));
 
-    // Single delegated listener → a subtle click on every interactive element
+    // Single delegated listener -> a subtle click on every interactive element
     // (buttons, links, cards, filters, tabs) without wiring each component.
     // Regions that manage their own richer sounds (Header, Splash) opt out with
     // [data-sound-managed], so nothing ever double-plays.

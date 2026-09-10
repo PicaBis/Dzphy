@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 // Nothing here throws when env vars are missing: the site keeps working with
 // its built-in data and simply skips Supabase. Wire it up by setting these in
-// Vercel → Settings → Environment Variables:
+// Vercel -> Settings -> Environment Variables:
 //
 //   NEXT_PUBLIC_SUPABASE_URL        = https://gmuruowuodywknbpxvhk.supabase.co
 //   NEXT_PUBLIC_SUPABASE_ANON_KEY   = <publishable / anon key>   (safe for browser)

@@ -1,7 +1,7 @@
 // ============================================================================
 // DzPhy — هيكل الدروس الدراسية
 // Structured lessons following the Algerian school system:
-// Grade → Season (فصل) → Unit (وحدة) → Lesson (درس) → Part (جزء)
+// Grade -> Season (فصل) -> Unit (وحدة) -> Lesson (درس) -> Part (جزء)
 // ============================================================================
 
 export interface LessonPart {

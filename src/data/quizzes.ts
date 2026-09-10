@@ -360,10 +360,10 @@ export const quizzes: Quiz[] = [
 ];
 
 export const quizTopics = [
-  { key: "الميكانيكا", icon: "⚡", color: "from-blue-500 to-blue-700" },
-  { key: "الكهرباء", icon: "🔌", color: "from-yellow-500 to-orange-600" },
-  { key: "الموجات", icon: "🌊", color: "from-teal-500 to-cyan-700" },
-  { key: "الكيمياء", icon: "🧪", color: "from-purple-500 to-purple-700" },
-  { key: "البصريات", icon: "🔬", color: "from-pink-500 to-rose-700" },
-  { key: "النووي", icon: "⚛️", color: "from-red-500 to-red-700" },
+  { key: "الميكانيكا", icon: "gauge", color: "from-blue-500 to-blue-700" },
+  { key: "الكهرباء", icon: "zap", color: "from-yellow-500 to-orange-600" },
+  { key: "الموجات", icon: "waves", color: "from-teal-500 to-cyan-700" },
+  { key: "الكيمياء", icon: "flask", color: "from-purple-500 to-purple-700" },
+  { key: "البصريات", icon: "telescope", color: "from-pink-500 to-rose-700" },
+  { key: "النووي", icon: "atom", color: "from-red-500 to-red-700" },
 ];

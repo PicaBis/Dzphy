@@ -12,6 +12,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { quizzes, quizTopics, type QuizResult } from "@/data/quizzes";
+import { getTopicIconComponent } from "@/lib/topicIcons";
 import { useLanguage } from "@/context/LanguageContext";
 
 const STORAGE_KEY = "dzphy-quiz-results";
@@ -27,9 +28,14 @@ function getQuizColor(topic: string): string {
   return found?.color || "from-orange-500 to-orange-700";
 }
 
-function getTopicIcon(topic: string): string {
+function getTopicIcon(topic: string) {
   const found = quizTopics.find((t) => t.key === topic);
-  return found?.icon || "📝";
+  return getTopicIconComponent(found?.icon ?? "");
+}
+
+function TopicIconOnCard({ topic }: { topic: string }) {
+  const Icon = getTopicIcon(topic);
+  return <Icon size={28} />;
 }
 
 export default function QuizzesPage() {
@@ -111,17 +117,21 @@ export default function QuizzesPage() {
           >
             الكل
           </button>
-          {quizTopics.map((topic) => (
-            <button
-              key={topic.key}
-              onClick={() => setFilter(topic.key)}
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
-                filter === topic.key ? `bg-gradient-to-r ${topic.color} text-white` : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-violet-300"
-              }`}
-            >
-              {topic.icon} {topic.key}
-            </button>
-          ))}
+          {quizTopics.map((topic) => {
+            const TopicIcon = getTopicIconComponent(topic.icon);
+            return (
+              <button
+                key={topic.key}
+                onClick={() => setFilter(topic.key)}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                  filter === topic.key ? `bg-gradient-to-r ${topic.color} text-white` : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-violet-300"
+                }`}
+              >
+                <TopicIcon size={14} />
+                {topic.key}
+              </button>
+            );
+          })}
         </div>
 
         <div className="flex gap-2 mb-6">
@@ -154,7 +164,7 @@ export default function QuizzesPage() {
                     <div className={`bg-gradient-to-r ${getQuizColor(quiz.topic)} p-5 text-white`}>
                       <div className="flex items-center justify-between">
                         <div>
-                          <span className="text-2xl">{getTopicIcon(quiz.topic)}</span>
+                          <TopicIconOnCard topic={quiz.topic} />
                           <h3 className="font-bold text-lg mt-2">{getQuizTitle(quiz, lang)}</h3>
                         </div>
                         <ArrowRight size={24} className="opacity-50 group-hover:opacity-100 group-hover:-translate-x-1 transition-all" />

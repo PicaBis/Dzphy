@@ -7,10 +7,10 @@
 // same level is never shown twice under a different name.
 //
 // COLOR SYSTEM (fixed):
-//   السنة الأولى ثانوي  → أزرق  (blue)
-//   السنة الثانية ثانوي → أزرق  (blue)
-//   السنة الثالثة ثانوي / BAC → أصفر (amber)
-//   السنة الرابعة متوسط / BEM → أخضر (green)
+//   السنة الأولى ثانوي  -> أزرق  (blue)
+//   السنة الثانية ثانوي -> أزرق  (blue)
+//   السنة الثالثة ثانوي / BAC -> أصفر (amber)
+//   السنة الرابعة متوسط / BEM -> أخضر (green)
 //
 // Tailwind class strings are written out in full so the compiler keeps them.
 // ============================================================================
@@ -35,7 +35,7 @@ export interface LevelTheme {
   color: LevelColor;
   /** hub link for the level */
   href: string;
-  /** extra search terms that must resolve to THIS level (dedup: BAC→3as, BEM→4am) */
+  /** extra search terms that must resolve to THIS level (dedup: BAC->3as, BEM->4am) */
   aliases: string[];
 
   // ---- Tailwind class tokens (static so the compiler keeps them) ----

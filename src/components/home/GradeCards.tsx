@@ -15,7 +15,7 @@ import { LEVELS, type LevelKey } from "@/lib/levels";
 import DirectionArrow from "@/components/ui/DirectionArrow";
 import { useLanguage } from "@/context/LanguageContext";
 
-// Quick-access chips per level → deep links to REAL content only.
+// Quick-access chips per level -> deep links to REAL content only.
 const quickLinks: Record<LevelKey, { icon: typeof BookOpen; labelKey: string; href: string }[]> = {
   "1as": [
     { icon: BookOpen, labelKey: "chip.resumes", href: "/grade/1/resumes" },

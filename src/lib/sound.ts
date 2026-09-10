@@ -142,7 +142,7 @@ class SoundManager {
 
   play(type: SoundType) {
     if (!this.enabled || typeof window === "undefined") return;
-    // Not unlocked yet (no gesture) → skip silently instead of throwing.
+    // Not unlocked yet (no gesture) -> skip silently instead of throwing.
     if (!this.unlocked || !this.ctx || !this.master) return;
 
     const now = this.nowFn();
@@ -158,7 +158,7 @@ class SoundManager {
         const gain = ctx.createGain();
         osc.type = step.type;
         osc.frequency.setValueAtTime(step.freq, t0 + step.at);
-        // Fast attack, smooth exponential release → soft, non-clicky blip.
+        // Fast attack, smooth exponential release -> soft, non-clicky blip.
         gain.gain.setValueAtTime(0.0001, t0 + step.at);
         gain.gain.exponentialRampToValueAtTime(step.gain, t0 + step.at + 0.008);
         gain.gain.exponentialRampToValueAtTime(0.0001, t0 + step.at + step.dur);

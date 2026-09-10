@@ -50,7 +50,7 @@ export default function GradePage() {
   };
 
   const isScientific = !selectedStream || selectedStream !== "literary";
-  const isBEM = level.key === "bem"; // middle school → no scientific/literary split
+  const isBEM = level.key === "bem"; // middle school -> no scientific/literary split
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-14 sm:pt-16">

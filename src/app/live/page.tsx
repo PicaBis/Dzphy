@@ -84,9 +84,9 @@ const liveClasses: LiveClass[] = [
 ];
 
 const platformConfig = {
-  zoom: { name: "Zoom", icon: "🔵", color: "bg-blue-500" },
-  meet: { name: "Google Meet", icon: "🟢", color: "bg-green-500" },
-  youtube: { name: "YouTube Live", icon: "🔴", color: "bg-red-500" },
+  zoom: { name: "Zoom", color: "bg-blue-500" },
+  meet: { name: "Google Meet", color: "bg-green-500" },
+  youtube: { name: "YouTube Live", color: "bg-red-500" },
 };
 
 export default function LiveClassesPage() {

@@ -17,7 +17,6 @@ const platforms = [
     key: "youtube",
     name: "YouTube",
     taglineKey: "youtube.tagline",
-    emoji: "🎬",
     Icon: YouTubeIcon,
     descriptionKey: "youtube.desc",
     href: "https://www.youtube.com/@ProfPica",
@@ -29,7 +28,6 @@ const platforms = [
     key: "tiktok",
     name: "TikTok",
     taglineKey: "tiktok.tagline",
-    emoji: "⚡",
     Icon: TikTokIcon,
     descriptionKey: "tiktok.desc",
     href: "https://www.tiktok.com/@profpica",
@@ -41,7 +39,6 @@ const platforms = [
     key: "telegram",
     name: "Telegram",
     taglineKey: "telegram.tagline",
-    emoji: "📚",
     Icon: TelegramIcon,
     descriptionKey: "telegram.desc",
     href: "https://t.me/addlist/zyYD4lHlYudlNzQ8",
@@ -53,7 +50,6 @@ const platforms = [
     key: "instagram",
     name: "Instagram",
     taglineKey: "instagram.tagline",
-    emoji: "📸",
     Icon: InstagramIcon,
     descriptionKey: "instagram.desc",
     href: "https://www.instagram.com/prof_pica/",
@@ -65,7 +61,6 @@ const platforms = [
     key: "facebook",
     name: "Facebook",
     taglineKey: "facebook.tagline",
-    emoji: "📰",
     Icon: FacebookIcon,
     descriptionKey: "facebook.desc",
     href: "https://www.facebook.com/share/191btmBHho/",
@@ -119,7 +114,6 @@ export default function PlatformGuide() {
                 </div>
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-black text-gray-900 dark:text-white text-lg">{p.name}</h3>
-                  <span className="text-base" aria-hidden>{p.emoji}</span>
                 </div>
                 <span className={`text-xs font-bold ${p.text} mb-2`}>{t(p.taglineKey)}</span>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed flex-1">
