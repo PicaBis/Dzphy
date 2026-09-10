@@ -112,9 +112,9 @@ export default function Calculator() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
             {/* الخلفية الشفافة */}
@@ -129,9 +129,10 @@ export default function Calculator() {
             {/* نافذة الحاسبة */}
             <motion.div
               ref={calcRef}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.8, opacity: 0, y: -20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: -20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
               style={{
                 x: position.x,
                 y: position.y,
@@ -139,7 +140,7 @@ export default function Calculator() {
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
-              className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-xs p-6 border border-gray-200 dark:border-gray-700 ${
+              className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-8 border-2 border-gray-200 dark:border-gray-700 ${
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               }`}
             >
@@ -166,33 +167,33 @@ export default function Calculator() {
               </h3>
 
               {/* شاشة العرض */}
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-4 mb-4 text-right">
-                <div className="text-sm text-gray-400 mb-1 min-h-5">
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-5 mb-5 text-right">
+                <div className="text-sm text-gray-400 mb-2 min-h-6">
                   {previousValue !== null && operation && `${previousValue} ${operation}`}
                 </div>
-                <div className="text-4xl font-bold text-white break-words">
+                <div className="text-5xl font-bold text-white break-words">
                   {display.length > 10 ? display.substring(0, 10) + "..." : display}
                 </div>
               </div>
 
               {/* الأزرار */}
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-3">
                 {/* صف الأزرار الإضافية */}
                 <button
                   onClick={handleClear}
-                  className="col-span-2 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-bold transition-all"
+                  className="col-span-2 py-4 bg-red-500 hover:bg-red-600 text-white rounded-lg font-bold transition-all text-lg"
                 >
                   مسح (C)
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-bold transition-all text-sm"
+                  className="py-4 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-bold transition-all"
                 >
                   حذف
                 </button>
                 <button
                   onClick={() => handleOperation("%")}
-                  className="py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-bold transition-all"
+                  className="py-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-bold transition-all"
                 >
                   %
                 </button>
@@ -212,9 +213,9 @@ export default function Calculator() {
                             handleNumber(btn);
                           }
                         }}
-                        className={`py-3 rounded-lg font-bold transition-all text-lg ${
+                        className={`py-4 rounded-lg font-bold transition-all text-xl ${
                           btn === "="
-                            ? "bg-orange-500 hover:bg-orange-600 text-white"
+                            ? "bg-orange-500 hover:bg-orange-600 text-white shadow-lg"
                             : ["+", "-", "×", "÷"].includes(btn)
                             ? "bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-500/30"
                             : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600"
