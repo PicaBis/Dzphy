@@ -1,13 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calculator as CalcIcon, X } from "lucide-react";
+import { Calculator as CalcIcon, X, GripVertical } from "lucide-react";
 
 export default function Calculator() {
   const [isOpen, setIsOpen] = useState(false);
   const [display, setDisplay] = useState("0");
   const [previousValue, setPreviousValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const calcRef = useRef<HTMLDivElement>(null);
 
   const handleNumber = (num: string) => {
     setDisplay((prev) => (prev === "0" ? num : prev + num));
@@ -58,6 +62,29 @@ export default function Calculator() {
     setOperation(null);
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!(e.target as HTMLElement).closest("button") && calcRef.current) {
+      setIsDragging(true);
+      const rect = calcRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left - position.x,
+        y: e.clientY - rect.top - position.y,
+      });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && calcRef.current) {
+      const newX = e.clientX - dragOffset.x;
+      const newY = e.clientY - dragOffset.y;
+      setPosition({ x: newX, y: newY });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   const handleDelete = () => {
     setDisplay((prev) => (prev.length === 1 ? "0" : prev.slice(0, -1)));
   };
@@ -101,8 +128,29 @@ export default function Calculator() {
 
             {/* نافذة الحاسبة */}
             <motion.div
-              className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-xs p-6 border border-gray-200 dark:border-gray-700"
+              ref={calcRef}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              style={{
+                x: position.x,
+                y: position.y,
+              }}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-xs p-6 border border-gray-200 dark:border-gray-700 ${
+                isDragging ? "cursor-grabbing" : "cursor-grab"
+              }`}
             >
+              {/* شريط السحب */}
+              <div
+                onMouseDown={handleMouseDown}
+                className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-t-2xl cursor-grab hover:from-orange-500 hover:to-orange-700 flex items-center justify-center"
+              >
+                <GripVertical size={12} className="text-white opacity-50" />
+              </div>
+
               {/* زر الإغلاق */}
               <button
                 onClick={() => setIsOpen(false)}
@@ -112,7 +160,7 @@ export default function Calculator() {
               </button>
 
               {/* العنوان */}
-              <h3 className="text-lg font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-black text-gray-900 dark:text-white mb-4 mt-2 flex items-center gap-2">
                 <CalcIcon size={20} className="text-orange-500" />
                 آلة حاسبة
               </h3>

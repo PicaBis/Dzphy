@@ -170,8 +170,12 @@ export default function Header() {
             <div className="relative w-8 h-8 sm:w-9 sm:h-9">
               <Image src="/logo.png" alt={t("splash.logoTitle")} width={40} height={40} sizes="40px" className="object-contain" priority />
             </div>
-            <span className="text-base sm:text-lg font-black leading-none tracking-wider bg-gradient-to-r from-green-600 via-white to-red-600 bg-clip-text text-transparent">
-              DzPhy
+            <span className="text-base sm:text-lg font-black leading-none tracking-widest">
+              <span className="text-green-600">D</span>
+              <span className="text-gray-900 dark:text-white">z</span>
+              <span className="text-red-600">P</span>
+              <span className="text-white dark:text-gray-900 drop-shadow-lg">h</span>
+              <span className="text-yellow-500">y</span>
             </span>
           </Link>
 
